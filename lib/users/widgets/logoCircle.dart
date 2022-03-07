@@ -24,7 +24,6 @@ class logoCircle extends StatelessWidget {
             color: Colors.white,
             spreadRadius: 1,
             blurRadius: 1,
-            // offset: Offset(4, 8), // changes position of shadow
           ),
         ],
         borderRadius: BorderRadius.circular(100),
@@ -43,6 +42,7 @@ class logoCircle extends StatelessWidget {
           Text(
             'Xmeal',
             style: TextStyle(
+                fontFamily: 'poppins',
                 fontSize: titlefontSize,
                 fontWeight: FontWeight.bold,
                 color: appColour),

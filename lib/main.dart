@@ -1,9 +1,20 @@
 import 'package:flutter/material.dart';
-import 'package:xmeal/users/screens/into_screens.dart/first_Welcome_screen.dart';
-import 'package:xmeal/users/screens/into_screens.dart/splash_screen.dart';
+import 'package:xmeal/users/screens/welcome_screens/first_Welcome_Screen.dart';
+import 'package:xmeal/users/screens/register_screen.dart';
+import 'package:xmeal/users/screens/welcome_screens/second_Welcome_screen.dart';
+import 'package:xmeal/users/screens/welcome_screens/splash_screen.dart';
+import 'package:xmeal/users/screens/welcome_screens/third_Welcome_screen.dart';
+import 'package:device_preview/device_preview.dart';
+import 'package:xmeal/users/screens/login_screen.dart';
 
+bool kReleaseMode = false;
 void main() {
-  runApp(const MyApp());
+  runApp(
+    DevicePreview(
+      builder: (context) => const MyApp(),
+      enabled: !kReleaseMode,
+    ),
+  );
 }
 
 class MyApp extends StatelessWidget {
@@ -12,14 +23,21 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
+      useInheritedMediaQuery: true,
+      locale: DevicePreview.locale(context),
+      builder: DevicePreview.appBuilder,
       debugShowCheckedModeBanner: false,
       theme: ThemeData(
         primarySwatch: Colors.blue,
       ),
       title: 'Xmeal',
-      home: splashScreen(),
+      home: const Splash_Screen(),
       routes: {
-        first_welcome_screen.id: (context) => first_welcome_screen(),
+        First_Welcome_Screen.id: (context) => First_Welcome_Screen(),
+        Second_welcome_screen.id: (context) => Second_welcome_screen(),
+        Third_welcome_screen.id: (context) => Third_welcome_screen(),
+        Login.id: (context) => const Login(),
+        Register.id: (context) => const Register(),
       },
     );
   }

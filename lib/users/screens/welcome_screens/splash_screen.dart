@@ -1,18 +1,18 @@
 import 'package:flutter/material.dart';
-import 'package:xmeal/users/screens/into_screens.dart/first_Welcome_screen.dart';
+import 'package:xmeal/users/screens/welcome_screens/first_Welcome_screen.dart';
 import 'package:xmeal/users/styles/constants.dart';
 import 'package:xmeal/users/widgets/logoCircle.dart';
 
-class splashScreen extends StatefulWidget {
-  const splashScreen({
+class Splash_Screen extends StatefulWidget {
+  const Splash_Screen({
     Key? key,
   }) : super(key: key);
 
   @override
-  State<splashScreen> createState() => _splashScreenState();
+  State<Splash_Screen> createState() => _Splash_ScreenState();
 }
 
-class _splashScreenState extends State<splashScreen> {
+class _Splash_ScreenState extends State<Splash_Screen> {
   @override
   void initState() {
     super.initState();
@@ -25,7 +25,7 @@ class _splashScreenState extends State<splashScreen> {
   }
 
   void clearSplash() {
-    Navigator.pushNamed(context, first_welcome_screen.id);
+    Navigator.pushNamed(context, First_Welcome_Screen.id);
   }
 
   @override
