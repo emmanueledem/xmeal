@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:xmeal/users/screens/login_screen.dart';
+import 'package:xmeal/users/screens/welcome_screens/success_registration_screen.dart';
 import 'package:xmeal/users/styles/constants.dart';
 import '../widgets/authTopContainer.dart';
 
@@ -28,7 +29,7 @@ class Register extends StatelessWidget {
                     style: TextStyle(
                         fontFamily: 'poppins',
                         fontWeight: FontWeight.bold,
-                        fontSize: 36,
+                        fontSize: 30,
                         color: appColour),
                   ),
                   Row(
@@ -38,10 +39,10 @@ class Register extends StatelessWidget {
                         margin: EdgeInsets.only(right: 20),
                         color: Colors.white,
                         child: Padding(
-                          padding: EdgeInsets.all(17.0),
+                          padding: EdgeInsets.all(10.0),
                           child: Image(
-                            height: 27,
-                            width: 27,
+                            height: 20,
+                            width: 20,
                             image: AssetImage('assets/images/googleLogo.png'),
                           ),
                         ),
@@ -49,11 +50,11 @@ class Register extends StatelessWidget {
                       Card(
                         color: Colors.white,
                         child: Padding(
-                          padding: EdgeInsets.all(17.0),
+                          padding: EdgeInsets.all(10.0),
                           child: Image(
-                            height: 27,
-                            width: 27,
-                            image: AssetImage('assets/images/googleLogo.png'),
+                            height: 22,
+                            width: 22,
+                            image: AssetImage('assets/images/facebookLogo.png'),
                           ),
                         ),
                       )
@@ -103,8 +104,11 @@ class Register extends StatelessWidget {
                     ClipRRect(
                       borderRadius: BorderRadius.circular(30),
                       child: MaterialButton(
-                        onPressed: () {},
-                        minWidth: 380,
+                        onPressed: () {
+                          Navigator.pushNamed(
+                              context, Registration_Success_screen.id);
+                        },
+                        minWidth: 365,
                         height: 51,
                         textColor: Colors.white,
                         color: appColour,
@@ -114,7 +118,7 @@ class Register extends StatelessWidget {
                               color: Color(
                                 0xffF6F6F9,
                               ),
-                              fontSize: 18,
+                              fontSize: 17,
                               fontFamily: 'poppins',
                               fontWeight: FontWeight.w600),
                         ),
@@ -129,7 +133,7 @@ class Register extends StatelessWidget {
                         'Already a Member? Login',
                         style: TextStyle(
                             color: Colors.white,
-                            fontSize: 20,
+                            fontSize: 17,
                             fontFamily: 'poppins'),
                       ),
                     ),

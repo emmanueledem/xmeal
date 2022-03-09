@@ -1,13 +1,16 @@
 import 'package:flutter/material.dart';
+import 'package:xmeal/users/screens/dish_categories.dart';
+import 'package:xmeal/users/screens/home_screen.dart';
 import 'package:xmeal/users/screens/welcome_screens/first_Welcome_Screen.dart';
 import 'package:xmeal/users/screens/register_screen.dart';
 import 'package:xmeal/users/screens/welcome_screens/second_Welcome_screen.dart';
 import 'package:xmeal/users/screens/welcome_screens/splash_screen.dart';
+import 'package:xmeal/users/screens/welcome_screens/success_registration_screen.dart';
 import 'package:xmeal/users/screens/welcome_screens/third_Welcome_screen.dart';
 import 'package:device_preview/device_preview.dart';
 import 'package:xmeal/users/screens/login_screen.dart';
 
-bool kReleaseMode = false;
+bool kReleaseMode = true;
 void main() {
   runApp(
     DevicePreview(
@@ -38,6 +41,10 @@ class MyApp extends StatelessWidget {
         Third_welcome_screen.id: (context) => Third_welcome_screen(),
         Login.id: (context) => const Login(),
         Register.id: (context) => const Register(),
+        Registration_Success_screen.id: (context) =>
+            Registration_Success_screen(),
+        Home_Screen.id: (context) => const Home_Screen(),
+        Dish_categories.id: (context) => const Dish_categories(),
       },
     );
   }

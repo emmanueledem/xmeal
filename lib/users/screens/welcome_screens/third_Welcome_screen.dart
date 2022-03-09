@@ -9,15 +9,13 @@ class Third_welcome_screen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: Container(
-        decoration: const BoxDecoration(
-          color: appColour,
-        ),
+      backgroundColor: appColour,
+      body: SingleChildScrollView(
         child: Center(
           child: Padding(
-            padding: const EdgeInsets.only(top: 50),
+            padding: const EdgeInsets.all(50),
             child: Column(
-              children: <Widget>[
+              children: [
                 const SizedBox(
                   height: 25.0,
                 ),
@@ -35,18 +33,16 @@ class Third_welcome_screen extends StatelessWidget {
                   'Fast rescued food at your service',
                   style: TextStyle(
                       fontFamily: 'poppins',
-                      fontSize: 50.0,
+                      fontSize: 30.0,
                       letterSpacing: -0.03,
                       color: Colors.white,
                       fontWeight: FontWeight.w300),
                   textAlign: TextAlign.center,
                 ),
-                const Expanded(
-                  child: Image(
-                    height: 300,
-                    width: 300,
-                    image: AssetImage('assets/images/third_welcome_image.png'),
-                  ),
+                const Image(
+                  height: 350,
+                  width: 350,
+                  image: AssetImage('assets/images/third_welcome_image.png'),
                 ),
                 Padding(
                   padding: const EdgeInsets.only(bottom: 30),
@@ -56,18 +52,18 @@ class Third_welcome_screen extends StatelessWidget {
                     },
                     child: Container(
                       width: 314,
-                      height: 70,
+                      height: 50,
                       decoration: BoxDecoration(
                         color: const Color(0xffFFFFFF),
                         borderRadius: BorderRadius.circular(30),
                       ),
                       child: const Padding(
-                        padding: EdgeInsets.only(top: 25),
+                        padding: EdgeInsets.only(top: 13),
                         child: Text(
                           'Get Started',
                           style: TextStyle(
                               fontFamily: 'poppins',
-                              color: Color(0xffFF460A),
+                              color: Color(0xFFFF460A),
                               fontSize: 17.0,
                               fontWeight: FontWeight.w600),
                           textAlign: TextAlign.center,

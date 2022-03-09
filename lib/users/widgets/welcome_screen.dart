@@ -65,7 +65,7 @@ class WelcomeScreen extends StatelessWidget {
                 centerText.toString(),
                 style: const TextStyle(
                   letterSpacing: -0.03,
-                  fontSize: 40.0,
+                  fontSize: 30.0,
                   color: Colors.white,
                   fontWeight: FontWeight.w300,
                   fontFamily: 'Poppins',

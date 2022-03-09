@@ -18,8 +18,8 @@ class authTopContainer extends StatelessWidget {
       decoration: const BoxDecoration(
           color: Color(0xffFFFFFF),
           borderRadius: BorderRadius.only(
-              bottomLeft: Radius.circular(10),
-              bottomRight: Radius.circular(10))),
+              bottomLeft: Radius.circular(15),
+              bottomRight: Radius.circular(15))),
       child: Column(
         mainAxisAlignment: MainAxisAlignment.center,
         children: [

@@ -25,7 +25,7 @@ class _Splash_ScreenState extends State<Splash_Screen> {
   }
 
   void clearSplash() {
-    Navigator.pushNamed(context, First_Welcome_Screen.id);
+    Navigator.pushReplacementNamed(context, First_Welcome_Screen.id);
   }
 
   @override

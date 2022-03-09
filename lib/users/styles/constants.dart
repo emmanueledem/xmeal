@@ -10,7 +10,7 @@ const KinputdecorationStyle = InputDecoration(
   hintStyle: TextStyle(
     color: Colors.grey,
     fontFamily: 'poppins',
-    fontSize: 20,
+    fontSize: 15,
   ),
   contentPadding: EdgeInsets.symmetric(vertical: 10.0, horizontal: 20.0),
   border: OutlineInputBorder(
