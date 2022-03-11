@@ -46,7 +46,7 @@ e
             Registration_Success_screen(),
         Home_Screen.id: (context) => const Home_Screen(),
         Dish_list.id: (context) => const Dish_list(),
-        view_single_dish.id: (context) => const view_single_dish()
+        view_single_dish.id: (context) => const view_single_dish(),
       },
     );
   }
