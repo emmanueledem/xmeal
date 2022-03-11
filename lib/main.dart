@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:xmeal/users/screens/dish_categories.dart';
+import 'package:xmeal/users/screens/dish_list.dart';
 import 'package:xmeal/users/screens/home_screen.dart';
+import 'package:xmeal/users/screens/view_single_dish.dart';
 import 'package:xmeal/users/screens/welcome_screens/first_Welcome_Screen.dart';
 import 'package:xmeal/users/screens/register_screen.dart';
 import 'package:xmeal/users/screens/welcome_screens/second_Welcome_screen.dart';
@@ -22,7 +23,7 @@ void main() {
 
 class MyApp extends StatelessWidget {
   const MyApp({Key? key}) : super(key: key);
-
+e
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
@@ -44,7 +45,8 @@ class MyApp extends StatelessWidget {
         Registration_Success_screen.id: (context) =>
             Registration_Success_screen(),
         Home_Screen.id: (context) => const Home_Screen(),
-        Dish_categories.id: (context) => const Dish_categories(),
+        Dish_list.id: (context) => const Dish_list(),
+        view_single_dish.id: (context) => const view_single_dish()
       },
     );
   }

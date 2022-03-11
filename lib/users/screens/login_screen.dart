@@ -22,6 +22,7 @@ class Login extends StatelessWidget {
                 ),
                 Form(
                   child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       const SizedBox(height: 30.0),
                       Padding(
@@ -41,7 +42,7 @@ class Login extends StatelessWidget {
                         ),
                       ),
                       const Padding(
-                        padding: EdgeInsets.only(top: 10, right: 190),
+                        padding: EdgeInsets.only(top: 10, left: 20),
                         child: Text(
                           'Forgot Password?',
                           style: TextStyle(
@@ -53,61 +54,69 @@ class Login extends StatelessWidget {
                         ),
                       ),
                       const SizedBox(height: 15.0),
-                      ClipRRect(
-                        borderRadius: BorderRadius.circular(30),
-                        child: MaterialButton(
-                          onPressed: () {
-                            Navigator.pushNamed(context, Home_Screen.id);
-                          },
-                          minWidth: 365,
-                          height: 51,
-                          textColor: Colors.white,
-                          color: appColour,
-                          child: const Text(
-                            'Login',
-                            style: TextStyle(
-                                color: Color(
-                                  0xffF6F6F9,
-                                ),
-                                fontSize: 17,
-                                fontFamily: 'poppins',
-                                fontWeight: FontWeight.w600),
+                      Padding(
+                        padding: const EdgeInsets.only(left: 20, right: 20),
+                        child: ClipRRect(
+                          borderRadius: BorderRadius.circular(30),
+                          child: MaterialButton(
+                            onPressed: () {
+                              Navigator.pushNamed(context, Home_Screen.id);
+                            },
+                            minWidth: 365,
+                            height: 51,
+                            textColor: Colors.white,
+                            color: appColour,
+                            child: const Text(
+                              'Login',
+                              style: TextStyle(
+                                  color: Color(
+                                    0xffF6F6F9,
+                                  ),
+                                  fontSize: 17,
+                                  fontFamily: 'poppins',
+                                  fontWeight: FontWeight.w600),
+                            ),
                           ),
                         ),
                       ),
                       const SizedBox(height: 20.0),
-                      const Text(
-                        'Or',
-                        style: TextStyle(
-                            color: Color(0xff000000),
-                            fontWeight: FontWeight.w600,
-                            fontSize: 18,
-                            fontFamily: 'poppins'),
-                      ),
-                      const SizedBox(height: 20.0),
-                      TextButton.icon(
-                        onPressed: () {},
-                        style: ButtonStyle(
-                          backgroundColor: MaterialStateProperty.all(
-                            const Color(0xff1877F2),
-                          ),
-                          minimumSize: MaterialStateProperty.all(
-                            const Size(365, 51),
-                          ),
-                          shape: MaterialStateProperty.all(StadiumBorder()),
-                        ),
-                        icon: const Icon(
-                          Icons.facebook,
-                          size: 24,
-                          color: Colors.white,
-                        ),
-                        label: const Text(
-                          'Log in with Facebook',
+                      const Center(
+                        child: Text(
+                          'Or',
                           style: TextStyle(
+                              color: Color(0xff000000),
+                              fontWeight: FontWeight.w600,
+                              fontSize: 18,
+                              fontFamily: 'poppins'),
+                        ),
+                      ),
+                      const SizedBox(height: 20.0),
+                      Padding(
+                        padding: const EdgeInsets.only(left: 20, right: 20),
+                        child: TextButton.icon(
+                          onPressed: () {},
+                          style: ButtonStyle(
+                            backgroundColor: MaterialStateProperty.all(
+                              const Color(0xff1877F2),
+                            ),
+                            minimumSize: MaterialStateProperty.all(
+                              const Size(365, 51),
+                            ),
+                            shape: MaterialStateProperty.all(StadiumBorder()),
+                          ),
+                          icon: const Icon(
+                            Icons.facebook,
+                            size: 24,
                             color: Colors.white,
-                            fontSize: 17,
-                            fontFamily: 'poppins',
-                            fontWeight: FontWeight.w600,
+                          ),
+                          label: const Text(
+                            'Log in with Facebook',
+                            style: TextStyle(
+                              color: Colors.white,
+                              fontSize: 17,
+                              fontFamily: 'poppins',
+                              fontWeight: FontWeight.w600,
+                            ),
                           ),
                         ),
                       ),

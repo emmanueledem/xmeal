@@ -27,7 +27,7 @@ class Third_welcome_screen extends StatelessWidget {
                   titlefontSize: 16.0,
                 ),
                 const SizedBox(
-                  height: 40.0,
+                  height: 10.0,
                 ),
                 const Text(
                   'Fast rescued food at your service',

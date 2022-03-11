@@ -101,26 +101,29 @@ class Register extends StatelessWidget {
                       ),
                     ),
                     const SizedBox(height: 20.0),
-                    ClipRRect(
-                      borderRadius: BorderRadius.circular(30),
-                      child: MaterialButton(
-                        onPressed: () {
-                          Navigator.pushNamed(
-                              context, Registration_Success_screen.id);
-                        },
-                        minWidth: 365,
-                        height: 51,
-                        textColor: Colors.white,
-                        color: appColour,
-                        child: const Text(
-                          'Sign-Up',
-                          style: TextStyle(
-                              color: Color(
-                                0xffF6F6F9,
-                              ),
-                              fontSize: 17,
-                              fontFamily: 'poppins',
-                              fontWeight: FontWeight.w600),
+                    Padding(
+                      padding: const EdgeInsets.only(left: 20, right: 20),
+                      child: ClipRRect(
+                        borderRadius: BorderRadius.circular(30),
+                        child: MaterialButton(
+                          onPressed: () {
+                            Navigator.pushNamed(
+                                context, Registration_Success_screen.id);
+                          },
+                          minWidth: 365,
+                          height: 51,
+                          textColor: Colors.white,
+                          color: appColour,
+                          child: const Text(
+                            'Sign-Up',
+                            style: TextStyle(
+                                color: Color(
+                                  0xffF6F6F9,
+                                ),
+                                fontSize: 17,
+                                fontFamily: 'poppins',
+                                fontWeight: FontWeight.w600),
+                          ),
                         ),
                       ),
                     ),

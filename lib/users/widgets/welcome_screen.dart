@@ -22,6 +22,7 @@ class WelcomeScreen extends StatelessWidget {
       decoration: const BoxDecoration(
         color: appColour,
       ),
+      height: MediaQuery.of(context).size.height,
       child: Center(
         child: Padding(
           padding: const EdgeInsets.only(top: 50),
