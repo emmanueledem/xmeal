@@ -48,8 +48,6 @@ class MyApp extends StatelessWidget {
         Home_Screen.id: (context) => const Home_Screen(),
         Dish_list.id: (context) => const Dish_list(),
         view_single_dish.id: (context) => const view_single_dish(),
-        cart_screen.id: (context) => const cart_screen(),
-        
       },
     );
   }
