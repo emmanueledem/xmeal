@@ -2,8 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:xmeal/users/screens/view_single_dish.dart';
 import 'package:xmeal/users/styles/constants.dart';
 
-class Dish_list extends StatelessWidget {
-  const Dish_list({Key? key}) : super(key: key);
+class Dish_list_screen extends StatelessWidget {
+  const Dish_list_screen({Key? key}) : super(key: key);
   static const id = 'Dish_categories';
   @override
   Widget build(BuildContext context) {

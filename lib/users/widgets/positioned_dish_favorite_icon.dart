@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:xmeal/users/styles/constants.dart';
 
 class positioned_favorite_icon extends StatelessWidget {
   const positioned_favorite_icon({

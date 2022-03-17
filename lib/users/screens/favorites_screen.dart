@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:xmeal/users/screens/home_screen.dart';
 import 'package:xmeal/users/screens/view_single_dish.dart';
 import 'package:xmeal/users/styles/constants.dart';
 import 'package:xmeal/users/widgets/favorite_dishes.dart';

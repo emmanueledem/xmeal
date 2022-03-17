@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:xmeal/users/screens/cart_screen.dart';
-import 'package:xmeal/users/screens/dish_list.dart';
+import 'package:xmeal/users/screens/dish_list_screen.dart';
 import 'package:xmeal/users/screens/home_screen.dart';
 import 'package:xmeal/users/screens/view_single_dish.dart';
 import 'package:xmeal/users/screens/welcome_screens/first_Welcome_Screen.dart';
@@ -46,7 +45,7 @@ class MyApp extends StatelessWidget {
         Registration_Success_screen.id: (context) =>
             Registration_Success_screen(),
         Home_Screen.id: (context) => const Home_Screen(),
-        Dish_list.id: (context) => const Dish_list(),
+        Dish_list_screen.id: (context) => const Dish_list_screen(),
         view_single_dish.id: (context) => const view_single_dish(),
       },
     );

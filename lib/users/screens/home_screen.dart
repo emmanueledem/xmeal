@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
+import 'package:xmeal/users/screens/account_screen.dart';
 import 'package:xmeal/users/screens/cart_screen.dart';
 import 'package:xmeal/users/screens/favorites_screen.dart';
 import 'package:xmeal/users/screens/home_screen_content.dart';
+import 'package:xmeal/users/screens/orders_screen.dart';
 
 class Home_Screen extends StatefulWidget {
   const Home_Screen({Key? key}) : super(key: key);
@@ -19,10 +21,8 @@ class _Home_ScreenState extends State<Home_Screen> {
     HomeScreenContent(),
     FavoriteScreen(),
     cart_screen(),
-    Text(
-      'Index 3: Settings',
-      style: optionStyle,
-    ),
+    orders_screen(),
+    account_screen(),
   ];
   void _onItemTapped(int index) {
     setState(() {
@@ -56,6 +56,13 @@ class _Home_ScreenState extends State<Home_Screen> {
               color: Colors.black,
             ),
             label: 'Cart',
+          ),
+          BottomNavigationBarItem(
+            icon: Icon(
+              Icons.shopping_cart_checkout_outlined,
+              color: Colors.black,
+            ),
+            label: 'Orders',
           ),
           BottomNavigationBarItem(
             icon: Icon(

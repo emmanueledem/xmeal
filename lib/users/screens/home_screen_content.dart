@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:xmeal/users/screens/dish_list.dart';
+import 'package:xmeal/users/screens/dish_list_screen.dart';
 import 'package:xmeal/users/styles/constants.dart';
 import 'package:xmeal/users/widgets/Home_screen_Containers.dart';
 import 'package:xmeal/users/widgets/favorite_dishes.dart';
@@ -136,7 +136,7 @@ class HomeScreenContent extends StatelessWidget {
                     borderRadius: BorderRadius.circular(30),
                     child: MaterialButton(
                       onPressed: () {
-                        Navigator.pushNamed(context, Dish_list.id);
+                        Navigator.pushNamed(context, Dish_list_screen.id);
                       },
                       minWidth: 365,
                       height: 51,
