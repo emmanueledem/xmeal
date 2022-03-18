@@ -5,24 +5,23 @@ import 'package:xmeal/users/screens/favorites_screen.dart';
 import 'package:xmeal/users/screens/home_screen_content.dart';
 import 'package:xmeal/users/screens/orders_screen.dart';
 
-class Home_Screen extends StatefulWidget {
-  const Home_Screen({Key? key}) : super(key: key);
+class HomeScreen extends StatefulWidget {
+  const HomeScreen({Key? key}) : super(key: key);
   static String id = 'Home_Screen';
 
   @override
-  State<Home_Screen> createState() => _Home_ScreenState();
+  State<HomeScreen> createState() => _HomeScreenState();
 }
 
-class _Home_ScreenState extends State<Home_Screen> {
+class _HomeScreenState extends State<HomeScreen> {
   int _selectedIndex = 0;
-  static const TextStyle optionStyle =
-      TextStyle(fontSize: 30, fontWeight: FontWeight.bold);
+
   static const List<Widget> _widgetOptions = <Widget>[
     HomeScreenContent(),
     FavoriteScreen(),
-    cart_screen(),
-    orders_screen(),
-    account_screen(),
+    CartScreen(),
+    OrdersScreen(),
+    AccountScreen(),
   ];
   void _onItemTapped(int index) {
     setState(() {

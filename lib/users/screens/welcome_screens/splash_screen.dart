@@ -1,31 +1,31 @@
 import 'package:flutter/material.dart';
-import 'package:xmeal/users/screens/welcome_screens/first_Welcome_screen.dart';
+import 'package:xmeal/users/screens/welcome_screens/first_welcome_screen.dart';
 import 'package:xmeal/users/styles/constants.dart';
-import 'package:xmeal/users/widgets/logoCircle.dart';
+import 'package:xmeal/users/widgets/logo_circle.dart';
 
-class Splash_Screen extends StatefulWidget {
-  const Splash_Screen({
+class SplashScreen extends StatefulWidget {
+  const SplashScreen({
     Key? key,
   }) : super(key: key);
 
   @override
-  State<Splash_Screen> createState() => _Splash_ScreenState();
+  State<SplashScreen> createState() => _SplashScreenState();
 }
 
-class _Splash_ScreenState extends State<Splash_Screen> {
+class _SplashScreenState extends State<SplashScreen> {
   @override
   void initState() {
     super.initState();
     Future.delayed(
       const Duration(seconds: 5),
       () {
-        clearSplash();
+        shiftScreen();
       },
     );
   }
 
-  void clearSplash() {
-    Navigator.pushReplacementNamed(context, First_Welcome_Screen.id);
+  void shiftScreen() {
+    Navigator.pushReplacementNamed(context, FirstWelcomeScreen.id);
   }
 
   @override
@@ -33,8 +33,8 @@ class _Splash_ScreenState extends State<Splash_Screen> {
     return Scaffold(
       body: Container(
         color: appColour,
-        child: Center(
-          child: logoCircle(
+        child: const Center(
+          child: LogoCircle(
             imageWidth: 100,
             imageheight: 100,
             circleHeight: 160,

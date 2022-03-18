@@ -1,15 +1,16 @@
 import 'package:flutter/material.dart';
 import 'package:xmeal/users/styles/constants.dart';
 
-class Account_items extends StatelessWidget {
-  Account_items({
+class AccountItems extends StatelessWidget {
+  const AccountItems({
+    Key? key,
     required this.avatarIcon,
     required this.title,
     required this.onPressed,
-  });
-  IconData avatarIcon;
-  String title;
-  VoidCallback onPressed;
+  }) : super(key: key);
+  final IconData avatarIcon;
+  final String title;
+  final VoidCallback onPressed;
 
   @override
   Widget build(BuildContext context) {

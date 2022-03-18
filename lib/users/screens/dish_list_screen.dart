@@ -2,8 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:xmeal/users/screens/view_single_dish.dart';
 import 'package:xmeal/users/styles/constants.dart';
 
-class Dish_list_screen extends StatelessWidget {
-  const Dish_list_screen({Key? key}) : super(key: key);
+class DishlistScreen extends StatelessWidget {
+  const DishlistScreen({Key? key}) : super(key: key);
   static const id = 'Dish_categories';
   @override
   Widget build(BuildContext context) {
@@ -16,7 +16,7 @@ class Dish_list_screen extends StatelessWidget {
               child: Padding(
                 padding: const EdgeInsets.only(left: 20, right: 20, top: 20),
                 child: TextFormField(
-                  decoration: KinputdecorationStyle.copyWith(
+                  decoration: kinputdecorationStyle.copyWith(
                     hintText: 'Search a categories',
                     suffixIcon: const Icon(Icons.search),
                   ),
@@ -39,7 +39,7 @@ class Dish_list_screen extends StatelessWidget {
                   children: <Widget>[
                     GestureDetector(
                       onTap: () {
-                        Navigator.pushNamed(context, view_single_dish.id);
+                        Navigator.pushNamed(context, ViewSingleDish.id);
                       },
                       child: Padding(
                         padding:

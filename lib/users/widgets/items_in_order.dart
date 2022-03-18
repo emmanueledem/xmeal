@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:xmeal/users/styles/constants.dart';
 
-class Cartlist extends StatelessWidget {
-  const Cartlist({
+class ItemsInOrder extends StatelessWidget {
+  const ItemsInOrder({
     Key? key,
   }) : super(key: key);
 
@@ -68,25 +68,7 @@ class Cartlist extends StatelessWidget {
                 mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                 children: const [
                   Text(
-                    '-',
-                    style: TextStyle(
-                      fontStyle: FontStyle.normal,
-                      fontWeight: FontWeight.w900,
-                      fontSize: 21,
-                      color: Color(0xffEA6435),
-                    ),
-                  ),
-                  Text(
-                    '1',
-                    style: TextStyle(
-                      fontStyle: FontStyle.normal,
-                      fontWeight: FontWeight.w500,
-                      fontSize: 21,
-                      color: Color(0xffEA6435),
-                    ),
-                  ),
-                  Text(
-                    '+',
+                    '12',
                     style: TextStyle(
                       fontStyle: FontStyle.normal,
                       fontWeight: FontWeight.w900,

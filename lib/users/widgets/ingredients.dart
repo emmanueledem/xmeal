@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
 
-class ingredients extends StatelessWidget {
-  ingredients({required this.image});
+class Ingredients extends StatelessWidget {
+  const Ingredients({Key? key, required this.image}) : super(key: key);
 
-  ImageProvider image;
+  final ImageProvider image;
 
   @override
   Widget build(BuildContext context) {

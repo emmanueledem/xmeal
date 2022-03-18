@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 
-class Positioned_dishName extends StatelessWidget {
-  const Positioned_dishName({
+class PositionedDishName extends StatelessWidget {
+  const PositionedDishName({
     Key? key,
   }) : super(key: key);
 
@@ -15,7 +15,7 @@ class Positioned_dishName extends StatelessWidget {
           children: [
             Container(
               decoration: BoxDecoration(
-                color: const Color(0xffffFFFFFF),
+                color: Colors.white,
                 borderRadius: const BorderRadius.all(
                   Radius.circular(32),
                 ),

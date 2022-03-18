@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:xmeal/users/screens/view_single_dish.dart';
 import 'package:xmeal/users/styles/constants.dart';
-import 'package:xmeal/users/widgets/favorite_dishes.dart';
+import 'package:xmeal/users/widgets/home_screen_favorite_dishes.dart';
 
 class FavoriteScreen extends StatelessWidget {
   const FavoriteScreen({Key? key}) : super(key: key);
@@ -49,11 +49,10 @@ class FavoriteScreen extends StatelessWidget {
                       height: 10.0,
                     ),
                     GestureDetector(
-                      child: Padding(
-                        padding: const EdgeInsets.only(
-                            left: 10, right: 17, top: 8.0),
-                        child: Favorite_Dishes(
-                          image: const AssetImage(
+                      child: const Padding(
+                        padding: EdgeInsets.only(left: 10, right: 17, top: 8.0),
+                        child: FavoriteDishes(
+                          image: AssetImage(
                             'assets/images/first_welcome_image.png',
                           ),
                           dishName: 'Spaghetti',
@@ -63,15 +62,14 @@ class FavoriteScreen extends StatelessWidget {
                         ),
                       ),
                       onTap: () {
-                        Navigator.pushNamed(context, view_single_dish.id);
+                        Navigator.pushNamed(context, ViewSingleDish.id);
                       },
                     ),
                     GestureDetector(
-                      child: Padding(
-                        padding: const EdgeInsets.only(
-                            left: 10, right: 17, top: 8.0),
-                        child: Favorite_Dishes(
-                          image: const AssetImage(
+                      child: const Padding(
+                        padding: EdgeInsets.only(left: 10, right: 17, top: 8.0),
+                        child: FavoriteDishes(
+                          image: AssetImage(
                             'assets/images/second_welcome_image.png',
                           ),
                           dishName: 'Spaghetti',
@@ -81,15 +79,14 @@ class FavoriteScreen extends StatelessWidget {
                         ),
                       ),
                       onTap: () {
-                        Navigator.pushNamed(context, view_single_dish.id);
+                        Navigator.pushNamed(context, ViewSingleDish.id);
                       },
                     ),
                     GestureDetector(
-                      child: Padding(
-                        padding: const EdgeInsets.only(
-                            left: 10, right: 17, top: 8.0),
-                        child: Favorite_Dishes(
-                          image: const AssetImage(
+                      child: const Padding(
+                        padding: EdgeInsets.only(left: 10, right: 17, top: 8.0),
+                        child: FavoriteDishes(
+                          image: AssetImage(
                             'assets/images/third_welcome_image.png',
                           ),
                           dishName: 'Spaghetti',
@@ -99,7 +96,7 @@ class FavoriteScreen extends StatelessWidget {
                         ),
                       ),
                       onTap: () {
-                        Navigator.pushNamed(context, view_single_dish.id);
+                        Navigator.pushNamed(context, ViewSingleDish.id);
                       },
                     ),
                   ],

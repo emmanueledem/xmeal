@@ -1,12 +1,14 @@
 import 'package:flutter/material.dart';
 import 'package:xmeal/users/styles/constants.dart';
 
-class Viewed_dishes extends StatelessWidget {
-  Viewed_dishes(
-      {required this.image,
+class ViewedDishes extends StatelessWidget {
+  ViewedDishes(
+      {Key? key,
+      required this.image,
       required this.dishName,
       required this.price,
-      required this.region});
+      required this.region})
+      : super(key: key);
   ImageProvider image;
   String? dishName;
   String? dateAdded;

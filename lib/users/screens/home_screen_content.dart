@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:xmeal/users/screens/dish_list_screen.dart';
 import 'package:xmeal/users/styles/constants.dart';
-import 'package:xmeal/users/widgets/Home_screen_Containers.dart';
-import 'package:xmeal/users/widgets/favorite_dishes.dart';
-import 'package:xmeal/users/widgets/viewed_dishes.dart';
+import 'package:xmeal/users/widgets/home_screen_containers.dart';
+import 'package:xmeal/users/widgets/home_screen_favorite_dishes.dart';
+import 'package:xmeal/users/widgets/Viewed_dishes.dart';
 
 class HomeScreenContent extends StatelessWidget {
   const HomeScreenContent({
@@ -60,14 +60,13 @@ class HomeScreenContent extends StatelessWidget {
                         fontFamily: 'poppins',
                         fontSize: 18,
                         fontWeight: FontWeight.w400),
-                    textAlign: TextAlign.end,
                   ),
                   const SizedBox(
                     height: 10.0,
                   ),
                   Row(
                     children: const [
-                      First_Home_screen_Container(),
+                      FirstHomeScreenContainer(),
                     ],
                   ),
                   const SizedBox(height: 10.0),
@@ -79,14 +78,14 @@ class HomeScreenContent extends StatelessWidget {
                         fontWeight: FontWeight.bold),
                     textAlign: TextAlign.end,
                   ),
-                  Container(
+                  SizedBox(
                     height: 138.2,
                     child: ListView(
                       physics: const AlwaysScrollableScrollPhysics(),
                       scrollDirection: Axis.horizontal,
-                      children: <Widget>[
-                        Favorite_Dishes(
-                          image: const AssetImage(
+                      children: const [
+                        FavoriteDishes(
+                          image: AssetImage(
                             'assets/images/first_welcome_image.png',
                           ),
                           dishName: 'Spaghetti',
@@ -94,8 +93,8 @@ class HomeScreenContent extends StatelessWidget {
                           dateAdded: 'Yesterday 3pm',
                           price: '৳1250',
                         ),
-                        Favorite_Dishes(
-                          image: const AssetImage(
+                        FavoriteDishes(
+                          image: AssetImage(
                             'assets/images/home_scroll_img3.png',
                           ),
                           dishName: 'Fried Rice',
@@ -103,8 +102,8 @@ class HomeScreenContent extends StatelessWidget {
                           dateAdded: 'Thurday 3pm',
                           price: '৳1250',
                         ),
-                        Favorite_Dishes(
-                          image: const AssetImage(
+                        FavoriteDishes(
+                          image: AssetImage(
                             'assets/images/home_scroll_img1.png',
                           ),
                           dishName: 'Coach Sncak',
@@ -112,8 +111,8 @@ class HomeScreenContent extends StatelessWidget {
                           dateAdded: '09/23/2022',
                           price: '৳1250',
                         ),
-                        Favorite_Dishes(
-                          image: const AssetImage(
+                        FavoriteDishes(
+                          image: AssetImage(
                             'assets/images/home_scroll_img2.png',
                           ),
                           dishName: 'Noddles',
@@ -136,7 +135,7 @@ class HomeScreenContent extends StatelessWidget {
                     borderRadius: BorderRadius.circular(30),
                     child: MaterialButton(
                       onPressed: () {
-                        Navigator.pushNamed(context, Dish_list_screen.id);
+                        Navigator.pushNamed(context, DishlistScreen.id);
                       },
                       minWidth: 365,
                       height: 51,
@@ -170,13 +169,13 @@ class HomeScreenContent extends StatelessWidget {
                         fontWeight: FontWeight.bold),
                     textAlign: TextAlign.end,
                   ),
-                  Container(
+                  SizedBox(
                     height: 274.09,
                     child: ListView(
                       scrollDirection: Axis.horizontal,
                       physics: const AlwaysScrollableScrollPhysics(),
                       children: <Widget>[
-                        Viewed_dishes(
+                        ViewedDishes(
                           image: const AssetImage(
                             'assets/images/img5.png',
                           ),
@@ -184,7 +183,7 @@ class HomeScreenContent extends StatelessWidget {
                           region: 'Nigeria',
                           price: '৳1250',
                         ),
-                        Viewed_dishes(
+                        ViewedDishes(
                           image: const AssetImage(
                             'assets/images/img2.png',
                           ),
@@ -192,7 +191,7 @@ class HomeScreenContent extends StatelessWidget {
                           region: 'Nigeria',
                           price: '৳1250',
                         ),
-                        Viewed_dishes(
+                        ViewedDishes(
                           image: const AssetImage(
                             'assets/images/img6.png',
                           ),
@@ -200,7 +199,7 @@ class HomeScreenContent extends StatelessWidget {
                           region: 'Nigeria',
                           price: '৳1250',
                         ),
-                        Viewed_dishes(
+                        ViewedDishes(
                           image: const AssetImage(
                             'assets/images/img12.png',
                           ),

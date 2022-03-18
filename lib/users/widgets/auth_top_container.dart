@@ -1,14 +1,17 @@
 import 'package:flutter/material.dart';
 import 'package:xmeal/users/screens/login_screen.dart';
 import 'package:xmeal/users/screens/register_screen.dart';
-import 'package:xmeal/users/widgets/logoCircle.dart';
+import 'package:xmeal/users/widgets/logo_circle.dart';
 
-class authTopContainer extends StatelessWidget {
-  authTopContainer(
-      {required this.loginTitleColour, required this.signupTitleColour});
+class AuthTopContainer extends StatelessWidget {
+  const AuthTopContainer(
+      {Key? key,
+      required this.loginTitleColour,
+      required this.signupTitleColour})
+      : super(key: key);
 
-  Color? loginTitleColour;
-  Color? signupTitleColour;
+  final Color? loginTitleColour;
+  final Color? signupTitleColour;
 
   @override
   Widget build(BuildContext context) {
@@ -23,9 +26,9 @@ class authTopContainer extends StatelessWidget {
       child: Column(
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
-          Padding(
-            padding: const EdgeInsets.only(top: 15),
-            child: logoCircle(
+          const Padding(
+            padding: EdgeInsets.only(top: 15),
+            child: LogoCircle(
               imageWidth: 125,
               imageheight: 125,
               circleHeight: 190,

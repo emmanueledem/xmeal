@@ -1,18 +1,21 @@
 import 'package:flutter/material.dart';
 
-class Favorite_Dishes extends StatelessWidget {
-  Favorite_Dishes(
-      {required this.image,
+class FavoriteDishes extends StatelessWidget {
+  const FavoriteDishes(
+      {Key? key,
+      required this.image,
       required this.dateAdded,
       required this.dishName,
       required this.price,
-     required  this.region});
-  ImageProvider image;
-  String? dishName;
-  String? dateAdded;
-  String? region;
-  String? price;
+      required this.region})
+      : super(key: key);
+  final ImageProvider image;
+  final String? dishName;
+  final String? dateAdded;
+  final String? region;
+  final String? price;
 
+  @override
   Widget build(BuildContext context) {
     return Padding(
       padding: const EdgeInsets.only(left: 8),

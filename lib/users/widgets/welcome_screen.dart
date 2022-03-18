@@ -1,21 +1,23 @@
 import 'package:flutter/material.dart';
 import 'package:xmeal/users/styles/constants.dart';
-import 'package:xmeal/users/widgets/logoCircle.dart';
+import 'package:xmeal/users/widgets/logo_circle.dart';
 
 class WelcomeScreen extends StatelessWidget {
-  WelcomeScreen(
-      {required this.skipButton,
+  const WelcomeScreen(
+      {Key? key,
+      required this.skipButton,
       required this.centerText,
       required this.image,
       required this.imageHeight,
       required this.imageWidth,
-      required this.screenNo});
-  VoidCallback skipButton;
-  String? centerText;
-  String image;
-  double imageHeight;
-  double imageWidth;
-  int screenNo;
+      required this.screenNo})
+      : super(key: key);
+  final VoidCallback skipButton;
+  final String? centerText;
+  final String image;
+  final double imageHeight;
+  final double imageWidth;
+  final int screenNo;
   @override
   Widget build(BuildContext context) {
     return Container(
@@ -52,7 +54,7 @@ class WelcomeScreen extends StatelessWidget {
               const SizedBox(
                 height: 10.0,
               ),
-              logoCircle(
+              const LogoCircle(
                 circleHeight: 90,
                 circleWidth: 90,
                 imageWidth: 54,
@@ -106,7 +108,7 @@ class WelcomeScreen extends StatelessWidget {
                       ),
                     ),
                     Padding(
-                      padding: EdgeInsets.only(right: 8.0),
+                      padding: const EdgeInsets.only(right: 8.0),
                       child: Icon(
                         Icons.circle,
                         color: screenNo == 3 ? Colors.white : Colors.white54,

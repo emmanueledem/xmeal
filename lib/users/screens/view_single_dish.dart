@@ -1,12 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:xmeal/users/styles/constants.dart';
-import 'package:xmeal/users/widgets/Positioned_dishName.dart';
+import 'package:xmeal/users/widgets/positioned_dish_name.dart';
 import 'package:xmeal/users/widgets/ingredients.dart';
 import 'package:xmeal/users/widgets/nutrition_value.dart';
 import 'package:xmeal/users/widgets/positioned_dish_favorite_icon.dart';
 
-class view_single_dish extends StatelessWidget {
-  const view_single_dish({Key? key}) : super(key: key);
+class ViewSingleDish extends StatelessWidget {
+  const ViewSingleDish({Key? key}) : super(key: key);
   static const id = 'view_single_dish';
   @override
   Widget build(BuildContext context) {
@@ -136,8 +136,8 @@ class view_single_dish extends StatelessWidget {
                                     child: Column(
                                       crossAxisAlignment:
                                           CrossAxisAlignment.start,
-                                      children: [
-                                        const Text(
+                                      children: const [
+                                        Text(
                                           'Nutritional Value',
                                           style: TextStyle(
                                             fontFamily: 'poppins',
@@ -146,7 +146,7 @@ class view_single_dish extends StatelessWidget {
                                             fontWeight: FontWeight.w500,
                                           ),
                                         ),
-                                        const Padding(
+                                        Padding(
                                           padding: EdgeInsets.symmetric(
                                               vertical: 5.0),
                                           child: Divider(
@@ -155,26 +155,25 @@ class view_single_dish extends StatelessWidget {
                                             height: 1,
                                           ),
                                         ),
-                                        Nutrition_Value(
-                                          nutrition_name: 'Protein',
-                                          nutrition_value: '2.5g',
+                                        NutritionValue(
+                                          title: 'Protein',
+                                          value: '2.5g',
                                         ),
-                                        Nutrition_Value(
-                                          nutrition_name: 'Carbohydrates',
-                                          nutrition_value: '14.7g',
+                                        NutritionValue(
+                                          title: 'Carbohydrates',
+                                          value: '14.7g',
                                         ),
-                                        Nutrition_Value(
-                                          nutrition_name: 'Potassium',
-                                          nutrition_value: '5%',
+                                        NutritionValue(
+                                          title: 'Potassium',
+                                          value: '5%',
                                         ),
-                                        Nutrition_Value(
-                                          nutrition_name: 'Sodium',
-                                          nutrition_value: '19%',
+                                        NutritionValue(
+                                          title: 'Sodium',
+                                          value: '19%',
                                         ),
-                                        Nutrition_Value(
-                                          nutrition_name:
-                                              'Rich in Vitamin A,C and B3',
-                                          nutrition_value: '',
+                                        NutritionValue(
+                                          title: 'Rich in Vitamin A,C and B3',
+                                          value: '',
                                         ),
                                       ],
                                     ),
@@ -224,21 +223,21 @@ class view_single_dish extends StatelessWidget {
                                       child: Row(
                                         mainAxisAlignment:
                                             MainAxisAlignment.spaceEvenly,
-                                        children: [
-                                          ingredients(
-                                            image: const AssetImage(
+                                        children: const [
+                                          Ingredients(
+                                            image: AssetImage(
                                                 'assets/images/ingredient1.png'),
                                           ),
-                                          ingredients(
-                                            image: const AssetImage(
+                                          Ingredients(
+                                            image: AssetImage(
                                                 'assets/images/ingredient2.png'),
                                           ),
-                                          ingredients(
-                                            image: const AssetImage(
+                                          Ingredients(
+                                            image: AssetImage(
                                                 'assets/images/ingredient3.png'),
                                           ),
-                                          ingredients(
-                                            image: const AssetImage(
+                                          Ingredients(
+                                            image: AssetImage(
                                                 'assets/images/ingredient4.png'),
                                           ),
                                         ],
@@ -357,10 +356,10 @@ class view_single_dish extends StatelessWidget {
                         ),
                       ),
                     ),
-                    const Positioned_dishName(),
+                    const PositionedDishName(),
                   ],
                 ),
-                const positioned_favorite_icon(),
+                const Positionedfavoriteicon(),
               ],
             ),
           ],

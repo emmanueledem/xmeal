@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
 
-const appColour = Color(0xffFFF6838);
+const appColour = Color(0xfffff6838);
 const logoContainerColour = Color(0xffFFFFFF);
 const authScreensBackgroundColour = Color(0xffBCBABA);
 
-const KinputdecorationStyle = InputDecoration(
+const kinputdecorationStyle = InputDecoration(
   fillColor: Colors.white,
   filled: true,
   hintStyle: TextStyle(

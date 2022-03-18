@@ -1,18 +1,22 @@
 import 'package:flutter/material.dart';
+import 'package:xmeal/users/styles/constants.dart';
 
-class Orders_list extends StatelessWidget {
-  Orders_list({
+class Orderslist extends StatelessWidget {
+  const Orderslist({
+    Key? key,
     required this.itemName,
     required this.itemPrice,
     required this.itemQuantity,
     required this.itemRegion,
     required this.orderDate,
-  });
-  String itemName;
-  double itemPrice;
-  String itemQuantity;
-  String itemRegion;
-  String orderDate;
+    required this.onPressed,
+  }) : super(key: key);
+  final String itemName;
+  final double itemPrice;
+  final String itemQuantity;
+  final String itemRegion;
+  final String orderDate;
+  final VoidCallback onPressed;
 
   @override
   Widget build(BuildContext context) {
@@ -167,20 +171,23 @@ class Orders_list extends StatelessWidget {
                         fontSize: 15,
                         fontWeight: FontWeight.w500),
                   ),
-                  Row(
-                    children: const [
-                      Icon(
-                        Icons.restart_alt_outlined,
-                        color: Color(0xff999999),
-                      ),
-                      Text(
-                        'Repeat Order',
-                        style: TextStyle(
-                            color: Color(0xff999999),
-                            fontSize: 15,
-                            fontWeight: FontWeight.w500),
-                      ),
-                    ],
+                  GestureDetector(
+                    onTap: onPressed,
+                    child: Row(
+                      children: const [
+                        Icon(
+                          Icons.track_changes,
+                          color: appColour,
+                        ),
+                        Text(
+                          'Track Order >>',
+                          style: TextStyle(
+                              color: appColour,
+                              fontSize: 15,
+                              fontWeight: FontWeight.w500),
+                        ),
+                      ],
+                    ),
                   )
                 ],
               ),

@@ -1,9 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:xmeal/users/styles/constants.dart';
-import 'package:xmeal/users/widgets/cart_list.dart';
+import 'package:xmeal/users/widgets/items_in_order.dart';
 
-class CartScreen extends StatelessWidget {
-  const CartScreen({Key? key}) : super(key: key);
+class OrderDetails extends StatelessWidget {
+  const OrderDetails({Key? key}) : super(key: key);
+  static String id = 'OrderDetails';
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -19,7 +20,7 @@ class CartScreen extends StatelessWidget {
                   Padding(
                     padding: EdgeInsets.all(5.0),
                     child: Text(
-                      'Your Cart',
+                      'Order Details',
                       style: TextStyle(
                           color: Colors.white,
                           fontFamily: 'poppins',
@@ -47,7 +48,34 @@ class CartScreen extends StatelessWidget {
                     const SizedBox(
                       height: 10.0,
                     ),
-                    const Cartlist(),
+                    const ItemsInOrder(),
+                    const ItemsInOrder(),
+                    const ItemsInOrder(),
+                    const ItemsInOrder(),
+                    Padding(
+                      padding: const EdgeInsets.only(
+                        top: 30,
+                      ),
+                      child: Column(
+                        children: const [
+                          Text(
+                            'ORDERED ON',
+                            style: TextStyle(
+                                color: Color(0xff999999),
+                                fontSize: 15,
+                                fontWeight: FontWeight.w500),
+                          ),
+                          Text(
+                            '02 NOV 2019 at 2:16 PM',
+                            style: TextStyle(
+                                color: Colors.black,
+                                fontFamily: 'poppins',
+                                fontSize: 17,
+                                fontWeight: FontWeight.w600),
+                          ),
+                        ],
+                      ),
+                    ),
                     Padding(
                       padding:
                           const EdgeInsets.only(left: 15, right: 15, top: 30),
@@ -99,34 +127,34 @@ class CartScreen extends StatelessWidget {
                           )),
                     ),
                     Padding(
-                      padding: const EdgeInsets.only(left: 25, top: 22),
-                      child: Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
+                      padding: const EdgeInsets.only(top: 20),
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                         children: [
-                          Container(
-                            height: 50.6,
-                            width: 220.93,
-                            decoration: const BoxDecoration(
-                              borderRadius:
-                                  BorderRadius.all(Radius.circular(25)),
-                              color: appColour,
-                            ),
-                            child: const Padding(
-                              padding: EdgeInsets.symmetric(
-                                  vertical: 13, horizontal: 38),
-                              child: Text(
-                                'Place Order >>',
-                                textAlign: TextAlign.center,
-                                style: TextStyle(
-                                  fontStyle: FontStyle.normal,
-                                  fontFamily: 'poppins',
-                                  fontWeight: FontWeight.w600,
-                                  fontSize: 20,
-                                  color: Color(0xffFFFFFF),
-                                ),
-                              ),
-                            ),
+                          const Text(
+                            'Rejected',
+                            style: TextStyle(
+                                color: Color(0xff999999),
+                                fontSize: 15,
+                                fontWeight: FontWeight.w500),
                           ),
+                          GestureDetector(
+                            child: Row(
+                              children: const [
+                                Icon(
+                                  Icons.track_changes,
+                                  color: appColour,
+                                ),
+                                Text(
+                                  'Cancel Order >>',
+                                  style: TextStyle(
+                                      color: appColour,
+                                      fontSize: 15,
+                                      fontWeight: FontWeight.w500),
+                                ),
+                              ],
+                            ),
+                          )
                         ],
                       ),
                     ),

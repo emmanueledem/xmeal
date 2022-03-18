@@ -1,13 +1,15 @@
 import 'package:flutter/material.dart';
 import 'package:xmeal/users/screens/dish_list_screen.dart';
 import 'package:xmeal/users/screens/home_screen.dart';
+import 'package:xmeal/users/screens/notification_screen.dart';
+import 'package:xmeal/users/screens/order_details_screen.dart';
 import 'package:xmeal/users/screens/view_single_dish.dart';
-import 'package:xmeal/users/screens/welcome_screens/first_Welcome_Screen.dart';
+import 'package:xmeal/users/screens/welcome_screens/first_welcome_screen.dart';
 import 'package:xmeal/users/screens/register_screen.dart';
-import 'package:xmeal/users/screens/welcome_screens/second_Welcome_screen.dart';
+import 'package:xmeal/users/screens/welcome_screens/second_welcome_screen.dart';
 import 'package:xmeal/users/screens/welcome_screens/splash_screen.dart';
 import 'package:xmeal/users/screens/welcome_screens/success_registration_screen.dart';
-import 'package:xmeal/users/screens/welcome_screens/third_Welcome_screen.dart';
+import 'package:xmeal/users/screens/welcome_screens/third_welcome_screen.dart';
 import 'package:device_preview/device_preview.dart';
 import 'package:xmeal/users/screens/login_screen.dart';
 
@@ -35,18 +37,20 @@ class MyApp extends StatelessWidget {
         primarySwatch: Colors.blue,
       ),
       title: 'Xmeal',
-      home: const Splash_Screen(),
+      home: const SplashScreen(),
       routes: {
-        First_Welcome_Screen.id: (context) => First_Welcome_Screen(),
-        Second_welcome_screen.id: (context) => Second_welcome_screen(),
-        Third_welcome_screen.id: (context) => Third_welcome_screen(),
+        FirstWelcomeScreen.id: (context) => const FirstWelcomeScreen(),
+        SecondWelcomeScreen.id: (context) => const SecondWelcomeScreen(),
+        ThirdWelcomeScreen.id: (context) => const ThirdWelcomeScreen(),
         Login.id: (context) => const Login(),
         Register.id: (context) => const Register(),
-        Registration_Success_screen.id: (context) =>
-            Registration_Success_screen(),
-        Home_Screen.id: (context) => const Home_Screen(),
-        Dish_list_screen.id: (context) => const Dish_list_screen(),
-        view_single_dish.id: (context) => const view_single_dish(),
+        RegistrationSuccessscreen.id: (context) =>
+            const RegistrationSuccessscreen(),
+        HomeScreen.id: (context) => const HomeScreen(),
+        DishlistScreen.id: (context) => const DishlistScreen(),
+        ViewSingleDish.id: (context) => const ViewSingleDish(),
+        OrderDetails.id: (context) => const OrderDetails(),
+        NotificationScreen.id: (context) => const NotificationScreen(),
       },
     );
   }

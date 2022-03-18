@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 
-class First_Home_screen_Container extends StatelessWidget {
-  const First_Home_screen_Container({
+class FirstHomeScreenContainer extends StatelessWidget {
+  const FirstHomeScreenContainer({
     Key? key,
   }) : super(key: key);
 

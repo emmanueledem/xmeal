@@ -1,19 +1,20 @@
 import 'package:xmeal/users/styles/constants.dart';
 import 'package:flutter/material.dart';
 
-class logoCircle extends StatelessWidget {
-  logoCircle(
-      {required this.circleHeight,
+class LogoCircle extends StatelessWidget {
+
+   const LogoCircle(
+      {Key? key, required this.circleHeight,
       required this.circleWidth,
       required this.imageWidth,
       required this.imageheight,
-      required this.titlefontSize});
+      required this.titlefontSize}) : super(key: key);
 
-  double circleHeight;
-  double circleWidth;
-  double imageWidth;
-  double imageheight;
-  double titlefontSize;
+ final double circleHeight;
+ final double circleWidth;
+  final double imageWidth;
+ final double imageheight;
+ final double titlefontSize;
 
   @override
   Widget build(BuildContext context) {

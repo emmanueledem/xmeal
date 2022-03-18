@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:xmeal/users/screens/home_screen.dart';
 import 'package:xmeal/users/styles/constants.dart';
-import '../widgets/authTopContainer.dart';
+import '../widgets/auth_top_container.dart';
 
 class Login extends StatelessWidget {
   static const id = 'Login';
@@ -16,7 +16,7 @@ class Login extends StatelessWidget {
           child: Center(
             child: Column(
               children: [
-                authTopContainer(
+                const AuthTopContainer(
                   loginTitleColour: appColour,
                   signupTitleColour: Colors.black,
                 ),
@@ -28,7 +28,7 @@ class Login extends StatelessWidget {
                       Padding(
                         padding: const EdgeInsets.only(left: 20, right: 20),
                         child: TextFormField(
-                          decoration: KinputdecorationStyle.copyWith(
+                          decoration: kinputdecorationStyle.copyWith(
                               hintText: 'Username, Mobile Number'),
                         ),
                       ),
@@ -37,7 +37,7 @@ class Login extends StatelessWidget {
                         padding: const EdgeInsets.only(left: 20, right: 20),
                         child: TextFormField(
                           obscureText: true,
-                          decoration: KinputdecorationStyle.copyWith(
+                          decoration: kinputdecorationStyle.copyWith(
                               hintText: 'Password'),
                         ),
                       ),
@@ -60,7 +60,7 @@ class Login extends StatelessWidget {
                           borderRadius: BorderRadius.circular(30),
                           child: MaterialButton(
                             onPressed: () {
-                              Navigator.pushNamed(context, Home_Screen.id);
+                              Navigator.pushNamed(context, HomeScreen.id);
                             },
                             minWidth: 365,
                             height: 51,
@@ -102,7 +102,8 @@ class Login extends StatelessWidget {
                             minimumSize: MaterialStateProperty.all(
                               const Size(365, 51),
                             ),
-                            shape: MaterialStateProperty.all(StadiumBorder()),
+                            shape: MaterialStateProperty.all(
+                                const StadiumBorder()),
                           ),
                           icon: const Icon(
                             Icons.facebook,

@@ -1,8 +1,9 @@
 import 'package:flutter/material.dart';
+import 'package:xmeal/users/screens/order_details_screen.dart';
 import 'package:xmeal/users/widgets/orders_list.dart';
 
-class orders_screen extends StatelessWidget {
-  const orders_screen({Key? key}) : super(key: key);
+class OrdersScreen extends StatelessWidget {
+  const OrdersScreen({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -37,12 +38,15 @@ class orders_screen extends StatelessWidget {
                 child: ListView(
                   scrollDirection: Axis.vertical,
                   children: [
-                    Orders_list(
+                    Orderslist(
                       itemName: 'Fried Rice',
                       itemPrice: 100,
                       itemQuantity: '2X',
                       itemRegion: 'Nigerian Meal',
                       orderDate: '02 NOV 2019 at 2:16 PM',
+                      onPressed: () {
+                        Navigator.pushNamed(context, OrderDetails.id);
+                      },
                     ),
                   ],
                 ),

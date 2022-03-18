@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 
-class positioned_favorite_icon extends StatelessWidget {
-  const positioned_favorite_icon({
+class Positionedfavoriteicon extends StatelessWidget {
+  const Positionedfavoriteicon({
     Key? key,
   }) : super(key: key);
 

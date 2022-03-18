@@ -2,10 +2,12 @@ import 'package:flutter/material.dart';
 import 'package:xmeal/users/screens/login_screen.dart';
 import 'package:xmeal/users/styles/constants.dart';
 
-import '../../widgets/logoCircle.dart';
+import '../../widgets/logo_circle.dart';
 
-class Registration_Success_screen extends StatelessWidget {
+class RegistrationSuccessscreen extends StatelessWidget {
   static String id = 'Registration_Success_screen';
+
+  const RegistrationSuccessscreen({Key? key}) : super(key: key);
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -19,7 +21,7 @@ class Registration_Success_screen extends StatelessWidget {
                 const SizedBox(
                   height: 25.0,
                 ),
-                logoCircle(
+                const LogoCircle(
                   circleHeight: 82,
                   circleWidth: 82,
                   imageWidth: 54,
@@ -66,7 +68,7 @@ class Registration_Success_screen extends StatelessWidget {
                     minimumSize: MaterialStateProperty.all(
                       const Size(365, 51),
                     ),
-                    shape: MaterialStateProperty.all(StadiumBorder()),
+                    shape: MaterialStateProperty.all(const StadiumBorder()),
                   ),
                   icon: const Icon(
                     Icons.login,
