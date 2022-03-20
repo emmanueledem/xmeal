@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:xmeal/users/screens/dish_list_screen.dart';
+import 'package:xmeal/users/screens/login_screen.dart';
+import 'package:xmeal/users/screens/notification_screen.dart';
 import 'package:xmeal/users/styles/constants.dart';
 import 'package:xmeal/users/widgets/home_screen_containers.dart';
 import 'package:xmeal/users/widgets/home_screen_favorite_dishes.dart';
@@ -9,7 +11,7 @@ class HomeScreenContent extends StatelessWidget {
   const HomeScreenContent({
     Key? key,
   }) : super(key: key);
-
+  final bool user = false;
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -28,13 +30,37 @@ class HomeScreenContent extends StatelessWidget {
             fontFamily: 'poppins',
           ),
         ),
-        actions: const [
-          Padding(
-            padding: EdgeInsets.only(right: 15),
-            child: Icon(
-              Icons.shopping_cart,
-              size: 28,
-            ),
+        actions: [
+          // Padding(
+          //   padding: EdgeInsets.only(right: 15),
+          //   child: Icon(
+          //     Icons.notifications,
+          //     size: 28,
+          //   ),
+          // ),
+
+          GestureDetector(
+            onTap: () => Navigator.pushNamed(
+                context, user ? NotificationScreen.id : Login.id),
+            child: user
+                ? const Padding(
+                    padding: EdgeInsets.only(right: 15),
+                    child: Icon(
+                      Icons.notifications,
+                      size: 28,
+                    ),
+                  )
+                : const Padding(
+                    padding: EdgeInsets.only(top: 16, right: 15),
+                    child: Text(
+                      'SignIn/SignUp',
+                      style: TextStyle(
+                          color: Colors.black,
+                          fontFamily: 'poppins',
+                          fontSize: 16,
+                          fontWeight: FontWeight.bold),
+                    ),
+                  ),
           ),
         ],
       ),

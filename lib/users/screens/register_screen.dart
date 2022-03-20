@@ -89,6 +89,15 @@ class Register extends StatelessWidget {
                       Padding(
                         padding: const EdgeInsets.only(left: 20, right: 20),
                         child: TextFormField(
+                          keyboardType: TextInputType.emailAddress,
+                          decoration: kinputdecorationStyle.copyWith(
+                              hintText: 'Email Address'),
+                        ),
+                      ),
+                      const SizedBox(height: 30.0),
+                      Padding(
+                        padding: const EdgeInsets.only(left: 20, right: 20),
+                        child: TextFormField(
                           obscureText: true,
                           decoration: kinputdecorationStyle.copyWith(
                               hintText: 'Password'),

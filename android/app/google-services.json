@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "818568255991",
+    "project_id": "xmeal-7b662",
+    "storage_bucket": "xmeal-7b662.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:818568255991:android:3388afb60d5480b8c8f6f2",
+        "android_client_info": {
+          "package_name": "com.emma.xmeal"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "818568255991-8s8523a9vmr7s5rh1aovsarn9rpe10c9.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDsmtqb0C6b5PCR7Gdi9xcHPY-qmwz90nE"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "818568255991-8s8523a9vmr7s5rh1aovsarn9rpe10c9.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

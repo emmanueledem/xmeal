@@ -51,6 +51,7 @@ class MyApp extends StatelessWidget {
         ViewSingleDish.id: (context) => const ViewSingleDish(),
         OrderDetails.id: (context) => const OrderDetails(),
         NotificationScreen.id: (context) => const NotificationScreen(),
+        
       },
     );
   }
