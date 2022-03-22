@@ -25,7 +25,7 @@ class FirstWelcomeScreen extends StatelessWidget {
         child: WelcomeScreen(
           skipButton: () {
             networkProvider.checkNewtworkStatus();
-            if (networkProvider.newtworkStatus == true) {
+            if (networkProvider.networkStatus == true) {
               Navigator.pushNamed(context, LoadingScreen.id);
             } else {
               networkAlertMessage(context);

@@ -57,11 +57,9 @@ class ThirdWelcomeScreen extends StatelessWidget {
                     child: GestureDetector(
                       onTap: () {
                         networkProvider.checkNewtworkStatus();
-                        if (networkProvider.newtworkStatus == true) {
+                        if (networkProvider.networkStatus == true) {
                           Navigator.pushNamed(context, LoadingScreen.id);
-                          print('trued');
                         } else {
-                          print('falsed');
                           networkAlertMessage(context);
                         }
                       },
