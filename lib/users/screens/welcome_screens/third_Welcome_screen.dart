@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
-import 'package:xmeal/users/screens/home_screen.dart';
+import 'package:provider/provider.dart';
+import 'package:xmeal/users/screens/loading_screen.dart';
 import 'package:xmeal/users/styles/constants.dart';
-
+import 'package:xmeal/users/widgets/network_alert.dart';
+import '../../services/providers/internet_provider.dart';
 import '../../widgets/logo_circle.dart';
 
 class ThirdWelcomeScreen extends StatelessWidget {
@@ -10,8 +12,9 @@ class ThirdWelcomeScreen extends StatelessWidget {
   const ThirdWelcomeScreen({Key? key}) : super(key: key);
 
   @override
-  @override
   Widget build(BuildContext context) {
+    var networkProvider = Provider.of<NetworkInfoImpl>(context);
+    networkProvider.checkNewtworkStatus();
     return Scaffold(
       backgroundColor: appColour,
       body: SafeArea(
@@ -53,7 +56,14 @@ class ThirdWelcomeScreen extends StatelessWidget {
                     padding: const EdgeInsets.only(bottom: 30),
                     child: GestureDetector(
                       onTap: () {
-                        Navigator.pushNamed(context, HomeScreen.id);
+                        networkProvider.checkNewtworkStatus();
+                        if (networkProvider.newtworkStatus == true) {
+                          Navigator.pushNamed(context, LoadingScreen.id);
+                          print('trued');
+                        } else {
+                          print('falsed');
+                          networkAlertMessage(context);
+                        }
                       },
                       child: Container(
                         width: 314,

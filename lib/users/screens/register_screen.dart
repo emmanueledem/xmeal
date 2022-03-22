@@ -4,6 +4,7 @@ import 'package:xmeal/users/screens/welcome_screens/success_registration_screen.
 import 'package:xmeal/users/styles/constants.dart';
 import '../widgets/auth_top_container.dart';
 
+
 class Register extends StatelessWidget {
   static const id = 'Register';
   const Register({Key? key}) : super(key: key);

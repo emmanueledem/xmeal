@@ -17,15 +17,11 @@ class _SplashScreenState extends State<SplashScreen> {
   void initState() {
     super.initState();
     Future.delayed(
-      const Duration(seconds: 5),
+      const Duration(seconds: 6),
       () {
         shiftScreen();
       },
     );
-  }
-
-  void shiftScreen() {
-    Navigator.pushReplacementNamed(context, FirstWelcomeScreen.id);
   }
 
   @override
@@ -44,5 +40,9 @@ class _SplashScreenState extends State<SplashScreen> {
         ),
       ),
     );
+  }
+
+  void shiftScreen() {
+    Navigator.pushReplacementNamed(context, FirstWelcomeScreen.id);
   }
 }

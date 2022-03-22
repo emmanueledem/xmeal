@@ -7,11 +7,18 @@ import 'package:xmeal/users/widgets/home_screen_containers.dart';
 import 'package:xmeal/users/widgets/home_screen_favorite_dishes.dart';
 import 'package:xmeal/users/widgets/Viewed_dishes.dart';
 
-class HomeScreenContent extends StatelessWidget {
+class HomeScreenContent extends StatefulWidget {
   const HomeScreenContent({
     Key? key,
   }) : super(key: key);
+
+  @override
+  State<HomeScreenContent> createState() => _HomeScreenContentState();
+}
+
+class _HomeScreenContentState extends State<HomeScreenContent> {
   final bool user = false;
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
