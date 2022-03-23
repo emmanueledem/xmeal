@@ -59,7 +59,7 @@ class RegistrationSuccessscreen extends StatelessWidget {
                 ),
                 TextButton.icon(
                   onPressed: () {
-                    Navigator.pushNamed(context, Login.id);
+                    Navigator.pushReplacementNamed(context, Login.id);
                   },
                   style: ButtonStyle(
                     backgroundColor: MaterialStateProperty.all(
