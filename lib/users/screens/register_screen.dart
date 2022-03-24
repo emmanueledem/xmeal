@@ -22,7 +22,7 @@ class Register extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     var registrationProvider = Provider.of<UserRegistration>(context);
-   
+
     return Scaffold(
       backgroundColor: authScreensBackgroundColour,
       body: ModalProgressHUD(
