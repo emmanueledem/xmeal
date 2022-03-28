@@ -16,8 +16,7 @@ import 'package:xmeal/users/screens/login_screen.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:provider/provider.dart';
 import 'package:xmeal/users/services/providers/internet_provider.dart';
-import 'package:xmeal/users/services/providers/welcome_screens_provider.dart';
-import 'package:xmeal/users/services/providers/user_registration_provider.dart';
+import 'package:xmeal/users/services/providers/user_auth_provider.dart';
 import 'users/screens/network_eror_screen.dart';
 
 bool kReleaseMode = true;
@@ -42,8 +41,7 @@ class MyApp extends StatelessWidget {
         ChangeNotifierProvider(
           create: (context) => NetworkInfoImpl(),
         ),
-        ChangeNotifierProvider(create: (context) => UserVisiting()),
-        ChangeNotifierProvider(create: (context) => UserRegistration()),
+        ChangeNotifierProvider(create: (context) => AuthProvider()),
       ],
       child: MaterialApp(
         useInheritedMediaQuery: true,
@@ -60,10 +58,10 @@ class MyApp extends StatelessWidget {
           FirstWelcomeScreen.id: (context) => const FirstWelcomeScreen(),
           SecondWelcomeScreen.id: (context) => const SecondWelcomeScreen(),
           ThirdWelcomeScreen.id: (context) => const ThirdWelcomeScreen(),
-          Login.id: (context) => const Login(),
-          Register.id: (context) =>  Register(),
+          Login.id: (context) => Login(),
+          Register.id: (context) => Register(),
           RegistrationSuccessscreen.id: (context) =>
-              const RegistrationSuccessscreen(),
+              RegistrationSuccessscreen(),
           HomeScreen.id: (context) => const HomeScreen(),
           DishlistScreen.id: (context) => const DishlistScreen(),
           ViewSingleDish.id: (context) => const ViewSingleDish(),

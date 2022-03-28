@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:provider/provider.dart';
 import 'package:xmeal/users/screens/home_screen.dart';
-import 'package:xmeal/users/services/providers/welcome_screens_provider.dart';
+import 'package:xmeal/users/services/providers/user_auth_provider.dart';
 import 'package:xmeal/users/styles/constants.dart';
 
 class LoadingScreen extends StatefulWidget {
@@ -17,11 +17,12 @@ class _LoadingScreenState extends State<LoadingScreen> {
   @override
   void initState() {
     super.initState();
+
     Future.delayed(
       Duration.zero,
       () {
         var userVisitingProvider =
-            Provider.of<UserVisiting>(context, listen: false);
+            Provider.of<AuthProvider>(context, listen: false);
         userVisitingProvider.changeStatus();
       },
     );

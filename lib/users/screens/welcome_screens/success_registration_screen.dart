@@ -1,15 +1,20 @@
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 import 'package:xmeal/users/screens/login_screen.dart';
+import 'package:xmeal/users/services/providers/user_auth_provider.dart';
 import 'package:xmeal/users/styles/constants.dart';
 
 import '../../widgets/logo_circle.dart';
 
 class RegistrationSuccessscreen extends StatelessWidget {
   static String id = 'Registration_Success_screen';
-
-  const RegistrationSuccessscreen({Key? key}) : super(key: key);
+  RegistrationSuccessscreen({Key? key}) : super(key: key);
+  String? newUser;
   @override
   Widget build(BuildContext context) {
+    var registrationProvider =
+        Provider.of<AuthProvider>(context, listen: false);
+    newUser = registrationProvider.registeredUsername;
     return Scaffold(
       backgroundColor: appColour,
       body: SingleChildScrollView(
@@ -31,9 +36,9 @@ class RegistrationSuccessscreen extends StatelessWidget {
                 const SizedBox(
                   height: 40.0,
                 ),
-                const Text(
-                  'Welcome Sumanya',
-                  style: TextStyle(
+                Text(
+                  'Welcome $newUser',
+                  style: const TextStyle(
                       fontFamily: 'poppins',
                       fontSize: 30.0,
                       letterSpacing: -0.03,

@@ -4,7 +4,7 @@ import 'package:xmeal/users/screens/loading_screen.dart';
 import 'package:xmeal/users/screens/welcome_screens/first_welcome_screen.dart';
 import 'package:xmeal/users/screens/network_eror_screen.dart';
 import 'package:xmeal/users/services/providers/internet_provider.dart';
-import 'package:xmeal/users/services/providers/welcome_screens_provider.dart';
+import 'package:xmeal/users/services/providers/user_auth_provider.dart';
 import 'package:xmeal/users/styles/constants.dart';
 import 'package:xmeal/users/widgets/logo_circle.dart';
 
@@ -45,8 +45,8 @@ class _SplashScreenState extends State<SplashScreen> {
     );
   }
 
-  void _handleStartup() async {
-    var res = await Provider.of<UserVisiting>(context, listen: false)
+  Future<void> _handleStartup() async {
+    var res = await Provider.of<AuthProvider>(context, listen: false)
         .getVisitingFlag();
     if (res == true) {
       var netWorkProvider =

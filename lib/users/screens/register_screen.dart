@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:xmeal/users/screens/login_screen.dart';
 import 'package:xmeal/users/services/providers/internet_provider.dart';
-import 'package:xmeal/users/services/providers/user_registration_provider.dart';
+import 'package:xmeal/users/services/providers/user_auth_provider.dart';
 import 'package:xmeal/users/styles/constants.dart';
 import 'package:xmeal/users/widgets/network_alert.dart';
 import '../widgets/auth_top_container.dart';
@@ -21,8 +21,7 @@ class Register extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    var registrationProvider = Provider.of<UserRegistration>(context);
-
+    var registrationProvider = Provider.of<AuthProvider>(context);
     return Scaffold(
       backgroundColor: authScreensBackgroundColour,
       body: ModalProgressHUD(

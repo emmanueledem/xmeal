@@ -1,4 +1,6 @@
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:logger/logger.dart';
 import 'package:xmeal/users/screens/dish_list_screen.dart';
 import 'package:xmeal/users/screens/login_screen.dart';
 import 'package:xmeal/users/screens/notification_screen.dart';
@@ -17,10 +19,25 @@ class HomeScreenContent extends StatefulWidget {
 }
 
 class _HomeScreenContentState extends State<HomeScreenContent> {
-  final bool user = false;
+  @override
+  void initState() {
+    super.initState();
+    _handleUser();
+  }
+
+  User? loggedInUser;
+  final _auth = FirebaseAuth.instance;
+
+  void _handleUser() {
+    final user = _auth.currentUser;
+    if (user != null) {
+      loggedInUser = user;
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
+    Logger().d(loggedInUser);
     return Scaffold(
       appBar: AppBar(
         leading: const Icon(Icons.home),
@@ -38,18 +55,10 @@ class _HomeScreenContentState extends State<HomeScreenContent> {
           ),
         ),
         actions: [
-          // Padding(
-          //   padding: EdgeInsets.only(right: 15),
-          //   child: Icon(
-          //     Icons.notifications,
-          //     size: 28,
-          //   ),
-          // ),
-
           GestureDetector(
-            onTap: () => Navigator.pushNamed(
-                context, user ? NotificationScreen.id : Login.id),
-            child: user
+            onTap: () => Navigator.pushNamed(context,
+                loggedInUser == null ? Login.id : NotificationScreen.id),
+            child: loggedInUser != null
                 ? const Padding(
                     padding: EdgeInsets.only(right: 15),
                     child: Icon(
@@ -60,11 +69,11 @@ class _HomeScreenContentState extends State<HomeScreenContent> {
                 : const Padding(
                     padding: EdgeInsets.only(top: 16, right: 15),
                     child: Text(
-                      'SignIn/SignUp',
+                      'Login/Sign-Up',
                       style: TextStyle(
                           color: Colors.black,
                           fontFamily: 'poppins',
-                          fontSize: 16,
+                          fontSize: 12,
                           fontWeight: FontWeight.bold),
                     ),
                   ),

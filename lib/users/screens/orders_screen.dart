@@ -1,9 +1,30 @@
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:xmeal/users/screens/order_details_screen.dart';
 import 'package:xmeal/users/widgets/orders_list.dart';
 
-class OrdersScreen extends StatelessWidget {
+import 'login_screen.dart';
+
+class OrdersScreen extends StatefulWidget {
   const OrdersScreen({Key? key}) : super(key: key);
+
+  @override
+  State<OrdersScreen> createState() => _OrdersScreenState();
+}
+
+class _OrdersScreenState extends State<OrdersScreen> {
+  @override
+  Widget build(BuildContext context) {
+    return FirebaseAuth.instance.currentUser != null
+        ? const OrderScreenContent()
+        : Login();
+  }
+}
+
+class OrderScreenContent extends StatelessWidget {
+  const OrderScreenContent({
+    Key? key,
+  }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {

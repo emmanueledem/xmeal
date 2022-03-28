@@ -1,9 +1,35 @@
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 import 'package:xmeal/users/screens/notification_screen.dart';
+import 'package:xmeal/users/services/providers/internet_provider.dart';
+import 'package:xmeal/users/services/providers/user_auth_provider.dart';
 import 'package:xmeal/users/widgets/account_items.dart';
+import 'package:xmeal/users/widgets/alert_boxes.dart';
+import 'package:xmeal/users/widgets/network_alert.dart';
 
-class AccountScreen extends StatelessWidget {
+import 'login_screen.dart';
+
+class AccountScreen extends StatefulWidget {
   const AccountScreen({Key? key}) : super(key: key);
+
+  @override
+  State<AccountScreen> createState() => _AccountScreenState();
+}
+
+class _AccountScreenState extends State<AccountScreen> {
+  @override
+  Widget build(BuildContext context) {
+    return FirebaseAuth.instance.currentUser != null
+        ? const AccountScreenContent()
+        : Login();
+  }
+}
+
+class AccountScreenContent extends StatelessWidget {
+  const AccountScreenContent({
+    Key? key,
+  }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -90,8 +116,23 @@ class AccountScreen extends StatelessWidget {
                 avatarIcon: Icons.login_rounded,
                 title: 'Log Out',
                 onPressed: () {
-                  Navigator.pushNamed(context, '');
+                  logoutAlertMessage(
+                      context, '', 'Are You Sure you want to logout', () async {
+                    var networkProvider =
+                        Provider.of<NetworkInfoImpl>(context, listen: false);
+                    await networkProvider.checkNewtworkStatus();
+                    if (networkProvider.networkStatus == true) {
+                      var signoutProvider =
+                          Provider.of<AuthProvider>(context, listen: false);
+                      signoutProvider.signoutUser(context);
+                    } else {
+                      networkAlertMessage(context);
+                    }
+                  });
                 },
+              ),
+              const SizedBox(
+                height: 20.0,
               ),
             ],
           ),
