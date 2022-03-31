@@ -1,9 +1,10 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
-import 'package:logger/logger.dart';
+import 'package:provider/provider.dart';
 import 'package:xmeal/users/screens/dish_list_screen.dart';
 import 'package:xmeal/users/screens/login_screen.dart';
 import 'package:xmeal/users/screens/notification_screen.dart';
+import 'package:xmeal/users/services/providers/user_profile_provider.dart';
 import 'package:xmeal/users/styles/constants.dart';
 import 'package:xmeal/users/widgets/home_screen_containers.dart';
 import 'package:xmeal/users/widgets/home_screen_favorite_dishes.dart';
@@ -27,17 +28,17 @@ class _HomeScreenContentState extends State<HomeScreenContent> {
 
   User? loggedInUser;
   final _auth = FirebaseAuth.instance;
-
-  void _handleUser() {
+  Future<void> _handleUser() async {
     final user = _auth.currentUser;
     if (user != null) {
       loggedInUser = user;
+      await Provider.of<ProfileProvider>(context, listen: false)
+          .fetchUserData();
     }
   }
 
   @override
   Widget build(BuildContext context) {
-    Logger().d(loggedInUser);
     return Scaffold(
       appBar: AppBar(
         leading: const Icon(Icons.home),

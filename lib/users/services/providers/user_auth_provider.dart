@@ -1,7 +1,6 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:firebase_auth/firebase_auth.dart';
-import 'package:logger/logger.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:xmeal/users/screens/home_screen.dart';
 import 'package:xmeal/users/screens/loading_screen.dart';
@@ -48,9 +47,12 @@ class AuthProvider extends ChangeNotifier {
 
       var data = {
         'fullName': fullName,
+        'profileImage': null,
+        'description': null,
         'email': emailAddress,
         'mobileNumber': mobileNumber,
         'userType': userType,
+        'timeStamp': DateTime.now(),
       };
 
       userCredentials = auth.currentUser;

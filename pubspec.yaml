@@ -46,6 +46,9 @@ dependencies:
   logger: ^1.1.0
   email_validator: ^2.0.1
   modal_progress_hud_nsn: ^0.1.0-nullsafety-1
+  image_picker: ^0.8.4+11
+  firebase_storage: ^10.2.9
+  path: ^1.8.0
 
 
 dev_dependencies:

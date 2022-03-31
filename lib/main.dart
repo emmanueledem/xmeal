@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:xmeal/users/screens/dish_list_screen.dart';
+import 'package:xmeal/users/screens/edit_profile.dart';
 import 'package:xmeal/users/screens/home_screen.dart';
 import 'package:xmeal/users/screens/loading_screen.dart';
 import 'package:xmeal/users/screens/notification_screen.dart';
@@ -15,7 +16,9 @@ import 'package:device_preview/device_preview.dart';
 import 'package:xmeal/users/screens/login_screen.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:provider/provider.dart';
+import 'package:xmeal/users/services/providers/dishes_provider.dart';
 import 'package:xmeal/users/services/providers/internet_provider.dart';
+import 'package:xmeal/users/services/providers/user_profile_provider.dart';
 import 'package:xmeal/users/services/providers/user_auth_provider.dart';
 import 'users/screens/network_eror_screen.dart';
 
@@ -42,6 +45,8 @@ class MyApp extends StatelessWidget {
           create: (context) => NetworkInfoImpl(),
         ),
         ChangeNotifierProvider(create: (context) => AuthProvider()),
+        ChangeNotifierProvider(create: (context) => DishesProvider()),
+        ChangeNotifierProvider(create: (context) => ProfileProvider())
       ],
       child: MaterialApp(
         useInheritedMediaQuery: true,
@@ -69,6 +74,7 @@ class MyApp extends StatelessWidget {
           NotificationScreen.id: (context) => const NotificationScreen(),
           LoadingScreen.id: (context) => const LoadingScreen(),
           NetworkErrorScreen.id: (context) => const NetworkErrorScreen(),
+          EditProfileScreen.id: (context) => const EditProfileScreen(),
         },
       ),
     );
