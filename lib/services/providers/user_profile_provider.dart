@@ -20,6 +20,7 @@ class ProfileProvider extends ChangeNotifier {
   bool saving = false;
   FirebaseAuth auth = FirebaseAuth.instance;
   String? updateResponse;
+  String? userType;
 
   void manageProgress(value) {
     saving = value;
@@ -37,6 +38,7 @@ class ProfileProvider extends ChangeNotifier {
     phoneNumber = data['mobileNumber'];
     description = data['description'];
     dateJoined = data['timeStamp'];
+    userType = data['userType'];
 
     DateTime convertedDate =
         DateTime.fromMillisecondsSinceEpoch(dateJoined!.seconds * 1000);

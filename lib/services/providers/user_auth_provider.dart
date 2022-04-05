@@ -81,28 +81,32 @@ class AuthProvider extends ChangeNotifier {
 
 // user login
   Future<void> loginUser(email, password, context) async {
+    print('login');
     try {
       manageProgress(true);
       final signInUser = await auth.signInWithEmailAndPassword(
           email: email, password: password);
 
       if (signInUser != '') {
+        print('not null');
         userData = auth.currentUser;
         var res = await users.doc(userData!.uid).get();
         if (res.exists) {
           Map<String, dynamic> data = res.data() as Map<String, dynamic>;
           var value = data['userType'];
           if (value == 'user') {
+            print('user');
             Navigator.pushNamedAndRemoveUntil(
                 context, LoadingScreen.id, (route) => false);
             manageProgress(false);
           } else if (value == 'admin') {
+            print('admin');
             Navigator.pushNamedAndRemoveUntil(
                 context, WaiterHomeScreen.id, (route) => false);
             manageProgress(false);
           }
         }
-      }
+      } else {}
     } on FirebaseAuthException catch (e) {
       manageProgress(false);
       if (e.code == 'user-not-found' || e.code == 'wrong-password') {

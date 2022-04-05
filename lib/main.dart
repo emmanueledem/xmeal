@@ -21,6 +21,7 @@ import 'package:xmeal/services/providers/internet_provider.dart';
 import 'package:xmeal/services/providers/user_profile_provider.dart';
 import 'package:xmeal/services/providers/user_auth_provider.dart';
 import 'package:xmeal/waiter/screens/home_screen.dart';
+import 'package:xmeal/waiter/screens/notifications.dart';
 import 'users/screens/network_eror_screen.dart';
 
 bool kReleaseMode = true;
@@ -77,6 +78,8 @@ class MyApp extends StatelessWidget {
           NetworkErrorScreen.id: (context) => const NetworkErrorScreen(),
           EditProfileScreen.id: (context) => const EditProfileScreen(),
           WaiterHomeScreen.id: (context) => const WaiterHomeScreen(),
+          WaiterNotificationScreen.id: (context) =>
+              const WaiterNotificationScreen(),
         },
       ),
     );
