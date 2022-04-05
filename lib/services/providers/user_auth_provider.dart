@@ -4,8 +4,9 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:xmeal/users/screens/home_screen.dart';
 import 'package:xmeal/users/screens/loading_screen.dart';
+import 'package:xmeal/users/screens/welcome_screens/success_registration_screen.dart';
 import 'package:xmeal/users/widgets/alert_boxes.dart';
-import '../../screens/welcome_screens/success_registration_screen.dart';
+import 'package:xmeal/waiter/screens/home_screen.dart';
 
 class AuthProvider extends ChangeNotifier {
   bool obscureTextStatus = true;
@@ -95,7 +96,9 @@ class AuthProvider extends ChangeNotifier {
             Navigator.pushNamedAndRemoveUntil(
                 context, LoadingScreen.id, (route) => false);
             manageProgress(false);
-          } else {
+          } else if (value == 'admin') {
+            Navigator.pushNamedAndRemoveUntil(
+                context, WaiterHomeScreen.id, (route) => false);
             manageProgress(false);
           }
         }

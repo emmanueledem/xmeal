@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:xmeal/users/screens/login_screen.dart';
-import 'package:xmeal/users/services/providers/internet_provider.dart';
-import 'package:xmeal/users/services/providers/user_auth_provider.dart';
+import 'package:xmeal/services/providers/internet_provider.dart';
+import 'package:xmeal/services/providers/user_auth_provider.dart';
 import 'package:xmeal/users/styles/constants.dart';
 import 'package:xmeal/users/widgets/network_alert.dart';
 import '../widgets/auth_top_container.dart';

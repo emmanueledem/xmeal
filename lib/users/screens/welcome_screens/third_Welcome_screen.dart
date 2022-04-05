@@ -3,7 +3,7 @@ import 'package:provider/provider.dart';
 import 'package:xmeal/users/screens/loading_screen.dart';
 import 'package:xmeal/users/styles/constants.dart';
 import 'package:xmeal/users/widgets/network_alert.dart';
-import '../../services/providers/internet_provider.dart';
+import '../../../services/providers/internet_provider.dart';
 import '../../widgets/logo_circle.dart';
 
 class ThirdWelcomeScreen extends StatelessWidget {

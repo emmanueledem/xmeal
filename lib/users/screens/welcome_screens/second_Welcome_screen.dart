@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:xmeal/users/screens/loading_screen.dart';
 import 'package:xmeal/users/screens/welcome_screens/third_welcome_screen.dart';
-import 'package:xmeal/users/services/providers/internet_provider.dart';
+import 'package:xmeal/services/providers/internet_provider.dart';
 import 'package:xmeal/users/widgets/network_alert.dart';
 
 import 'package:xmeal/users/widgets/welcome_screen.dart';

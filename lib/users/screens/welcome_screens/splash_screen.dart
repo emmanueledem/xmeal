@@ -3,8 +3,8 @@ import 'package:provider/provider.dart';
 import 'package:xmeal/users/screens/loading_screen.dart';
 import 'package:xmeal/users/screens/welcome_screens/first_welcome_screen.dart';
 import 'package:xmeal/users/screens/network_eror_screen.dart';
-import 'package:xmeal/users/services/providers/internet_provider.dart';
-import 'package:xmeal/users/services/providers/user_auth_provider.dart';
+import 'package:xmeal/services/providers/internet_provider.dart';
+import 'package:xmeal/services/providers/user_auth_provider.dart';
 import 'package:xmeal/users/styles/constants.dart';
 import 'package:xmeal/users/widgets/logo_circle.dart';
 

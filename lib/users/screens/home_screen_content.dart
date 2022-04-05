@@ -4,7 +4,7 @@ import 'package:provider/provider.dart';
 import 'package:xmeal/users/screens/dish_list_screen.dart';
 import 'package:xmeal/users/screens/login_screen.dart';
 import 'package:xmeal/users/screens/notification_screen.dart';
-import 'package:xmeal/users/services/providers/user_profile_provider.dart';
+import 'package:xmeal/services/providers/user_profile_provider.dart';
 import 'package:xmeal/users/styles/constants.dart';
 import 'package:xmeal/users/widgets/home_screen_containers.dart';
 import 'package:xmeal/users/widgets/home_screen_favorite_dishes.dart';
