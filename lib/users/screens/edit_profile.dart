@@ -113,7 +113,7 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
                                     ? ClipOval(
                                         child: profile.imageUrl == null
                                             ? Image.asset(
-                                                'assets/images/userAvater.png',
+                                                defaultImage.toString(),
                                                 fit: BoxFit.cover,
                                                 width: 95.95,
                                                 height: 95.95,

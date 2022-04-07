@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:xmeal/users/screens/login_screen.dart';
 import 'package:xmeal/users/styles/constants.dart';
+import 'package:xmeal/waiter/screens/notifications.dart';
 import 'package:xmeal/waiter/widgets/drawer.dart';
 
 class WaiterHomeScreen extends StatefulWidget {
@@ -30,16 +30,13 @@ class _WaiterHomeScreenState extends State<WaiterHomeScreen> {
         ),
         actions: [
           GestureDetector(
-            onTap: () => Navigator.pushNamed(context, Login.id),
+            onTap: () =>
+                Navigator.pushNamed(context, WaiterNotificationScreen.id),
             child: const Padding(
-              padding: EdgeInsets.only(top: 16, right: 15),
-              child: Text(
-                'Login/Sign-Up',
-                style: TextStyle(
-                    color: Colors.black,
-                    fontFamily: 'poppins',
-                    fontSize: 12,
-                    fontWeight: FontWeight.bold),
+              padding: EdgeInsets.only(top: 5, right: 15),
+              child: Icon(
+                Icons.notifications,
+                size: 28,
               ),
             ),
           ),

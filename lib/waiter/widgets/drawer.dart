@@ -8,6 +8,7 @@ import 'package:xmeal/users/widgets/alert_boxes.dart';
 import 'package:xmeal/users/widgets/network_alert.dart';
 import 'package:xmeal/waiter/screens/add_dish_.dart';
 import 'package:xmeal/waiter/screens/all_dishes.dart';
+import 'package:xmeal/waiter/screens/all_users.dart';
 
 class DrawerWidget extends StatelessWidget {
   const DrawerWidget({
@@ -86,13 +87,13 @@ class DrawerWidget extends StatelessWidget {
           DrawerList(
             text: 'Users',
             icon: const Icon(
-              Icons.shopping_cart_checkout_rounded,
+              Icons.people,
               color: Colors.white,
             ),
             onPressed: () {
               Navigator.pop(context);
 
-              Navigator.pushNamed(context, '');
+              Navigator.pushNamed(context, AllUsersList.id);
             },
           ),
           DrawerList(

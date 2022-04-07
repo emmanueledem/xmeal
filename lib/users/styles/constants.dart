@@ -53,6 +53,8 @@ const kEditProfileInputDecorationStyle = InputDecoration(
     fontSize: 16,
   ),
 );
+
+ const defaultImage = 'assets/images/userAvater.png';
 // call back url for facebook auth
 // https://xmeal-7b662.firebaseapp.com/__/auth/handler
 

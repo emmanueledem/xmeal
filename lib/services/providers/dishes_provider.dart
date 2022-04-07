@@ -31,9 +31,7 @@ class DishesProvider extends ChangeNotifier {
       'dateCreated': DateTime.now(),
     };
 
-    var random = Random.secure();
-    var value = random.nextInt(100000000 * 40);
-    await dishes.doc(value.toString()).set(data).then((value) {
+    await dishes.doc().set(data).then((value) {
       manageProgress(false);
       updateResponse = 'Dish added Succesfully !';
     });
