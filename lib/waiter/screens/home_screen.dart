@@ -46,56 +46,58 @@ class _WaiterHomeScreenState extends State<WaiterHomeScreen> {
         ],
       ),
       drawer: const DrawerWidget(),
-      body: Padding(
-        padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 30),
-        child: Center(
-          child: Column(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: [
-              Row(
-                children: [
-                  HomeScreenCounters(
-                    text: 'User',
-                    icon: const Icon(
-                      Icons.person,
-                      color: appColour,
+      body: SingleChildScrollView(
+        child: Padding(
+          padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 100),
+          child: Center(
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                Row(
+                  children: [
+                    HomeScreenCounters(
+                      text: 'User',
+                      icon: const Icon(
+                        Icons.person,
+                        color: appColour,
+                      ),
+                      count: '6.9',
                     ),
-                    count: '6.9',
-                  ),
-                  const SizedBox(
-                    width: 20,
-                  ),
-                  HomeScreenCounters(
-                    text: 'Dishes',
-                    icon: const Icon(Icons.restaurant, color: appColour),
-                    count: '10.9',
-                  ),
-                ],
-              ),
-              const SizedBox(
-                height: 30,
-              ),
-              Row(
-                children: [
-                  HomeScreenCounters(
-                    count: '190',
-                    icon: const Icon(Icons.shopping_cart, color: appColour),
-                    text: 'Orders',
-                  ),
-                  const SizedBox(
-                    width: 20,
-                  ),
-                  HomeScreenCounters(
-                    count: '6.9',
-                    icon: const Icon(
-                      Icons.shopping_cart_checkout,
-                      color: appColour,
+                    const SizedBox(
+                      width: 20,
                     ),
-                    text: 'Active Orders',
-                  ),
-                ],
-              )
-            ],
+                    HomeScreenCounters(
+                      text: 'Dishes',
+                      icon: const Icon(Icons.restaurant, color: appColour),
+                      count: '10.9',
+                    ),
+                  ],
+                ),
+                const SizedBox(
+                  height: 30,
+                ),
+                Row(
+                  children: [
+                    HomeScreenCounters(
+                      count: '190',
+                      icon: const Icon(Icons.shopping_cart, color: appColour),
+                      text: 'Orders',
+                    ),
+                    const SizedBox(
+                      width: 20,
+                    ),
+                    HomeScreenCounters(
+                      count: '6.9',
+                      icon: const Icon(
+                        Icons.shopping_cart_checkout,
+                        color: appColour,
+                      ),
+                      text: 'Active Orders',
+                    ),
+                  ],
+                )
+              ],
+            ),
           ),
         ),
       ),

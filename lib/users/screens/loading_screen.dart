@@ -1,12 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
-import 'package:logger/logger.dart';
 import 'package:provider/provider.dart';
 import 'package:xmeal/users/screens/home_screen.dart';
 import 'package:xmeal/services/providers/user_auth_provider.dart';
 import 'package:xmeal/users/styles/constants.dart';
 import 'package:xmeal/waiter/screens/home_screen.dart';
 import '../../services/providers/user_profile_provider.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 
 class LoadingScreen extends StatefulWidget {
   const LoadingScreen({Key? key}) : super(key: key);
@@ -17,6 +17,8 @@ class LoadingScreen extends StatefulWidget {
 }
 
 class _LoadingScreenState extends State<LoadingScreen> {
+  final _auth = FirebaseAuth.instance;
+  String? userTypes;
   @override
   void initState() {
     super.initState();
@@ -27,15 +29,19 @@ class _LoadingScreenState extends State<LoadingScreen> {
         var userVisitingProvider =
             Provider.of<AuthProvider>(context, listen: false);
         userVisitingProvider.changeStatus();
-        await Provider.of<ProfileProvider>(context, listen: false)
-            .fetchUserData();
-      },
-    );
-
-    Future.delayed(
-      const Duration(seconds: 3),
-      () {
-        clearLoader();
+        if (_auth.currentUser != null) {
+          var profileProvider =
+              Provider.of<ProfileProvider>(context, listen: false);
+          await profileProvider.fetchUserData();
+          userTypes = profileProvider.userType;
+          if (userTypes == 'admin') {
+            Navigator.pushReplacementNamed(context, WaiterHomeScreen.id);
+          } else {
+            Navigator.pushReplacementNamed(context, HomeScreen.id);
+          }
+        } else {
+          Navigator.pushReplacementNamed(context, HomeScreen.id);
+        }
       },
     );
   }
@@ -50,14 +56,5 @@ class _LoadingScreenState extends State<LoadingScreen> {
         ),
       ),
     );
-  }
-
-  void clearLoader() async {
-    var profileInfo = Provider.of<ProfileProvider>(context, listen: false);
-    if (profileInfo.userType == 'admin') {
-      Navigator.pushReplacementNamed(context, WaiterHomeScreen.id);
-    } else if (profileInfo.userType == 'user') {
-      Navigator.pushReplacementNamed(context, HomeScreen.id);
-    }
   }
 }

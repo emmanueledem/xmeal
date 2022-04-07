@@ -20,9 +20,11 @@ import 'package:xmeal/services/providers/dishes_provider.dart';
 import 'package:xmeal/services/providers/internet_provider.dart';
 import 'package:xmeal/services/providers/user_profile_provider.dart';
 import 'package:xmeal/services/providers/user_auth_provider.dart';
+import 'package:xmeal/waiter/screens/all_dishes.dart';
 import 'package:xmeal/waiter/screens/home_screen.dart';
 import 'package:xmeal/waiter/screens/notifications.dart';
 import 'users/screens/network_eror_screen.dart';
+import 'waiter/screens/add_dish_.dart';
 
 bool kReleaseMode = true;
 void main() async {
@@ -74,12 +76,14 @@ class MyApp extends StatelessWidget {
           ViewSingleDish.id: (context) => const ViewSingleDish(),
           OrderDetails.id: (context) => const OrderDetails(),
           NotificationScreen.id: (context) => const NotificationScreen(),
-          LoadingScreen.id: (context) => const LoadingScreen(),
+          LoadingScreen.id: (context) => const LoadingScreen(), 
           NetworkErrorScreen.id: (context) => const NetworkErrorScreen(),
           EditProfileScreen.id: (context) => const EditProfileScreen(),
           WaiterHomeScreen.id: (context) => const WaiterHomeScreen(),
           WaiterNotificationScreen.id: (context) =>
               const WaiterNotificationScreen(),
+          WaiterDishlistScreen.id: (context) => const WaiterDishlistScreen(),
+          WaiterAddDishScreen.id: (context) => const WaiterAddDishScreen(),
         },
       ),
     );

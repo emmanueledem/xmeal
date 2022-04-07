@@ -6,7 +6,6 @@ import 'package:xmeal/users/screens/home_screen.dart';
 import 'package:xmeal/users/screens/loading_screen.dart';
 import 'package:xmeal/users/screens/welcome_screens/success_registration_screen.dart';
 import 'package:xmeal/users/widgets/alert_boxes.dart';
-import 'package:xmeal/waiter/screens/home_screen.dart';
 
 class AuthProvider extends ChangeNotifier {
   bool obscureTextStatus = true;
@@ -62,6 +61,7 @@ class AuthProvider extends ChangeNotifier {
         Navigator.pushReplacementNamed(context, RegistrationSuccessscreen.id);
         manageProgress(false);
       });
+      
     } on FirebaseAuthException catch (e) {
       if (e.code == 'email-already-in-use') {
         errorAlertMessage(context, 'Email Error', 'Email is already registered',
@@ -81,32 +81,24 @@ class AuthProvider extends ChangeNotifier {
 
 // user login
   Future<void> loginUser(email, password, context) async {
-    print('login');
     try {
       manageProgress(true);
-      final signInUser = await auth.signInWithEmailAndPassword(
-          email: email, password: password);
-
-      if (signInUser != '') {
-        print('not null');
-        userData = auth.currentUser;
-        var res = await users.doc(userData!.uid).get();
-        if (res.exists) {
-          Map<String, dynamic> data = res.data() as Map<String, dynamic>;
-          var value = data['userType'];
-          if (value == 'user') {
-            print('user');
-            Navigator.pushNamedAndRemoveUntil(
-                context, LoadingScreen.id, (route) => false);
-            manageProgress(false);
-          } else if (value == 'admin') {
-            print('admin');
-            Navigator.pushNamedAndRemoveUntil(
-                context, WaiterHomeScreen.id, (route) => false);
-            manageProgress(false);
-          }
+      await auth.signInWithEmailAndPassword(email: email, password: password);
+      userData = auth.currentUser;
+      var res = await users.doc(userData!.uid).get();
+      if (res.exists) {
+        Map<String, dynamic> data = res.data() as Map<String, dynamic>;
+        var value = data['userType'];
+        if (value == 'user') {
+          Navigator.pushNamedAndRemoveUntil(
+              context, LoadingScreen.id, (route) => false);
+          manageProgress(false);
+        } else if (value == 'admin') {
+          Navigator.pushNamedAndRemoveUntil(
+              context, LoadingScreen.id, (route) => false);
+          manageProgress(false);
         }
-      } else {}
+      }
     } on FirebaseAuthException catch (e) {
       manageProgress(false);
       if (e.code == 'user-not-found' || e.code == 'wrong-password') {

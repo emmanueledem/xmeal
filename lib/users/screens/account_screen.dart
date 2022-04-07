@@ -234,10 +234,10 @@ class _AccountScreenContentState extends State<AccountScreenContent> {
                         Provider.of<NetworkInfoImpl>(context, listen: false);
                     await networkProvider.checkNewtworkStatus();
                     if (networkProvider.networkStatus == true) {
-                      var signoutProvider =
+                      var signoutProvider = 
                           Provider.of<AuthProvider>(context, listen: false);
                       signoutProvider.signoutUser(context);
-                    } else {
+                    }else{
                       networkAlertMessage(context);
                     }
                   });
