@@ -1,10 +1,47 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:xmeal/users/screens/view_single_dish.dart';
 import 'package:xmeal/users/styles/constants.dart';
 
-class WaiterDishlistScreen extends StatelessWidget {
+class WaiterDishlistScreen extends StatefulWidget {
   const WaiterDishlistScreen({Key? key}) : super(key: key);
   static const id = 'Waiter_AllDishes';
+
+  @override
+  State<WaiterDishlistScreen> createState() => _WaiterDishlistScreenState();
+}
+
+class _WaiterDishlistScreenState extends State<WaiterDishlistScreen> {
+  final firestore = FirebaseFirestore.instance;
+  final _searchController = TextEditingController();
+  String _searchText = '';
+
+  @override
+  void initState() {
+    super.initState();
+    _searchText = _searchController.text.trim();
+    _searchController.addListener(() {
+      setState(() {
+        _searchText = _searchController.text.trim();
+      });
+    });
+
+    getDishes();
+  }
+
+  @override
+  void dispose() {
+    // TODO: implement dispose
+    _searchController.dispose();
+    super.dispose();
+  }
+
+  List allDishes = [];
+
+  Future getDishes() async {
+    var data = await firestore.collection('');
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(

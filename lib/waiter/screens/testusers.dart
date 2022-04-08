@@ -12,53 +12,29 @@ class AllUsersList extends StatefulWidget {
 
 class _AllUsersListState extends State<AllUsersList> {
   final _fireStore = FirebaseFirestore.instance;
-
-  final _searchController = TextEditingController();
-  String _searchText = '';
+  final TextEditingController _searchContoller = TextEditingController();
 
   @override
   void initState() {
-    _searchText = _searchController.text.trim();
-    _searchController.addListener(() {
-      setState(() {
-        _searchText = _searchController.text.trim();
-      });
-    });
-    getUserData();
-
+    // TODO: implement initState
     super.initState();
+    _searchContoller.addListener(_onSearchedChanged);
+  }
+
+  _onSearchedChanged() {
+    print(_searchContoller.text);
   }
 
   @override
   void dispose() {
-    _searchController.dispose();
+    // TODO: implement dispose
+    _searchContoller.removeListener(_onSearchedChanged);
+    _searchContoller.dispose();
     super.dispose();
-  }
-
-  List _allResults = [];
-
-  Future getUserData() async {
-    var data = await _fireStore
-        .collection("users")
-        .where('userType', isEqualTo: 'user')
-        .get();
-    setState(() {
-      _allResults = data.docs;
-    });
   }
 
   @override
   Widget build(BuildContext context) {
-    final userList = _searchText.isEmpty
-        ? _allResults
-        : _allResults
-            .where(
-              (item) =>
-                  item['fullName'].contains(_searchText) ||
-                  item['email'].contains(_searchText),
-            )
-            .toList();
-
     return Scaffold(
       backgroundColor: appColour,
       body: SafeArea(
@@ -67,8 +43,8 @@ class _AllUsersListState extends State<AllUsersList> {
             Form(
               child: Padding(
                 padding: const EdgeInsets.only(left: 20, right: 20, top: 20),
-                child: TextField(
-                  controller: _searchController,
+                child: TextFormField(
+                  controller: _searchContoller,
                   decoration: kinputdecorationStyle.copyWith(
                     hintText: 'Search a User',
                     suffixIcon: const Icon(Icons.search),
@@ -81,23 +57,41 @@ class _AllUsersListState extends State<AllUsersList> {
             ),
             Expanded(
               child: Container(
-                  decoration: const BoxDecoration(
-                    color: Color(0xffFFFFFF),
-                    borderRadius: BorderRadius.only(
-                        topLeft: Radius.circular(30),
-                        topRight: Radius.circular(30)),
-                  ),
-                  child: ListView.builder(
-                      itemCount: userList.length,
-                      itemBuilder: (context, index) {
-                        final item = userList[index];
+                decoration: const BoxDecoration(
+                  color: Color(0xffFFFFFF),
+                  borderRadius: BorderRadius.only(
+                      topLeft: Radius.circular(30),
+                      topRight: Radius.circular(30)),
+                ),
+                child: StreamBuilder<QuerySnapshot>(
+                  stream: _fireStore
+                      .collection("users")
+                      .where('userType', isEqualTo: 'user')
+                      .snapshots(),
+                  builder: (context, AsyncSnapshot<QuerySnapshot> snapshot) {
+                    if (snapshot.hasError) {
+                      return const Text('Something went wrong');
+                    }
+                    if (snapshot.connectionState == ConnectionState.waiting) {
+                      return const Center(
+                        child: CircularProgressIndicator(),
+                      );
+                    }
+                    return ListView(
+                      children:
+                          snapshot.data!.docs.map((DocumentSnapshot document) {
+                        Map<String, dynamic> data =
+                            document.data()! as Map<String, dynamic>;
                         return UsersInformation(
-                          image: item['profileImage'],
-                          email: item['email'],
-                          name: item['fullName'],
-                        );
-                      })),
-            ),
+                            image: data['profileImage'],
+                            email: data['email'],
+                            name: data['fullName']);
+                      }).toList(),
+                    );
+                  },
+                ),
+              ),
+            )
           ],
         ),
       ),
