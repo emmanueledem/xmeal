@@ -18,7 +18,6 @@ class _WaiterDishlistScreenState extends State<WaiterDishlistScreen> {
 
   @override
   void initState() {
-    super.initState();
     _searchText = _searchController.text.trim();
     _searchController.addListener(() {
       setState(() {
@@ -27,11 +26,11 @@ class _WaiterDishlistScreenState extends State<WaiterDishlistScreen> {
     });
 
     getDishes();
+    super.initState();
   }
 
   @override
   void dispose() {
-    // TODO: implement dispose
     _searchController.dispose();
     super.dispose();
   }
@@ -39,11 +38,21 @@ class _WaiterDishlistScreenState extends State<WaiterDishlistScreen> {
   List allDishes = [];
 
   Future getDishes() async {
-    var data = await firestore.collection('');
+    var data = await firestore.collection('dishes').get();
+    setState(() {
+      allDishes = data.docs;
+    });
   }
 
   @override
   Widget build(BuildContext context) {
+    final dishList = _searchText.isEmpty
+        ? allDishes
+        : allDishes
+            .where((items) =>
+                items['dishName'].contains(_searchText) ||
+                items['dishprice'].contains(_searchText))
+            .toList();
     return Scaffold(
       backgroundColor: appColour,
       body: SafeArea(
@@ -52,9 +61,10 @@ class _WaiterDishlistScreenState extends State<WaiterDishlistScreen> {
             Form(
               child: Padding(
                 padding: const EdgeInsets.only(left: 20, right: 20, top: 20),
-                child: TextFormField(
+                child: TextField(
+                  controller: _searchController,
                   decoration: kinputdecorationStyle.copyWith(
-                    hintText: 'Search a categories',
+                    hintText: 'Search a Dish',
                     suffixIcon: const Icon(Icons.search),
                   ),
                 ),
@@ -71,61 +81,79 @@ class _WaiterDishlistScreenState extends State<WaiterDishlistScreen> {
                       topLeft: Radius.circular(30),
                       topRight: Radius.circular(30)),
                 ),
-                child: ListView(
+                child: ListView.builder(
                   scrollDirection: Axis.vertical,
-                  children: <Widget>[
-                    GestureDetector(
-                      onTap: () {
-                        Navigator.pushNamed(context, ViewSingleDish.id);
-                      },
-                      child: Padding(
-                        padding:
-                            const EdgeInsets.only(top: 10, left: 15, right: 15),
-                        child: Row(
-                          children: [
-                            const CircleAvatar(
-                              radius: 30,
-                              backgroundColor: Colors.white,
-                              child: Image(
-                                image: AssetImage(
-                                  'assets/images/home_scroll_img3.png',
-                                ),
-                              ),
-                            ),
-                            Expanded(
-                              child: Padding(
-                                padding: const EdgeInsets.only(left: 20.0),
-                                child: Column(
-                                  crossAxisAlignment: CrossAxisAlignment.start,
-                                  children: const [
-                                    Text(
-                                      'Fried Rice',
-                                      style: TextStyle(
-                                          fontFamily: 'poppins',
-                                          fontSize: 18,
-                                          fontWeight: FontWeight.bold),
-                                      textAlign: TextAlign.end,
-                                    ),
-                                    Text(
-                                      '19,000',
-                                      style: TextStyle(
-                                          fontFamily: 'poppins',
-                                          fontSize: 15.6278,
-                                          color: appColour),
-                                      textAlign: TextAlign.end,
-                                    ),
-                                  ],
-                                ),
-                              ),
-                            ),
-                          ],
-                        ),
-                      ),
+                  itemCount: dishList.length,
+                  itemBuilder: (context, index) {
+                    final item = dishList[index];
+                    return DishInformation(
+                      image: item['dishImage'],
+                      dishPrice: item['dishprice'],
+                      dishName: item['dishName'],
+                    );
+                  },
+                ),
+              ),
+            )
+          ],
+        ),
+      ),
+    );
+  }
+}
+
+class DishInformation extends StatelessWidget {
+  DishInformation(
+      {Key? key, required this.image, this.dishPrice, this.dishName})
+      : super(key: key);
+  String? image;
+  String? dishName;
+  String? dishPrice;
+  @override
+  Widget build(BuildContext context) {
+    return GestureDetector(
+      onTap: () {
+        Navigator.pushNamed(context, ViewSingleDish.id);
+      },
+      child: Padding(
+        padding: const EdgeInsets.only(top: 10, left: 15, right: 15),
+        child: Row(
+          children: [
+            CircleAvatar(
+              radius: 30,
+              backgroundColor: Colors.white,
+              child: ClipRRect(
+                  borderRadius: const BorderRadius.all(Radius.circular(30)),
+                  child: image == null
+                      ? Image(image: AssetImage(defaultImage.toString()))
+                      : Image(image: NetworkImage(image.toString()))),
+            ),
+            Expanded(
+              child: Padding(
+                padding: const EdgeInsets.only(left: 20.0),
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Text(
+                      dishName.toString(),
+                      style: const TextStyle(
+                          fontFamily: 'poppins',
+                          fontSize: 18,
+                          fontWeight: FontWeight.bold),
+                      textAlign: TextAlign.end,
+                    ),
+                    Text(
+                      dishPrice.toString(),
+                      style: const TextStyle(
+                          fontFamily: 'poppins',
+                          fontSize: 15.6278,
+                          color: appColour),
+                      textAlign: TextAlign.end,
                     ),
                   ],
                 ),
               ),
-            )
+            ),
           ],
         ),
       ),

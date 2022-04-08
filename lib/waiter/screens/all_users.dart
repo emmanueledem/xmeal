@@ -88,6 +88,7 @@ class _AllUsersListState extends State<AllUsersList> {
                         topRight: Radius.circular(30)),
                   ),
                   child: ListView.builder(
+                      scrollDirection: Axis.vertical,
                       itemCount: userList.length,
                       itemBuilder: (context, index) {
                         final item = userList[index];
