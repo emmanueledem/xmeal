@@ -1,7 +1,7 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
-import 'package:xmeal/users/screens/view_single_dish.dart';
 import 'package:xmeal/users/styles/constants.dart';
+import 'package:xmeal/waiter/screens/view_single_dish.dart';
 
 class WaiterDishlistScreen extends StatefulWidget {
   const WaiterDishlistScreen({Key? key}) : super(key: key);
@@ -90,11 +90,13 @@ class _WaiterDishlistScreenState extends State<WaiterDishlistScreen> {
                       image: item['dishImage'],
                       dishPrice: item['dishprice'],
                       dishName: item['dishName'],
+                      dishRegion: item['dishRegion'],
+                      dishdescription: item['dishdescription'],
                     );
                   },
                 ),
               ),
-            )
+            ),
           ],
         ),
       ),
@@ -103,17 +105,31 @@ class _WaiterDishlistScreenState extends State<WaiterDishlistScreen> {
 }
 
 class DishInformation extends StatelessWidget {
-  DishInformation(
-      {Key? key, required this.image, this.dishPrice, this.dishName})
-      : super(key: key);
+  DishInformation({
+    Key? key,
+    required this.image,
+    this.dishPrice,
+    this.dishName,
+    this.dishdescription,
+    this.dishRegion,
+  }) : super(key: key);
   String? image;
   String? dishName;
   String? dishPrice;
+  String? dishdescription;
+  String? dishRegion;
   @override
   Widget build(BuildContext context) {
     return GestureDetector(
       onTap: () {
-        Navigator.pushNamed(context, ViewSingleDish.id);
+        Navigator.of(context).push(MaterialPageRoute(
+            builder: (context) => WaiterViewSingleDish(
+                  dishImage: image,
+                  dishName: dishName,
+                  dishDescription: dishdescription,
+                  dishPrice: dishPrice,
+                  dishRegion: dishRegion,
+                )));
       },
       child: Padding(
         padding: const EdgeInsets.only(top: 10, left: 15, right: 15),
@@ -150,6 +166,7 @@ class DishInformation extends StatelessWidget {
                           color: appColour),
                       textAlign: TextAlign.end,
                     ),
+                    const SizedBox(height: 10),
                   ],
                 ),
               ),
