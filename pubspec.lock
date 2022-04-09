@@ -336,6 +336,13 @@ packages:
       url: "https://pub.dartlang.org"
     source: hosted
     version: "0.1.0-nullsafety-1"
+  money_formatter:
+    dependency: "direct main"
+    description:
+      name: money_formatter
+      url: "https://pub.dartlang.org"
+    source: hosted
+    version: "0.0.3"
   nested:
     dependency: transitive
     description:

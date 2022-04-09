@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:xmeal/users/styles/constants.dart';
 import 'package:xmeal/users/widgets/ingredients.dart';
 import 'package:xmeal/users/widgets/nutrition_value.dart';
+import 'package:money_formatter/money_formatter.dart';
 
 class WaiterViewSingleDish extends StatefulWidget {
   WaiterViewSingleDish({
@@ -25,6 +26,16 @@ class WaiterViewSingleDish extends StatefulWidget {
 class _WaiterViewSingleDishState extends State<WaiterViewSingleDish> {
   @override
   Widget build(BuildContext context) {
+    var initialPrice = double.parse(widget.dishPrice.toString());
+
+    MoneyFormatter moneyConverter = MoneyFormatter(
+        amount: initialPrice,
+        settings: MoneyFormatterSettings(
+          symbol: '₦',
+        ));
+
+    MoneyFormatterOutput dishAmount = moneyConverter.output;
+
     return Scaffold(
       body: SingleChildScrollView(
         child: Column(
@@ -301,7 +312,7 @@ class _WaiterViewSingleDishState extends State<WaiterViewSingleDish> {
                                             MainAxisAlignment.spaceEvenly,
                                         children: [
                                           Text(
-                                            widget.dishPrice.toString(),
+                                            dishAmount.symbolOnLeft,
                                             style: const TextStyle(
                                                 fontFamily: 'poppins',
                                                 fontWeight: FontWeight.w500,
