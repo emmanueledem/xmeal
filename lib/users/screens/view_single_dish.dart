@@ -1,19 +1,25 @@
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:money_formatter/money_formatter.dart';
+import 'package:provider/provider.dart';
+import 'package:xmeal/services/providers/dishes_provider.dart';
 import 'package:xmeal/users/styles/constants.dart';
 import 'package:xmeal/users/widgets/ingredients.dart';
 import 'package:xmeal/users/widgets/nutrition_value.dart';
-import 'package:xmeal/users/widgets/positioned_dish_favorite_icon.dart';
 
 class ViewSingleDish extends StatefulWidget {
   ViewSingleDish({
     Key? key,
+    required this.productId,
+    required this.dishViews,
     required this.dishImage,
     required this.dishName,
     required this.dishRegion,
     required this.dishDescription,
     required this.dishPrice,
   }) : super(key: key);
+  String? productId;
+  int? dishViews;
   String? dishImage;
   String? dishName;
   String? dishRegion;
@@ -25,6 +31,19 @@ class ViewSingleDish extends StatefulWidget {
 }
 
 class _ViewSingleDishState extends State<ViewSingleDish> {
+  @override
+  void initState() {
+    Future.delayed(Duration.zero, () async {
+      await _handleDishViewers();
+    });
+    super.initState();
+  }
+
+  Future _handleDishViewers() async {
+    var dishProvider = Provider.of<DishesProvider>(context, listen: false);
+    await dishProvider.dishViewers(widget.productId, widget.dishViews);
+  }
+
   @override
   Widget build(BuildContext context) {
     var initialPrice = double.parse(widget.dishPrice.toString());
@@ -42,9 +61,12 @@ class _ViewSingleDishState extends State<ViewSingleDish> {
           children: [
             Stack(
               children: [
-                Image(
-                  fit: BoxFit.cover,
-                  image: NetworkImage(widget.dishImage.toString()),
+                CachedNetworkImage(
+                  imageUrl: widget.dishImage.toString(),
+                  progressIndicatorBuilder: (context, url, downloadProgress) =>
+                      CircularProgressIndicator(
+                          value: downloadProgress.progress),
+                  errorWidget: (context, url, error) => const Icon(Icons.error),
                 ),
                 Padding(
                   padding: const EdgeInsets.only(
@@ -441,7 +463,15 @@ class _ViewSingleDishState extends State<ViewSingleDish> {
                     ),
                   ],
                 ),
-                const Positionedfavoriteicon(),
+                const Positioned(
+                  top: 264,
+                  width: 38.24,
+                  right: 33,
+                  height: 35.01,
+                  child: Image(
+                    image: AssetImage('assets/images/favoriteIcon.png'),
+                  ),
+                ),
               ],
             ),
           ],

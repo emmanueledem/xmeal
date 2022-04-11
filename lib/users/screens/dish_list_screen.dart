@@ -88,7 +88,9 @@ class _DishlistScreenState extends State<DishlistScreen> {
                   itemBuilder: (context, index) {
                     final item = dishList[index];
                     return DishInformation(
+                      productId: item.id,
                       image: item['dishImage'],
+                      dishViews: item['dishViews'],
                       dishPrice: item['dishprice'],
                       dishName: item['dishName'],
                       dishRegion: item['dishRegion'],
@@ -109,11 +111,15 @@ class DishInformation extends StatelessWidget {
   DishInformation({
     Key? key,
     required this.image,
+    this.productId,
+    this.dishViews,
     this.dishPrice,
     this.dishName,
     this.dishdescription,
     this.dishRegion,
   }) : super(key: key);
+  String? productId;
+  int? dishViews;
   String? image;
   String? dishName;
   String? dishPrice;
@@ -125,6 +131,8 @@ class DishInformation extends StatelessWidget {
       onTap: () {
         Navigator.of(context).push(MaterialPageRoute(
             builder: (context) => ViewSingleDish(
+                  productId: productId,
+                  dishViews: dishViews,
                   dishImage: image,
                   dishName: dishName,
                   dishDescription: dishdescription,
