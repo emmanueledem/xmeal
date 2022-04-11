@@ -50,6 +50,12 @@ class _WaiterHomeScreenState extends State<WaiterHomeScreen> {
     return totalCount;
   }
 
+  Future<void> _refresh() {
+    return Future.delayed(const Duration(seconds: 3), () async {
+      await _handleCounter();
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -82,57 +88,65 @@ class _WaiterHomeScreenState extends State<WaiterHomeScreen> {
         ],
       ),
       drawer: const DrawerWidget(),
-      body: SingleChildScrollView(
-        child: Padding(
-          padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 100),
-          child: Center(
-            child: Column(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: [
-                Row(
-                  children: [
-                    HomeScreenCounters(
-                      text: 'User',
-                      icon: const Icon(
-                        Icons.person,
-                        color: appColour,
+      body: RefreshIndicator(
+        onRefresh: () => _refresh(),
+        color: appColour,
+        backgroundColor: Colors.white,
+        strokeWidth: 3,
+        displacement: 100,
+        child: SingleChildScrollView(
+          physics: const AlwaysScrollableScrollPhysics(),
+          child: Padding(
+            padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 100),
+            child: Center(
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  Row(
+                    children: [
+                      HomeScreenCounters(
+                        text: 'User',
+                        icon: const Icon(
+                          Icons.person,
+                          color: appColour,
+                        ),
+                        count: userCount.toString(),
                       ),
-                      count: userCount.toString(),
-                    ),
-                    const SizedBox(
-                      width: 20,
-                    ),
-                    HomeScreenCounters(
-                      text: 'Dishes',
-                      icon: const Icon(Icons.restaurant, color: appColour),
-                      count: dishCount.toString(),
-                    ),
-                  ],
-                ),
-                const SizedBox(
-                  height: 30,
-                ),
-                Row(
-                  children: [
-                    HomeScreenCounters(
-                      count: '190',
-                      icon: const Icon(Icons.shopping_cart, color: appColour),
-                      text: 'Orders',
-                    ),
-                    const SizedBox(
-                      width: 20,
-                    ),
-                    HomeScreenCounters(
-                      count: '6.9',
-                      icon: const Icon(
-                        Icons.shopping_cart_checkout,
-                        color: appColour,
+                      const SizedBox(
+                        width: 20,
                       ),
-                      text: 'Active Orders',
-                    ),
-                  ],
-                )
-              ],
+                      HomeScreenCounters(
+                        text: 'Dishes',
+                        icon: const Icon(Icons.restaurant, color: appColour),
+                        count: dishCount.toString(),
+                      ),
+                    ],
+                  ),
+                  const SizedBox(
+                    height: 30,
+                  ),
+                  Row(
+                    children: [
+                      HomeScreenCounters(
+                        count: '190',
+                        icon: const Icon(Icons.shopping_cart, color: appColour),
+                        text: 'Orders',
+                      ),
+                      const SizedBox(
+                        width: 20,
+                      ),
+                      HomeScreenCounters(
+                        count: '6.9',
+                        icon: const Icon(
+                          Icons.shopping_cart_checkout,
+                          color: appColour,
+                        ),
+                        text: 'Active Orders',
+                      ),
+                    ],
+                  )
+                ],
+              ),
             ),
           ),
         ),
