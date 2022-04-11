@@ -77,9 +77,9 @@ class FavoriteScreenContent extends StatelessWidget {
                           price: '৳1250',
                         ),
                       ),
-                      onTap: () {
-                        Navigator.pushNamed(context, ViewSingleDish.id);
-                      },
+                      // onTap: () {
+                      //   Navigator.pushNamed(context, ViewSingleDish.id);
+                      // },
                     ),
                     GestureDetector(
                       child: const Padding(
@@ -94,9 +94,9 @@ class FavoriteScreenContent extends StatelessWidget {
                           price: '৳1250',
                         ),
                       ),
-                      onTap: () {
-                        Navigator.pushNamed(context, ViewSingleDish.id);
-                      },
+                      // onTap: () {
+                      //   Navigator.pushNamed(context, ViewSingleDish.id);
+                      // },
                     ),
                     GestureDetector(
                       child: const Padding(
@@ -111,9 +111,9 @@ class FavoriteScreenContent extends StatelessWidget {
                           price: '৳1250',
                         ),
                       ),
-                      onTap: () {
-                        Navigator.pushNamed(context, ViewSingleDish.id);
-                      },
+                      // onTap: () {
+                      //   Navigator.pushNamed(context, ViewSingleDish.id);
+                      // },
                     ),
                   ],
                 ),

@@ -1,11 +1,11 @@
 import 'package:flutter/material.dart';
+import 'package:money_formatter/money_formatter.dart';
 import 'package:xmeal/users/styles/constants.dart';
-import 'package:xmeal/users/widgets/positioned_dish_name.dart';
 import 'package:xmeal/users/widgets/ingredients.dart';
 import 'package:xmeal/users/widgets/nutrition_value.dart';
 import 'package:xmeal/users/widgets/positioned_dish_favorite_icon.dart';
 
-class ViewSingleDish extends StatelessWidget {
+class ViewSingleDish extends StatefulWidget {
   ViewSingleDish({
     Key? key,
     required this.dishImage,
@@ -20,17 +20,31 @@ class ViewSingleDish extends StatelessWidget {
   String? dishDescription;
   String? dishPrice;
 
-  static const id = 'view_single_dish';
+  @override
+  State<ViewSingleDish> createState() => _ViewSingleDishState();
+}
+
+class _ViewSingleDishState extends State<ViewSingleDish> {
   @override
   Widget build(BuildContext context) {
+    var initialPrice = double.parse(widget.dishPrice.toString());
+
+    MoneyFormatter moneyConverter = MoneyFormatter(
+        amount: initialPrice,
+        settings: MoneyFormatterSettings(
+          symbol: '₦',
+        ));
+    MoneyFormatterOutput dishAmount = moneyConverter.output;
+
     return Scaffold(
       body: SingleChildScrollView(
         child: Column(
           children: [
             Stack(
               children: [
-                const Image(
-                  image: AssetImage('assets/images/view_screen.png'),
+                Image(
+                  fit: BoxFit.cover,
+                  image: NetworkImage(widget.dishImage.toString()),
                 ),
                 Padding(
                   padding: const EdgeInsets.only(
@@ -123,8 +137,8 @@ class ViewSingleDish extends StatelessWidget {
                                     child: Column(
                                       crossAxisAlignment:
                                           CrossAxisAlignment.start,
-                                      children: const [
-                                        Text(
+                                      children: [
+                                        const Text(
                                           'Description',
                                           style: TextStyle(
                                             fontFamily: 'poppins',
@@ -134,8 +148,8 @@ class ViewSingleDish extends StatelessWidget {
                                           ),
                                         ),
                                         Text(
-                                          'Our fried rice is made from the finest ingredients and veggies. single dish is made with fresh vegetables, rescued.',
-                                          style: TextStyle(
+                                          widget.dishDescription.toString(),
+                                          style: const TextStyle(
                                             fontFamily: 'poppins',
                                             fontSize: 10,
                                             color: Color(0xff5E5959),
@@ -298,9 +312,9 @@ class ViewSingleDish extends StatelessWidget {
                                         mainAxisAlignment:
                                             MainAxisAlignment.spaceEvenly,
                                         children: [
-                                          const Text(
-                                            '₹100',
-                                            style: TextStyle(
+                                          Text(
+                                            dishAmount.symbolOnLeft,
+                                            style: const TextStyle(
                                                 fontFamily: 'poppins',
                                                 fontWeight: FontWeight.w500,
                                                 fontSize: 21,
@@ -369,7 +383,62 @@ class ViewSingleDish extends StatelessWidget {
                         ),
                       ),
                     ),
-                    const PositionedDishName(),
+                    Positioned(
+                      top: 265,
+                      child: Padding(
+                        padding: const EdgeInsets.symmetric(horizontal: 35),
+                        child: Row(
+                          children: [
+                            Container(
+                              decoration: BoxDecoration(
+                                color: Colors.white,
+                                borderRadius: const BorderRadius.all(
+                                  Radius.circular(32),
+                                ),
+                                boxShadow: [
+                                  BoxShadow(
+                                    color: const Color(0XFF000000)
+                                        .withOpacity(0.25),
+                                    spreadRadius: 0,
+                                    blurRadius: 10,
+                                    offset: const Offset(
+                                      0,
+                                      2,
+                                    ),
+                                  ),
+                                ],
+                              ),
+                              child: Padding(
+                                padding: const EdgeInsets.only(
+                                    left: 23, right: 23, top: 4, bottom: 10),
+                                child: Column(
+                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                  children: [
+                                    Text(
+                                      widget.dishName.toString(),
+                                      style: const TextStyle(
+                                          fontFamily: 'poppins',
+                                          fontSize: 18,
+                                          fontWeight: FontWeight.bold),
+                                      textAlign: TextAlign.end,
+                                    ),
+                                    Text(
+                                      widget.dishRegion.toString(),
+                                      style: const TextStyle(
+                                        fontFamily: 'poppins',
+                                        fontSize: 12,
+                                        fontWeight: FontWeight.bold,
+                                        color: Color(0xff616161),
+                                      ),
+                                    ),
+                                  ],
+                                ),
+                              ),
+                            ),
+                          ],
+                        ),
+                      ),
+                    ),
                   ],
                 ),
                 const Positionedfavoriteicon(),

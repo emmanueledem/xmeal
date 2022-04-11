@@ -74,7 +74,6 @@ class MyApp extends StatelessWidget {
               RegistrationSuccessscreen(),
           HomeScreen.id: (context) => const HomeScreen(),
           DishlistScreen.id: (context) => const DishlistScreen(),
-          ViewSingleDish.id: (context) => const ViewSingleDish(),
           OrderDetails.id: (context) => const OrderDetails(),
           NotificationScreen.id: (context) => const NotificationScreen(),
           LoadingScreen.id: (context) => const LoadingScreen(),
