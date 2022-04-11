@@ -16,7 +16,7 @@ class NetworkErrorScreen extends StatelessWidget {
             child: Column(
               children: [
                 const Text(
-                  'Newtwork Error...Connect to a network to continue',
+                  'Network Error...Connect to a network to continue',
                   style: TextStyle(
                       fontFamily: 'poppins',
                       fontSize: 20.0,

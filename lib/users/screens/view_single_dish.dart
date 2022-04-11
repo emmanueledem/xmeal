@@ -6,7 +6,20 @@ import 'package:xmeal/users/widgets/nutrition_value.dart';
 import 'package:xmeal/users/widgets/positioned_dish_favorite_icon.dart';
 
 class ViewSingleDish extends StatelessWidget {
-  const ViewSingleDish({Key? key}) : super(key: key);
+  ViewSingleDish({
+    Key? key,
+    required this.dishImage,
+    required this.dishName,
+    required this.dishRegion,
+    required this.dishDescription,
+    required this.dishPrice,
+  }) : super(key: key);
+  String? dishImage;
+  String? dishName;
+  String? dishRegion;
+  String? dishDescription;
+  String? dishPrice;
+
   static const id = 'view_single_dish';
   @override
   Widget build(BuildContext context) {
