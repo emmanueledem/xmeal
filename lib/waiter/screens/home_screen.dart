@@ -1,3 +1,4 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:xmeal/users/styles/constants.dart';
 import 'package:xmeal/waiter/screens/notifications.dart';
@@ -11,6 +12,44 @@ class WaiterHomeScreen extends StatefulWidget {
 }
 
 class _WaiterHomeScreenState extends State<WaiterHomeScreen> {
+  @override
+  void initState() {
+    Future.delayed(Duration.zero, () async {
+      await _handleCounter();
+    });
+    super.initState();
+  }
+
+  int userCount = 0;
+  int dishCount = 0;
+
+  Future<void> _handleCounter() async {
+    userCount = await countUsers();
+    dishCount = await countDishes();
+    setState(() {});
+  }
+
+  final firestore = FirebaseFirestore.instance;
+  Future<int> countUsers() async {
+    var totalCount = 0;
+    await firestore
+        .collection("users")
+        .where('userType', isEqualTo: 'user')
+        .get()
+        .then((querySnapshot) {
+      totalCount = querySnapshot.size;
+    });
+    return totalCount;
+  }
+
+  Future<int> countDishes() async {
+    var totalCount = 0;
+    await firestore.collection("dishes").get().then((querySnapshot) {
+      totalCount = querySnapshot.size;
+    });
+    return totalCount;
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -58,7 +97,7 @@ class _WaiterHomeScreenState extends State<WaiterHomeScreen> {
                         Icons.person,
                         color: appColour,
                       ),
-                      count: '6.9',
+                      count: userCount.toString(),
                     ),
                     const SizedBox(
                       width: 20,
@@ -66,7 +105,7 @@ class _WaiterHomeScreenState extends State<WaiterHomeScreen> {
                     HomeScreenCounters(
                       text: 'Dishes',
                       icon: const Icon(Icons.restaurant, color: appColour),
-                      count: '10.9',
+                      count: dishCount.toString(),
                     ),
                   ],
                 ),

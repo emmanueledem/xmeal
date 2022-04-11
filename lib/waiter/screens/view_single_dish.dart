@@ -1,3 +1,4 @@
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:xmeal/users/styles/constants.dart';
 import 'package:xmeal/users/widgets/ingredients.dart';
@@ -42,8 +43,12 @@ class _WaiterViewSingleDishState extends State<WaiterViewSingleDish> {
           children: [
             Stack(
               children: [
-                Image(
-                  image: NetworkImage(widget.dishImage.toString()),
+                CachedNetworkImage(
+                  imageUrl: widget.dishImage.toString(),
+                  progressIndicatorBuilder: (context, url, downloadProgress) =>
+                      CircularProgressIndicator(
+                          value: downloadProgress.progress),
+                  errorWidget: (context, url, error) => Icon(Icons.error),
                 ),
                 Padding(
                   padding: const EdgeInsets.only(

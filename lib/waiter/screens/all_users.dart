@@ -1,6 +1,7 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:xmeal/users/styles/constants.dart';
+import 'package:cached_network_image/cached_network_image.dart';
 
 class AllUsersList extends StatefulWidget {
   AllUsersList({Key? key}) : super(key: key);
@@ -122,10 +123,19 @@ class UsersInformation extends StatelessWidget {
             radius: 30,
             backgroundColor: Colors.white,
             child: ClipRRect(
-                borderRadius: const BorderRadius.all(Radius.circular(30)),
-                child: image == null
-                    ? Image(image: AssetImage(defaultImage.toString()))
-                    : Image(image: NetworkImage(image.toString()))),
+              borderRadius: const BorderRadius.all(Radius.circular(30)),
+              child: image == null
+                  ? Image(image: AssetImage(defaultImage.toString()))
+                  : CachedNetworkImage(
+                      imageUrl: image.toString(),
+                      progressIndicatorBuilder:
+                          (context, url, downloadProgress) =>
+                              CircularProgressIndicator(
+                                  value: downloadProgress.progress),
+                      errorWidget: (context, url, error) =>
+                          const Icon(Icons.error),
+                    ),
+            ),
           ),
           Expanded(
             child: Padding(
