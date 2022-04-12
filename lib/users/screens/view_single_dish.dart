@@ -1,5 +1,6 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
+import 'package:logger/logger.dart';
 import 'package:money_formatter/money_formatter.dart';
 import 'package:provider/provider.dart';
 import 'package:xmeal/services/providers/dishes_provider.dart';
@@ -41,13 +42,13 @@ class _ViewSingleDishState extends State<ViewSingleDish> {
 
   Future _handleDishViewers() async {
     var dishProvider = Provider.of<DishesProvider>(context, listen: false);
+    await dishProvider.checkIfFavotite(widget.productId,);
     await dishProvider.dishViewers(widget.productId, widget.dishViews);
   }
 
   @override
   Widget build(BuildContext context) {
     var initialPrice = double.parse(widget.dishPrice.toString());
-
     MoneyFormatter moneyConverter = MoneyFormatter(
         amount: initialPrice,
         settings: MoneyFormatterSettings(
@@ -463,13 +464,42 @@ class _ViewSingleDishState extends State<ViewSingleDish> {
                     ),
                   ],
                 ),
-                const Positioned(
+                Positioned(
                   top: 264,
                   width: 38.24,
                   right: 33,
                   height: 35.01,
-                  child: Image(
-                    image: AssetImage('assets/images/favoriteIcon.png'),
+                  child: GestureDetector(
+                    onTap: () {
+                      Provider.of<DishesProvider>(context, listen: false)
+                          .favoriteDishes(widget.productId);
+                    },
+                    child: Container(
+                      decoration: BoxDecoration(
+                        borderRadius: BorderRadius.circular(30),
+                        color: Colors.white,
+                        boxShadow: [
+                          BoxShadow(
+                            color: const Color(0XFF000000).withOpacity(0.25),
+                            spreadRadius: 0,
+                            blurRadius: 10,
+                            offset: const Offset(
+                              0,
+                              2,
+                            ),
+                          ),
+                        ],
+                      ),
+                      child: Consumer<DishesProvider>(
+                        builder: (context, dishProvier, child) {
+                          return Icon(Icons.favorite,
+                              size: 20,
+                              color: dishProvier.favoriteDishStatus == false
+                                  ? Colors.black
+                                  : appColour);
+                        },
+                      ),
+                    ),
                   ),
                 ),
               ],

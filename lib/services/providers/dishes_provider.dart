@@ -10,10 +10,15 @@ class DishesProvider extends ChangeNotifier {
   bool saving = false;
   final auth = FirebaseAuth.instance;
   String? updateResponse;
+  CollectionReference dishes = FirebaseFirestore.instance.collection('dishes');
   final FirebaseAuth _auth = FirebaseAuth.instance;
   CollectionReference dishviewers =
       FirebaseFirestore.instance.collection('dishViewers');
-  CollectionReference dishes = FirebaseFirestore.instance.collection('dishes');
+  CollectionReference favoriteDish =
+      FirebaseFirestore.instance.collection('favoriteDish');
+  bool? favoriteDishStatus;
+  String? viewedDishesId;
+
   void manageProgress(value) {
     saving = value;
     notifyListeners();
@@ -71,7 +76,6 @@ class DishesProvider extends ChangeNotifier {
       };
       await dishviewers.doc().set(data);
     }
-
     notifyListeners();
   }
 
@@ -81,5 +85,60 @@ class DishesProvider extends ChangeNotifier {
         .where('viewedBy', isEqualTo: userId)
         .get();
     return res.docs.isEmpty;
+  }
+
+  Future<void> checkIfFavotite(dishId) async {
+    String? userId;
+    userId = _auth.currentUser!.uid;
+    var res = await favoriteDish
+        .where('dishId', isEqualTo: dishId)
+        .where('viewedBy', isEqualTo: userId)
+        .get();
+    if (res.docs.isNotEmpty) {
+      favoriteDishStatus = true;
+    } else if (res.docs.isEmpty) {
+      favoriteDishStatus = false;
+    }
+    notifyListeners();
+  }
+
+  Future<void> favoriteDishes(dishId) async {
+    String? userId;
+    userId = _auth.currentUser!.uid;
+    await favoriteDish
+        .where('viewedBy', isEqualTo: userId)
+        .where('dishId', isEqualTo: dishId)
+        .get()
+        .then((value) async {
+      if (value.docs.isEmpty) {
+        var data = {
+          'dishId': dishId,
+          'viewedBy': userId,
+          'dateViewed': DateTime.now(),
+        };
+        await favoriteDish.doc().set(data);
+        favoriteDishStatus = true;
+      } else {
+        for (var element in value.docs) {
+          if (value.docs.isNotEmpty) {
+            await favoriteDish.doc(element.id).delete();
+            favoriteDishStatus = false;
+          }
+        }
+      }
+    });
+    notifyListeners();
+  }
+
+  Future<void> fetchViewedDishes() async {
+    String? userId;
+    userId = _auth.currentUser!.uid;
+    await dishviewers.where('viewedBy', isEqualTo: userId).get().then((value) {
+      for (var userKey in value.docs) {
+        Map<String, dynamic> data = userKey.data() as Map<String, dynamic>;
+        viewedDishesId = data['dishId'];
+      }
+    });
+    notifyListeners();
   }
 }

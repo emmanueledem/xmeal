@@ -1,6 +1,7 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import 'package:xmeal/services/providers/dishes_provider.dart';
 import 'package:xmeal/users/screens/dish_list_screen.dart';
 import 'package:xmeal/users/screens/login_screen.dart';
 import 'package:xmeal/users/screens/notification_screen.dart';
@@ -34,6 +35,8 @@ class _HomeScreenContentState extends State<HomeScreenContent> {
       loggedInUser = user;
       await Provider.of<ProfileProvider>(context, listen: false)
           .fetchUserData();
+      await Provider.of<DishesProvider>(context, listen: false)
+          .fetchViewedDishes();
     }
   }
 
@@ -221,30 +224,6 @@ class _HomeScreenContentState extends State<HomeScreenContent> {
                         ViewedDishes(
                           image: const AssetImage(
                             'assets/images/img5.png',
-                          ),
-                          dishName: 'Fried Rice',
-                          region: 'Nigeria',
-                          price: '৳1250',
-                        ),
-                        ViewedDishes(
-                          image: const AssetImage(
-                            'assets/images/img2.png',
-                          ),
-                          dishName: 'Fried Rice',
-                          region: 'Nigeria',
-                          price: '৳1250',
-                        ),
-                        ViewedDishes(
-                          image: const AssetImage(
-                            'assets/images/img6.png',
-                          ),
-                          dishName: 'Fried Rice',
-                          region: 'Nigeria',
-                          price: '৳1250',
-                        ),
-                        ViewedDishes(
-                          image: const AssetImage(
-                            'assets/images/img12.png',
                           ),
                           dishName: 'Fried Rice',
                           region: 'Nigeria',
