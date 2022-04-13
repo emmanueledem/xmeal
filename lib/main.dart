@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:xmeal/services/providers/orders_provider.dart';
 import 'package:xmeal/users/screens/dish_list_screen.dart';
 import 'package:xmeal/users/screens/edit_profile.dart';
 import 'package:xmeal/users/screens/home_screen.dart';
@@ -51,7 +52,8 @@ class MyApp extends StatelessWidget {
         ),
         ChangeNotifierProvider(create: (context) => AuthProvider()),
         ChangeNotifierProvider(create: (context) => DishesProvider()),
-        ChangeNotifierProvider(create: (context) => ProfileProvider())
+        ChangeNotifierProvider(create: (context) => ProfileProvider()),
+        ChangeNotifierProvider(create: (context) => DishOrderProvider()),
       ],
       child: MaterialApp(
         useInheritedMediaQuery: true,

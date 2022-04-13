@@ -1,5 +1,6 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:logger/logger.dart';
 import 'package:provider/provider.dart';
 import 'package:xmeal/services/providers/dishes_provider.dart';
 import 'package:xmeal/users/screens/dish_list_screen.dart';
@@ -21,6 +22,7 @@ class HomeScreenContent extends StatefulWidget {
 }
 
 class _HomeScreenContentState extends State<HomeScreenContent> {
+  List<String>? viewedDishList;
   @override
   void initState() {
     super.initState();
@@ -35,8 +37,10 @@ class _HomeScreenContentState extends State<HomeScreenContent> {
       loggedInUser = user;
       await Provider.of<ProfileProvider>(context, listen: false)
           .fetchUserData();
-      await Provider.of<DishesProvider>(context, listen: false)
-          .fetchViewedDishes();
+      viewedDishList =
+          (await Provider.of<DishesProvider>(context, listen: false)
+                  .fetchViewedDishes())
+              ?.cast<String>();
     }
   }
 
@@ -215,27 +219,35 @@ class _HomeScreenContentState extends State<HomeScreenContent> {
                         fontWeight: FontWeight.bold),
                     textAlign: TextAlign.end,
                   ),
-                  SizedBox(
-                    height: 274.09,
-                    child: ListView(
-                      scrollDirection: Axis.horizontal,
-                      physics: const AlwaysScrollableScrollPhysics(),
-                      children: <Widget>[
-                        ViewedDishes(
-                          image: const AssetImage(
-                            'assets/images/img5.png',
-                          ),
-                          dishName: 'Fried Rice',
-                          region: 'Nigeria',
-                          price: '৳1250',
-                        ),
-                      ],
-                    ),
-                  ),
+                  Consumer<DishesProvider>(
+                      builder: (context, dishesProvider, child) {
+                    return SizedBox(
+                        height: 274.09,
+                        child: dishesProvider.viewedDishList == null
+                            ? const CircularProgressIndicator()
+                            : ListView.builder(
+                                physics: const AlwaysScrollableScrollPhysics(),
+                                scrollDirection: Axis.horizontal,
+                                itemCount:
+                                    dishesProvider.viewedDishList?.length,
+                                itemBuilder: (context, index) {
+                                  final Object? item =
+                                      dishesProvider.viewedDishList![index];
+
+                                  // Logger().d(item);
+                                  return ViewedDishes(
+                                    image: const AssetImage(
+                                      'assets/images/img5.png',
+                                    ),
+                                    dishName: 'item![dishRegion]',
+                                    region: 'Nigeria',
+                                    price: '৳1250',
+                                  );
+                                }));
+                  }),
                 ],
               ),
             ),
-            // Text('Happy Deals')
           ],
         ),
       ),

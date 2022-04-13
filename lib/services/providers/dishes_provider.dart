@@ -19,6 +19,7 @@ class DishesProvider extends ChangeNotifier {
   bool? favoriteDishStatus;
   String? viewedDishesId;
 
+  List<Object>? viewedDishList;
   void manageProgress(value) {
     saving = value;
     notifyListeners();
@@ -130,15 +131,26 @@ class DishesProvider extends ChangeNotifier {
     notifyListeners();
   }
 
-  Future<void> fetchViewedDishes() async {
+  Future<List<Object>?> fetchViewedDishes() async {
     String? userId;
     userId = _auth.currentUser!.uid;
-    await dishviewers.where('viewedBy', isEqualTo: userId).get().then((value) {
+    List<Object>? listData = [];
+    await dishviewers
+        .where('viewedBy', isEqualTo: userId)
+        .get()
+        .then((value) async {
       for (var userKey in value.docs) {
         Map<String, dynamic> data = userKey.data() as Map<String, dynamic>;
         viewedDishesId = data['dishId'];
+        await dishes.doc(viewedDishesId).get().then((value) {
+          // Map<String, dynamic> dishdata = value.data() as Map<String, dynamic>;
+          listData.add(value.data()!);
+          // Logger().d(dishdata['dishRegion']);
+        });
+        viewedDishList = listData;
       }
     });
     notifyListeners();
+    return viewedDishList; //with data inside
   }
 }
