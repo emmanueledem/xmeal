@@ -1,4 +1,5 @@
 import 'dart:io';
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:modal_progress_hud_nsn/modal_progress_hud_nsn.dart';
@@ -118,12 +119,24 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
                                                 width: 95.95,
                                                 height: 95.95,
                                               )
-                                            : Image.network(
-                                                profile.imageUrl.toString(),
+                                            : CachedNetworkImage(
                                                 fit: BoxFit.cover,
                                                 width: 95.95,
                                                 height: 95.95,
-                                              ))
+                                                imageUrl:
+                                                    profile.imageUrl.toString(),
+                                                progressIndicatorBuilder:
+                                                    (context, url,
+                                                            downloadProgress) =>
+                                                        CircularProgressIndicator(
+                                                            value:
+                                                                downloadProgress
+                                                                    .progress),
+                                                errorWidget:
+                                                    (context, url, error) =>
+                                                        const Icon(Icons.error),
+                                              ),
+                                      )
                                     : ClipOval(
                                         child: Image.file(
                                           file!,

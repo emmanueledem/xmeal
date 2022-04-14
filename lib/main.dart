@@ -6,7 +6,6 @@ import 'package:xmeal/users/screens/home_screen.dart';
 import 'package:xmeal/users/screens/loading_screen.dart';
 import 'package:xmeal/users/screens/notification_screen.dart';
 import 'package:xmeal/users/screens/order_details_screen.dart';
-import 'package:xmeal/users/screens/view_single_dish.dart';
 import 'package:xmeal/users/screens/welcome_screens/first_welcome_screen.dart';
 import 'package:xmeal/users/screens/register_screen.dart';
 import 'package:xmeal/users/screens/welcome_screens/second_welcome_screen.dart';

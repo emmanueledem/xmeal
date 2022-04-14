@@ -1,3 +1,4 @@
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
@@ -72,11 +73,17 @@ class _AccountScreenContentState extends State<AccountScreenContent> {
                                       width: 75.95,
                                       height: 75.95,
                                     )
-                                  : Image.network(
-                                      profile.imageUrl.toString(),
+                                  : CachedNetworkImage(
                                       fit: BoxFit.cover,
                                       width: 75.95,
                                       height: 75.95,
+                                      imageUrl: profile.imageUrl.toString(),
+                                      progressIndicatorBuilder: (context, url,
+                                              downloadProgress) =>
+                                          CircularProgressIndicator(
+                                              value: downloadProgress.progress),
+                                      errorWidget: (context, url, error) =>
+                                          const Icon(Icons.error),
                                     ),
                             );
                           }),
@@ -234,10 +241,10 @@ class _AccountScreenContentState extends State<AccountScreenContent> {
                         Provider.of<NetworkInfoImpl>(context, listen: false);
                     await networkProvider.checkNewtworkStatus();
                     if (networkProvider.networkStatus == true) {
-                      var signoutProvider = 
+                      var signoutProvider =
                           Provider.of<AuthProvider>(context, listen: false);
                       signoutProvider.signoutUser(context);
-                    }else{
+                    } else {
                       networkAlertMessage(context);
                     }
                   });

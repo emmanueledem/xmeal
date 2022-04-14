@@ -61,6 +61,5 @@ class DishOrderProvider extends ChangeNotifier {
       }
     });
     notifyListeners();
-    print(updateResponse);
   }
 }

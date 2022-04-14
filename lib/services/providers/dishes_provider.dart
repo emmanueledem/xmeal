@@ -3,7 +3,6 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/material.dart';
-import 'package:logger/logger.dart';
 import 'package:path/path.dart';
 
 class DishesProvider extends ChangeNotifier {
@@ -19,7 +18,7 @@ class DishesProvider extends ChangeNotifier {
   bool? favoriteDishStatus;
   String? viewedDishesId;
 
-  List<Object>? viewedDishList;
+  List<Map<String, dynamic>>? viewedDishList;
   void manageProgress(value) {
     saving = value;
     notifyListeners();
@@ -131,10 +130,10 @@ class DishesProvider extends ChangeNotifier {
     notifyListeners();
   }
 
-  Future<List<Object>?> fetchViewedDishes() async {
+  Future<List<Map<String, dynamic>>?> fetchViewedDishes() async {
     String? userId;
     userId = _auth.currentUser!.uid;
-    List<Object>? listData = [];
+    List<Map<String, dynamic>>? listData = [];
     await dishviewers
         .where('viewedBy', isEqualTo: userId)
         .get()
@@ -143,14 +142,15 @@ class DishesProvider extends ChangeNotifier {
         Map<String, dynamic> data = userKey.data() as Map<String, dynamic>;
         viewedDishesId = data['dishId'];
         await dishes.doc(viewedDishesId).get().then((value) {
-          // Map<String, dynamic> dishdata = value.data() as Map<String, dynamic>;
-          listData.add(value.data()!);
-          // Logger().d(dishdata['dishRegion']);
+          var dishData = value.data() as Map<String, dynamic>;
+          dishData['id'] = value.id;
+          listData.add(dishData);
         });
+
         viewedDishList = listData;
       }
     });
     notifyListeners();
-    return viewedDishList; //with data inside
+    return viewedDishList;
   }
 }

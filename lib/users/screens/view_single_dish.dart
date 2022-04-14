@@ -1,12 +1,13 @@
 import 'package:cached_network_image/cached_network_image.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
-import 'package:logger/logger.dart';
 import 'package:modal_progress_hud_nsn/modal_progress_hud_nsn.dart';
 import 'package:money_formatter/money_formatter.dart';
 import 'package:provider/provider.dart';
 import 'package:xmeal/services/providers/dishes_provider.dart';
 import 'package:xmeal/services/providers/internet_provider.dart';
 import 'package:xmeal/services/providers/orders_provider.dart';
+import 'package:xmeal/users/screens/login_screen.dart';
 import 'package:xmeal/users/styles/constants.dart';
 import 'package:xmeal/users/widgets/ingredients.dart';
 import 'package:xmeal/users/widgets/network_alert.dart';
@@ -42,6 +43,7 @@ enum countDecision {
 
 class _ViewSingleDishState extends State<ViewSingleDish> {
   int _itemCount = 1;
+  final _auth = FirebaseAuth.instance;
 
   void _changeItemCount(value) {
     if (value == countDecision.add) {
@@ -55,7 +57,9 @@ class _ViewSingleDishState extends State<ViewSingleDish> {
   @override
   void initState() {
     Future.delayed(Duration.zero, () async {
-      await _handleDishViewers();
+      if (_auth.currentUser != null) {
+        await _handleDishViewers();
+      }
     });
     super.initState();
   }
@@ -448,37 +452,48 @@ class _ViewSingleDishState extends State<ViewSingleDish> {
                                               ),
                                               GestureDetector(
                                                 onTap: () async {
-                                                  var networkProvider = Provider
-                                                      .of<NetworkInfoImpl>(
-                                                          context,
-                                                          listen: false);
-                                                  await networkProvider
-                                                      .checkNewtworkStatus();
-                                                  if (networkProvider
-                                                          .networkStatus ==
-                                                      true) {
-                                                    await dishOrder.addToCart(
-                                                        widget.productId,
-                                                        _itemCount);
-                                                    var snackBar = SnackBar(
-                                                      backgroundColor:
-                                                          appColour,
-                                                      duration: const Duration(
-                                                          seconds: 5),
-                                                      content: Text(
-                                                        dishOrder.updateResponse
-                                                            .toString(),
-                                                        style: const TextStyle(
-                                                            color:
-                                                                Colors.white),
-                                                      ),
-                                                    );
-                                                    Scaffold.of(context)
-                                                        // ignore: deprecated_member_use
-                                                        .showSnackBar(snackBar);
+                                                  if (_auth.currentUser ==
+                                                      null) {
+                                                    Navigator.pushNamed(
+                                                        context, Login.id);
                                                   } else {
-                                                    networkAlertMessage(
-                                                        context);
+                                                    var networkProvider =
+                                                        Provider.of<
+                                                                NetworkInfoImpl>(
+                                                            context,
+                                                            listen: false);
+                                                    await networkProvider
+                                                        .checkNewtworkStatus();
+                                                    if (networkProvider
+                                                            .networkStatus ==
+                                                        true) {
+                                                      await dishOrder.addToCart(
+                                                          widget.productId,
+                                                          _itemCount);
+                                                      var snackBar = SnackBar(
+                                                        backgroundColor:
+                                                            appColour,
+                                                        duration:
+                                                            const Duration(
+                                                                seconds: 5),
+                                                        content: Text(
+                                                          dishOrder
+                                                              .updateResponse
+                                                              .toString(),
+                                                          style:
+                                                              const TextStyle(
+                                                                  color: Colors
+                                                                      .white),
+                                                        ),
+                                                      );
+                                                      Scaffold.of(context)
+                                                          // ignore: deprecated_member_use
+                                                          .showSnackBar(
+                                                              snackBar);
+                                                    } else {
+                                                      networkAlertMessage(
+                                                          context);
+                                                    }
                                                   }
                                                 },
                                                 child: Container(
@@ -598,8 +613,12 @@ class _ViewSingleDishState extends State<ViewSingleDish> {
                       height: 35.01,
                       child: GestureDetector(
                         onTap: () {
-                          Provider.of<DishesProvider>(context, listen: false)
-                              .favoriteDishes(widget.productId);
+                          if (_auth.currentUser == null) {
+                            Navigator.pushNamed(context, Login.id);
+                          } else {
+                            Provider.of<DishesProvider>(context, listen: false)
+                                .favoriteDishes(widget.productId);
+                          }
                         },
                         child: Container(
                           decoration: BoxDecoration(
