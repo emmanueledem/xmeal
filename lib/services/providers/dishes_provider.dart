@@ -17,8 +17,10 @@ class DishesProvider extends ChangeNotifier {
       FirebaseFirestore.instance.collection('favoriteDish');
   bool? favoriteDishStatus;
   String? viewedDishesId;
+  String? favoriteDishId;
 
   List<Map<String, dynamic>>? viewedDishList;
+  List<Map<String, dynamic>>? favoriteDishList;
   void manageProgress(value) {
     saving = value;
     notifyListeners();
@@ -92,7 +94,7 @@ class DishesProvider extends ChangeNotifier {
     userId = _auth.currentUser!.uid;
     var res = await favoriteDish
         .where('dishId', isEqualTo: dishId)
-        .where('viewedBy', isEqualTo: userId)
+        .where('addedBy', isEqualTo: userId)
         .get();
     if (res.docs.isNotEmpty) {
       favoriteDishStatus = true;
@@ -106,14 +108,14 @@ class DishesProvider extends ChangeNotifier {
     String? userId;
     userId = _auth.currentUser!.uid;
     await favoriteDish
-        .where('viewedBy', isEqualTo: userId)
+        .where('addedBy', isEqualTo: userId)
         .where('dishId', isEqualTo: dishId)
         .get()
         .then((value) async {
       if (value.docs.isEmpty) {
         var data = {
           'dishId': dishId,
-          'viewedBy': userId,
+          'addedBy': userId,
           'dateViewed': DateTime.now(),
         };
         await favoriteDish.doc().set(data);
@@ -152,5 +154,28 @@ class DishesProvider extends ChangeNotifier {
     });
     notifyListeners();
     return viewedDishList;
+  }
+
+  Future<List<Map<String, dynamic>>?> fetchFavoriteDishes() async {
+    String userId;
+    userId = _auth.currentUser!.uid;
+    List<Map<String, dynamic>>? listData = [];
+    await favoriteDish
+        .where('addedBy', isEqualTo: userId)
+        .get()
+        .then((value) async {
+      for (var res in value.docs) {
+        Map<String, dynamic> data = res.data() as Map<String, dynamic>;
+        favoriteDishId = data['dishId'];
+        await dishes.doc(favoriteDishId).get().then((value) {
+          Map<String, dynamic> dishData = value.data() as Map<String, dynamic>;
+          dishData['id'] = value.id;
+          listData.add(dishData);
+        });
+        favoriteDishList = listData;
+      }
+    }); 
+    notifyListeners();
+    return favoriteDishList;
   }
 }

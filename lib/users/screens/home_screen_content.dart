@@ -22,7 +22,7 @@ class HomeScreenContent extends StatefulWidget {
 }
 
 class _HomeScreenContentState extends State<HomeScreenContent> {
-  List<String>? viewedDishList;
+  // List<String>? viewedDishList;
   @override
   void initState() {
     super.initState();
@@ -37,10 +37,14 @@ class _HomeScreenContentState extends State<HomeScreenContent> {
       loggedInUser = user;
       await Provider.of<ProfileProvider>(context, listen: false)
           .fetchUserData();
-      viewedDishList =
-          (await Provider.of<DishesProvider>(context, listen: false)
-                  .fetchViewedDishes())
-              ?.cast<String>();
+
+      (await Provider.of<DishesProvider>(context, listen: false)
+              .fetchViewedDishes())
+          ?.cast<String>();
+
+      (await Provider.of<DishesProvider>(context, listen: false)
+              .fetchFavoriteDishes())
+          ?.cast<String>();
     }
   }
 
@@ -122,59 +126,61 @@ class _HomeScreenContentState extends State<HomeScreenContent> {
                         ],
                       ),
                       const SizedBox(height: 10.0),
-                      const Text(
-                        'Favorite Dishes:',
-                        style: TextStyle(
-                            fontFamily: 'poppins',
-                            fontSize: 18,
-                            fontWeight: FontWeight.bold),
-                        textAlign: TextAlign.end,
-                      ),
-                      SizedBox(
-                        height: 138.2,
-                        child: ListView(
-                          physics: const AlwaysScrollableScrollPhysics(),
-                          scrollDirection: Axis.horizontal,
-                          children: const [
-                            FavoriteDishes(
-                              image: AssetImage(
-                                'assets/images/first_welcome_image.png',
+                      dishesProvider.favoriteDishList != null ||
+                              loggedInUser != null
+                          ? const Text(
+                              'Favorite Dishes:',
+                              style: TextStyle(
+                                  fontFamily: 'poppins',
+                                  fontSize: 18,
+                                  fontWeight: FontWeight.bold),
+                              textAlign: TextAlign.end,
+                            )
+                          : const Text(''),
+                      dishesProvider.viewedDishList == null ||
+                              loggedInUser == null
+                          ? const SecondHomeScreenContainer()
+                          : SizedBox(
+                              height: 138.2,
+                              child: ListView.builder(
+                                physics: const AlwaysScrollableScrollPhysics(),
+                                scrollDirection: Axis.horizontal,
+                                itemCount:
+                                    dishesProvider.favoriteDishList?.length,
+                                itemBuilder: (context, index) {
+                                  final Map item =
+                                      dishesProvider.favoriteDishList![index];
+                                  return GestureDetector(
+                                    child: FavoriteDishes(
+                                      image: item['dishImage'],
+                                      dishName: item['dishName'],
+                                      region: item['dishRegion'],
+                                      dateAdded: 'Yesterday 3pm',
+                                      price: item['dishprice'],
+                                    ),
+                                    onTap: () {
+                                      Navigator.of(context).push(
+                                          MaterialPageRoute(
+                                              builder: (context) =>
+                                                  ViewSingleDish(
+                                                    productId: item["id"],
+                                                    dishViews:
+                                                        item['dishViews'],
+                                                    dishImage:
+                                                        item['dishImage'],
+                                                    dishName: item['dishName'],
+                                                    dishDescription:
+                                                        item['dishdescription'],
+                                                    dishPrice:
+                                                        item['dishprice'],
+                                                    dishRegion:
+                                                        item['dishRegion'],
+                                                  )));
+                                    },
+                                  );
+                                },
                               ),
-                              dishName: 'Spaghetti',
-                              region: 'Nigeria',
-                              dateAdded: 'Yesterday 3pm',
-                              price: '৳1250',
                             ),
-                            FavoriteDishes(
-                              image: AssetImage(
-                                'assets/images/home_scroll_img3.png',
-                              ),
-                              dishName: 'Fried Rice',
-                              region: 'Nigeria',
-                              dateAdded: 'Thurday 3pm',
-                              price: '৳1250',
-                            ),
-                            FavoriteDishes(
-                              image: AssetImage(
-                                'assets/images/home_scroll_img1.png',
-                              ),
-                              dishName: 'Coach Sncak',
-                              region: 'Nigeria',
-                              dateAdded: '09/23/2022',
-                              price: '৳1250',
-                            ),
-                            FavoriteDishes(
-                              image: AssetImage(
-                                'assets/images/home_scroll_img2.png',
-                              ),
-                              dishName: 'Noddles',
-                              region: 'Nigeria',
-                              dateAdded: 'Today 12:30pm',
-                              price: '৳1245',
-                            ),
-                          ],
-                        ),
-                      ),
                       Padding(
                         padding: const EdgeInsets.all(8.0),
                         child: Divider(
@@ -213,7 +219,8 @@ class _HomeScreenContentState extends State<HomeScreenContent> {
                           height: 10,
                         ),
                       ),
-                      dishesProvider.viewedDishList != null
+                      dishesProvider.viewedDishList != null ||
+                              loggedInUser != null
                           ? const Text(
                               'Viewed Dishes:',
                               style: TextStyle(

@@ -1,3 +1,4 @@
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 
 class FavoriteDishes extends StatelessWidget {
@@ -9,7 +10,7 @@ class FavoriteDishes extends StatelessWidget {
       required this.price,
       required this.region})
       : super(key: key);
-  final ImageProvider image;
+  final String image;
   final String? dishName;
   final String? dateAdded;
   final String? region;
@@ -37,10 +38,14 @@ class FavoriteDishes extends StatelessWidget {
                 left: 10,
                 bottom: 50,
               ),
-              child: Image(
-                image: image,
-                height: 74,
-                width: 74,
+              child: CachedNetworkImage(
+                height: 120.0,
+                width: 120,
+                fit: BoxFit.contain,
+                imageUrl: image.toString(),
+                progressIndicatorBuilder: (context, url, downloadProgress) =>
+                    CircularProgressIndicator(value: downloadProgress.progress),
+                errorWidget: (context, url, error) => const Icon(Icons.error),
               ),
             ),
             Expanded(

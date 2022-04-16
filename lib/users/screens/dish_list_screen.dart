@@ -82,22 +82,24 @@ class _DishlistScreenState extends State<DishlistScreen> {
                       topLeft: Radius.circular(30),
                       topRight: Radius.circular(30)),
                 ),
-                child: ListView.builder(
-                  scrollDirection: Axis.vertical,
-                  itemCount: dishList.length,
-                  itemBuilder: (context, index) {
-                    final item = dishList[index];
-                    return DishInformation(
-                      productId: item.id,
-                      image: item['dishImage'],
-                      dishViews: item['dishViews'],
-                      dishPrice: item['dishprice'],
-                      dishName: item['dishName'],
-                      dishRegion: item['dishRegion'],
-                      dishdescription: item['dishdescription'],
-                    );
-                  },
-                ),
+                child: allDishes.isEmpty
+                    ? const CircularProgressIndicator()
+                    : ListView.builder(
+                        scrollDirection: Axis.vertical,
+                        itemCount: dishList.length,
+                        itemBuilder: (context, index) {
+                          final item = dishList[index];
+                          return DishInformation(
+                            productId: item.id,
+                            image: item['dishImage'],
+                            dishViews: item['dishViews'],
+                            dishPrice: item['dishprice'],
+                            dishName: item['dishName'],
+                            dishRegion: item['dishRegion'],
+                            dishdescription: item['dishdescription'],
+                          );
+                        },
+                      ),
               ),
             )
           ],

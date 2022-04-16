@@ -612,12 +612,21 @@ class _ViewSingleDishState extends State<ViewSingleDish> {
                       right: 33,
                       height: 35.01,
                       child: GestureDetector(
-                        onTap: () {
+                        onTap: () async {
                           if (_auth.currentUser == null) {
                             Navigator.pushNamed(context, Login.id);
                           } else {
-                            Provider.of<DishesProvider>(context, listen: false)
-                                .favoriteDishes(widget.productId);
+                            var networkProvider = Provider.of<NetworkInfoImpl>(
+                                context,
+                                listen: false);
+                            await networkProvider.checkNewtworkStatus();
+                            if (networkProvider.networkStatus == true) {
+                              Provider.of<DishesProvider>(context,
+                                      listen: false)
+                                  .favoriteDishes(widget.productId);
+                            } else {
+                              networkAlertMessage(context);
+                            }
                           }
                         },
                         child: Container(
