@@ -3,7 +3,6 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/material.dart';
-import 'package:logger/logger.dart';
 import 'package:path/path.dart';
 
 class DishesProvider extends ChangeNotifier {
@@ -169,7 +168,7 @@ class DishesProvider extends ChangeNotifier {
       if (value.docs.isEmpty) {
         hasFavorite = true;
       } else {
-        hasFavorite = true;
+        hasFavorite = false;
       }
       for (var res in value.docs) {
         Map<String, dynamic> data = res.data() as Map<String, dynamic>;

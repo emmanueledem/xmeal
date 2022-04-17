@@ -7,7 +7,11 @@ class DishOrderProvider extends ChangeNotifier {
   final FirebaseAuth _auth = FirebaseAuth.instance;
   bool? isAddedToCart;
   String? updateResponse;
+  String? cartDishId;
+  List<Map<String, dynamic>>? cartDishList;
+  bool hasItemInCart = false;
   bool inAsyncCall = false;
+  CollectionReference dishes = FirebaseFirestore.instance.collection('dishes');
 
   void manageProgress(value) {
     inAsyncCall = value;
@@ -61,5 +65,32 @@ class DishOrderProvider extends ChangeNotifier {
       }
     });
     notifyListeners();
+  }
+
+  Future<List<Map<String, dynamic>>>? fetchCartItem() async {
+    String userId;
+    userId = _auth.currentUser!.uid;
+    List<Map<String, dynamic>>? listData = [];
+
+    await cart.where('addedBy', isEqualTo: userId).get().then((value) async {
+      if (value.docs.isEmpty) {
+        hasItemInCart = true;
+      } else {
+        hasItemInCart = false;
+      }
+      for (var res in value.docs) {
+        Map<String, dynamic> data = res.data() as Map<String, dynamic>;
+        cartDishId = data['dishId'];
+        await dishes.doc(cartDishId).get().then((value) {
+          Map<String, dynamic> dishData = value.data() as Map<String, dynamic>;
+
+          dishData['id'] = value.id;
+          listData.add(dishData);
+          cartDishList = listData;
+        });
+      }
+    });
+    notifyListeners();
+    return listData;
   }
 }
