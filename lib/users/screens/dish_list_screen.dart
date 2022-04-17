@@ -83,7 +83,9 @@ class _DishlistScreenState extends State<DishlistScreen> {
                       topRight: Radius.circular(30)),
                 ),
                 child: allDishes.isEmpty
-                    ? const CircularProgressIndicator()
+                    ? const SizedBox(
+                        width: double.infinity,
+                        child: CircularProgressIndicator())
                     : ListView.builder(
                         scrollDirection: Axis.vertical,
                         itemCount: dishList.length,

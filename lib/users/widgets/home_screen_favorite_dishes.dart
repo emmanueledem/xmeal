@@ -69,9 +69,9 @@ class FavoriteDishes extends StatelessWidget {
                           fontFamily: 'poppins',
                           color: Color(0xff999999)),
                     ),
-                    const SizedBox(
-                      height: 10,
-                    ),
+                    // const SizedBox(
+                    //   height: 5,
+                    // ),
                     Text(
                       region.toString(),
                       style: const TextStyle(

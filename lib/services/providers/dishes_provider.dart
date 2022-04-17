@@ -3,6 +3,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/material.dart';
+import 'package:logger/logger.dart';
 import 'package:path/path.dart';
 
 class DishesProvider extends ChangeNotifier {
@@ -18,6 +19,7 @@ class DishesProvider extends ChangeNotifier {
   bool? favoriteDishStatus;
   String? viewedDishesId;
   String? favoriteDishId;
+  bool hasFavorite = false;
 
   List<Map<String, dynamic>>? viewedDishList;
   List<Map<String, dynamic>>? favoriteDishList;
@@ -164,6 +166,11 @@ class DishesProvider extends ChangeNotifier {
         .where('addedBy', isEqualTo: userId)
         .get()
         .then((value) async {
+      if (value.docs.isEmpty) {
+        hasFavorite = true;
+      } else {
+        hasFavorite = true;
+      }
       for (var res in value.docs) {
         Map<String, dynamic> data = res.data() as Map<String, dynamic>;
         favoriteDishId = data['dishId'];
@@ -174,7 +181,7 @@ class DishesProvider extends ChangeNotifier {
         });
         favoriteDishList = listData;
       }
-    }); 
+    });
     notifyListeners();
     return favoriteDishList;
   }

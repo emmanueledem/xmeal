@@ -46,78 +46,110 @@ class _FavoriteScreenContentState extends State<FavoriteScreenContent> {
       body: SafeArea(
         child: Consumer<DishesProvider>(
           builder: (context, favoriteDish, child) {
-            return Column(
-              children: [
-                Padding(
-                  padding: const EdgeInsets.only(top: 8.0),
-                  child: Row(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: const [
-                      Padding(
-                        padding: EdgeInsets.all(5.0),
-                        child: Text(
-                          'Your Favorites',
-                          style: TextStyle(
-                              color: Colors.white,
-                              fontFamily: 'poppins',
-                              fontSize: 19,
-                              fontWeight: FontWeight.w700),
+            return Column(children: [
+              Padding(
+                padding: const EdgeInsets.only(top: 8.0),
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: const [
+                    Padding(
+                      padding: EdgeInsets.all(5.0),
+                      child: Text(
+                        'Your Favorites',
+                        style: TextStyle(
+                            color: Colors.white,
+                            fontFamily: 'poppins',
+                            fontSize: 19,
+                            fontWeight: FontWeight.w700),
+                      ),
+                    ),
+                  ],
+                ),
+              ),
+              const SizedBox(
+                height: 10.0,
+              ),
+              favoriteDish.favoriteDishList != null
+                  ? Expanded(
+                      child: Container(
+                        decoration: const BoxDecoration(
+                          color: Color(0xffFFFFFF),
+                          borderRadius: BorderRadius.only(
+                              topLeft: Radius.circular(30),
+                              topRight: Radius.circular(30)),
+                        ),
+                        child: ListView.builder(
+                          scrollDirection: Axis.vertical,
+                          itemCount: favoriteDish.favoriteDishList?.length,
+                          itemBuilder: (_, index) {
+                            final Map item =
+                                favoriteDish.favoriteDishList![index];
+                            return GestureDetector(
+                              child: Padding(
+                                padding: const EdgeInsets.only(
+                                    left: 10, right: 17, top: 8.0),
+                                child: FavoriteDishes(
+                                  image: item['dishImage'],
+                                  dishName: item['dishName'],
+                                  region: item['dishRegion'],
+                                  dateAdded: 'Yesterday 3pm',
+                                  price: item['dishprice'],
+                                ),
+                              ),
+                              onTap: () {
+                                Navigator.of(context).push(MaterialPageRoute(
+                                    builder: (context) => ViewSingleDish(
+                                          productId: item["id"],
+                                          dishViews: item['dishViews'],
+                                          dishImage: item['dishImage'],
+                                          dishName: item['dishName'],
+                                          dishDescription:
+                                              item['dishdescription'],
+                                          dishPrice: item['dishprice'],
+                                          dishRegion: item['dishRegion'],
+                                        )));
+                              },
+                            );
+                          },
                         ),
                       ),
-                    ],
-                  ),
-                ),
-                const SizedBox(
-                  height: 10.0,
-                ),
-                favoriteDish.favoriteDishList != null
-                    ? Expanded(
-                        child: Container(
-                          decoration: const BoxDecoration(
-                            color: Color(0xffFFFFFF),
-                            borderRadius: BorderRadius.only(
-                                topLeft: Radius.circular(30),
-                                topRight: Radius.circular(30)),
-                          ),
-                          child: ListView.builder(
-                            scrollDirection: Axis.vertical,
-                            itemCount: favoriteDish.favoriteDishList?.length,
-                            itemBuilder: (_, index) {
-                              final Map item =
-                                  favoriteDish.favoriteDishList![index];
-                              return GestureDetector(
-                                child: Padding(
-                                  padding: const EdgeInsets.only(
-                                      left: 10, right: 17, top: 8.0),
-                                  child: FavoriteDishes(
-                                    image: item['dishImage'],
-                                    dishName: item['dishName'],
-                                    region: item['dishRegion'],
-                                    dateAdded: 'Yesterday 3pm',
-                                    price: item['dishprice'],
-                                  ),
+                    )
+                  : favoriteDish.hasFavorite == false
+                      ? const CircularProgressIndicator()
+                      : Padding(
+                          padding: const EdgeInsets.all(8.0),
+                          child: Container(
+                            decoration: BoxDecoration(
+                                color: Colors.white,
+                                borderRadius: BorderRadius.circular(10)),
+                            child: Padding(
+                              padding: const EdgeInsets.all(8.0),
+                              child: Center(
+                                child: Column(
+                                  crossAxisAlignment: CrossAxisAlignment.center,
+                                  children: const [
+                                    Image(
+                                        height: 130,
+                                        width: 130,
+                                        image: AssetImage(
+                                            'assets/images/userImage.png')),
+                                    Text(
+                                      'When you have favorite dishe\'s they will appear here.',
+                                      style: TextStyle(
+                                          fontFamily: 'poppins',
+                                          fontSize: 20.0,
+                                          letterSpacing: -0.03,
+                                          color: Colors.black,
+                                          fontWeight: FontWeight.w300),
+                                      textAlign: TextAlign.center,
+                                    ),
+                                  ],
                                 ),
-                                onTap: () {
-                                  Navigator.of(context).push(MaterialPageRoute(
-                                      builder: (context) => ViewSingleDish(
-                                            productId: item["id"],
-                                            dishViews: item['dishViews'],
-                                            dishImage: item['dishImage'],
-                                            dishName: item['dishName'],
-                                            dishDescription:
-                                                item['dishdescription'],
-                                            dishPrice: item['dishprice'],
-                                            dishRegion: item['dishRegion'],
-                                          )));
-                                },
-                              );
-                            },
+                              ),
+                            ),
                           ),
                         ),
-                      )
-                    : const CircularProgressIndicator(),
-              ],
-            );
+            ]);
           },
         ),
       ),
