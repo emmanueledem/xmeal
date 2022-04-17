@@ -8,13 +8,17 @@ class Cartlist extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return InkWell(
-      child: Padding(
-        padding: const EdgeInsets.only(left: 10, right: 10, top: 8.0),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.end,
-          children: [
-            Row(
+    return Padding(
+      padding: const EdgeInsets.only(left: 10, right: 10, top: 8.0),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.end,
+        children: [
+          const Icon(
+            Icons.favorite,
+            color: appColour,
+          ),
+          GestureDetector(
+            child: Row(
               children: [
                 Expanded(
                   child: Row(
@@ -114,13 +118,13 @@ class Cartlist extends StatelessWidget {
                 ),
               ],
             ),
-            GestureDetector(
-                child: const Icon(
-              Icons.delete_rounded,
-              color: appColour,
-            )),
-          ],
-        ),
+          ),
+          GestureDetector(
+              child: const Icon(
+            Icons.delete_rounded,
+            color: appColour,
+          )),
+        ],
       ),
     );
   }
