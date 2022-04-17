@@ -137,7 +137,7 @@ class _HomeScreenContentState extends State<HomeScreenContent> {
                               textAlign: TextAlign.end,
                             )
                           : const Text(''),
-                      dishesProvider.viewedDishList == null ||
+                      dishesProvider.favoriteDishList == null ||
                               loggedInUser == null
                           ? const SecondHomeScreenContainer()
                           : SizedBox(
