@@ -5,6 +5,7 @@ import 'package:xmeal/services/providers/dishes_provider.dart';
 import 'package:xmeal/users/screens/login_screen.dart';
 import 'package:xmeal/users/screens/view_single_dish.dart';
 import 'package:xmeal/users/styles/constants.dart';
+import 'package:xmeal/users/widgets/empty_list_error.dart';
 import 'package:xmeal/users/widgets/home_screen_favorite_dishes.dart';
 
 class FavoriteScreen extends StatelessWidget {
@@ -116,39 +117,9 @@ class _FavoriteScreenContentState extends State<FavoriteScreenContent> {
                     )
                   : favoriteDish.hasFavorite == false
                       ? const CircularProgressIndicator()
-                      : Padding(
-                          padding: const EdgeInsets.all(8.0),
-                          child: Container(
-                            decoration: BoxDecoration(
-                                color: Colors.white,
-                                borderRadius: BorderRadius.circular(10)),
-                            child: Padding(
-                              padding: const EdgeInsets.all(8.0),
-                              child: Center(
-                                child: Column(
-                                  crossAxisAlignment: CrossAxisAlignment.center,
-                                  children: const [
-                                    Image(
-                                        height: 130,
-                                        width: 130,
-                                        image: AssetImage(
-                                            'assets/images/userImage.png')),
-                                    Text(
-                                      'When you have favorite dishe\'s they will appear here.',
-                                      style: TextStyle(
-                                          fontFamily: 'poppins',
-                                          fontSize: 20.0,
-                                          letterSpacing: -0.03,
-                                          color: Colors.black,
-                                          fontWeight: FontWeight.w300),
-                                      textAlign: TextAlign.center,
-                                    ),
-                                  ],
-                                ),
-                              ),
-                            ),
-                          ),
-                        ),
+                      : EmptyListError(
+                          errorText:
+                              'When you have favorite dishe\'s they will appear here.'),
             ]);
           },
         ),
