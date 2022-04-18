@@ -50,6 +50,7 @@ class _CartScreenContentState extends State<CartScreenContent> {
         .fetchCartItem();
   }
 
+  List<int> totalPrice = [];
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -83,7 +84,8 @@ class _CartScreenContentState extends State<CartScreenContent> {
                   const SizedBox(
                     height: 10.0,
                   ),
-                  cartItem.cartDishList!.isNotEmpty
+                  cartItem.cartDishList != null &&
+                          cartItem.cartDishList!.isNotEmpty
                       ? Expanded(
                           child: Container(
                             decoration: const BoxDecoration(
@@ -95,6 +97,7 @@ class _CartScreenContentState extends State<CartScreenContent> {
                               itemCount: cartItem.cartDishList!.length,
                               itemBuilder: (context, index) {
                                 final Map item = cartItem.cartDishList![index];
+
                                 return Padding(
                                   padding: const EdgeInsets.only(
                                       left: 10, right: 10, top: 10.0),
@@ -108,30 +111,31 @@ class _CartScreenContentState extends State<CartScreenContent> {
                                               size: 15,
                                             )
                                           : const Text(''),
-                                      GestureDetector(
-                                        onTap: () {
-                                          Navigator.of(context).push(
-                                              MaterialPageRoute(
-                                                  builder: (context) =>
-                                                      ViewSingleDish(
-                                                        productId: item["id"],
-                                                        dishViews:
-                                                            item['dishViews'],
-                                                        dishImage:
-                                                            item['dishImage'],
-                                                        dishName:
-                                                            item['dishName'],
-                                                        dishDescription: item[
-                                                            'dishdescription'],
-                                                        dishPrice:
-                                                            item['dishprice'],
-                                                        dishRegion:
-                                                            item['dishRegion'],
-                                                      )));
-                                        },
-                                        child: Row(
-                                          children: [
-                                            Expanded(
+                                      Row(
+                                        children: [
+                                          Expanded(
+                                            child: GestureDetector(
+                                              onTap: () {
+                                                Navigator.of(context).push(
+                                                    MaterialPageRoute(
+                                                        builder: (context) =>
+                                                            ViewSingleDish(
+                                                              productId:
+                                                                  item["id"],
+                                                              dishViews: item[
+                                                                  'dishViews'],
+                                                              dishImage: item[
+                                                                  'dishImage'],
+                                                              dishName: item[
+                                                                  'dishName'],
+                                                              dishDescription: item[
+                                                                  'dishdescription'],
+                                                              dishPrice: item[
+                                                                  'dishprice'],
+                                                              dishRegion: item[
+                                                                  'dishRegion'],
+                                                            )));
+                                              },
                                               child: Row(
                                                 children: [
                                                   ClipRRect(
@@ -200,74 +204,67 @@ class _CartScreenContentState extends State<CartScreenContent> {
                                                 ],
                                               ),
                                             ),
-                                            Container(
-                                              height: 30.67,
-                                              width: 83.58,
-                                              decoration: BoxDecoration(
-                                                color: Colors.white,
-                                                borderRadius:
-                                                    BorderRadius.circular(20),
-                                                border: Border.all(
-                                                    color: appColour,
-                                                    style: BorderStyle.solid,
-                                                    width: 1),
-                                              ),
-                                              child: Row(
-                                                mainAxisAlignment:
-                                                    MainAxisAlignment
-                                                        .spaceEvenly,
-                                                children: [
-                                                  const Text(
-                                                    '-',
-                                                    style: TextStyle(
-                                                      fontStyle:
-                                                          FontStyle.normal,
-                                                      fontWeight:
-                                                          FontWeight.w900,
-                                                      fontSize: 21,
-                                                      color: Color(0xffEA6435),
-                                                    ),
-                                                  ),
-                                                  Text(
-                                                    item['quantity'].toString(),
-                                                    style: const TextStyle(
-                                                      fontStyle:
-                                                          FontStyle.normal,
-                                                      fontWeight:
-                                                          FontWeight.w500,
-                                                      fontSize: 21,
-                                                      color: Color(0xffEA6435),
-                                                    ),
-                                                  ),
-                                                  const Text(
-                                                    '+',
-                                                    style: TextStyle(
-                                                      fontStyle:
-                                                          FontStyle.normal,
-                                                      fontWeight:
-                                                          FontWeight.w900,
-                                                      fontSize: 21,
-                                                      color: Color(0xffEA6435),
-                                                    ),
-                                                  ),
-                                                ],
-                                              ),
+                                          ),
+                                          Container(
+                                            height: 30.67,
+                                            width: 83.58,
+                                            decoration: BoxDecoration(
+                                              color: Colors.white,
+                                              borderRadius:
+                                                  BorderRadius.circular(20),
+                                              border: Border.all(
+                                                  color: appColour,
+                                                  style: BorderStyle.solid,
+                                                  width: 1),
                                             ),
-                                            Padding(
-                                              padding: const EdgeInsets.only(
-                                                  left: 7),
-                                              child: Text(
-                                                item['dishprice'],
-                                                style: const TextStyle(
-                                                  fontStyle: FontStyle.normal,
-                                                  fontWeight: FontWeight.w500,
-                                                  fontSize: 14,
-                                                  color: Color(0xff050505),
+                                            child: Row(
+                                              mainAxisAlignment:
+                                                  MainAxisAlignment.spaceEvenly,
+                                              children: [
+                                                const Text(
+                                                  '-',
+                                                  style: TextStyle(
+                                                    fontStyle: FontStyle.normal,
+                                                    fontWeight: FontWeight.w900,
+                                                    fontSize: 21,
+                                                    color: Color(0xffEA6435),
+                                                  ),
                                                 ),
+                                                Text(
+                                                  item['quantity'].toString(),
+                                                  style: const TextStyle(
+                                                    fontStyle: FontStyle.normal,
+                                                    fontWeight: FontWeight.w500,
+                                                    fontSize: 21,
+                                                    color: Color(0xffEA6435),
+                                                  ),
+                                                ),
+                                                const Text(
+                                                  '+',
+                                                  style: TextStyle(
+                                                    fontStyle: FontStyle.normal,
+                                                    fontWeight: FontWeight.w900,
+                                                    fontSize: 21,
+                                                    color: Color(0xffEA6435),
+                                                  ),
+                                                ),
+                                              ],
+                                            ),
+                                          ),
+                                          Padding(
+                                            padding:
+                                                const EdgeInsets.only(left: 7),
+                                            child: Text(
+                                              item['dishprice'],
+                                              style: const TextStyle(
+                                                fontStyle: FontStyle.normal,
+                                                fontWeight: FontWeight.w500,
+                                                fontSize: 14,
+                                                color: Color(0xff050505),
                                               ),
                                             ),
-                                          ],
-                                        ),
+                                          ),
+                                        ],
                                       ),
                                       Consumer<DishOrderProvider>(
                                         builder: (context, dishOrder, child) {
@@ -326,7 +323,8 @@ class _CartScreenContentState extends State<CartScreenContent> {
                               errorText:
                                   'When you add dishe\'s to cart they will appear here.')
                           : const CircularProgressIndicator(),
-                  cartItem.cartDishList!.isNotEmpty
+                  cartItem.cartDishList != null &&
+                          cartItem.cartDishList!.isNotEmpty
                       ? Padding(
                           padding: const EdgeInsets.only(
                               left: 15, right: 15, top: 20),
@@ -353,8 +351,8 @@ class _CartScreenContentState extends State<CartScreenContent> {
                                 child: Row(
                                   mainAxisAlignment:
                                       MainAxisAlignment.spaceBetween,
-                                  children: const [
-                                    Text(
+                                  children: [
+                                    const Text(
                                       'Total',
                                       style: TextStyle(
                                         fontStyle: FontStyle.normal,
@@ -365,8 +363,8 @@ class _CartScreenContentState extends State<CartScreenContent> {
                                       ),
                                     ),
                                     Text(
-                                      '₹420',
-                                      style: TextStyle(
+                                      cartItem.totalDishPrice.toString(),
+                                      style: const TextStyle(
                                         fontStyle: FontStyle.normal,
                                         fontFamily: 'poppins',
                                         fontWeight: FontWeight.w600,
@@ -379,7 +377,8 @@ class _CartScreenContentState extends State<CartScreenContent> {
                               )),
                         )
                       : const Text(''),
-                  cartItem.cartDishList!.isNotEmpty
+                  cartItem.cartDishList != null &&
+                          cartItem.cartDishList!.isNotEmpty
                       ? Padding(
                           padding: const EdgeInsets.only(left: 25, top: 20),
                           child: Column(
