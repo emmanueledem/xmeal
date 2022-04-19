@@ -50,7 +50,6 @@ class _CartScreenContentState extends State<CartScreenContent> {
         .fetchCartItem();
   }
 
-  List<int> totalPrice = [];
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -100,7 +99,7 @@ class _CartScreenContentState extends State<CartScreenContent> {
 
                                 return Padding(
                                   padding: const EdgeInsets.only(
-                                      left: 10, right: 10, top: 10.0),
+                                      left: 10, right: 10, top: 12.0),
                                   child: Column(
                                     crossAxisAlignment: CrossAxisAlignment.end,
                                     children: [
@@ -108,7 +107,7 @@ class _CartScreenContentState extends State<CartScreenContent> {
                                           ? const Icon(
                                               Icons.favorite,
                                               color: appColour,
-                                              size: 15,
+                                              size: 17,
                                             )
                                           : const Text(''),
                                       Row(
@@ -221,13 +220,41 @@ class _CartScreenContentState extends State<CartScreenContent> {
                                               mainAxisAlignment:
                                                   MainAxisAlignment.spaceEvenly,
                                               children: [
-                                                const Text(
-                                                  '-',
-                                                  style: TextStyle(
-                                                    fontStyle: FontStyle.normal,
-                                                    fontWeight: FontWeight.w900,
-                                                    fontSize: 21,
-                                                    color: Color(0xffEA6435),
+                                                GestureDetector(
+                                                  onTap: () async {
+                                                    var networkProvider =
+                                                        Provider.of<
+                                                                NetworkInfoImpl>(
+                                                            context,
+                                                            listen: false);
+                                                    await networkProvider
+                                                        .checkNewtworkStatus();
+                                                    if (networkProvider
+                                                            .networkStatus ==
+                                                        true) {
+                                                      await cartItem
+                                                          .handleItemQuantity(
+                                                              item[
+                                                                  'cartDocsId'],
+                                                              item['quantity'],
+                                                              'subtract');
+                                                      await _handleCartItems();
+                                                      setState(() {});
+                                                    } else {
+                                                      networkAlertMessage(
+                                                          context);
+                                                    }
+                                                  },
+                                                  child: const Text(
+                                                    '-',
+                                                    style: TextStyle(
+                                                      fontStyle:
+                                                          FontStyle.normal,
+                                                      fontWeight:
+                                                          FontWeight.w900,
+                                                      fontSize: 21,
+                                                      color: Color(0xffEA6435),
+                                                    ),
                                                   ),
                                                 ),
                                                 Text(
@@ -239,13 +266,41 @@ class _CartScreenContentState extends State<CartScreenContent> {
                                                     color: Color(0xffEA6435),
                                                   ),
                                                 ),
-                                                const Text(
-                                                  '+',
-                                                  style: TextStyle(
-                                                    fontStyle: FontStyle.normal,
-                                                    fontWeight: FontWeight.w900,
-                                                    fontSize: 21,
-                                                    color: Color(0xffEA6435),
+                                                GestureDetector(
+                                                  onTap: () async {
+                                                    var networkProvider =
+                                                        Provider.of<
+                                                                NetworkInfoImpl>(
+                                                            context,
+                                                            listen: false);
+                                                    await networkProvider
+                                                        .checkNewtworkStatus();
+                                                    if (networkProvider
+                                                            .networkStatus ==
+                                                        true) {
+                                                      await cartItem
+                                                          .handleItemQuantity(
+                                                              item[
+                                                                  'cartDocsId'],
+                                                              item['quantity'],
+                                                              'add');
+                                                      await _handleCartItems();
+                                                      setState(() {});
+                                                    } else {
+                                                      networkAlertMessage(
+                                                          context);
+                                                    }
+                                                  },
+                                                  child: const Text(
+                                                    '+',
+                                                    style: TextStyle(
+                                                      fontStyle:
+                                                          FontStyle.normal,
+                                                      fontWeight:
+                                                          FontWeight.w900,
+                                                      fontSize: 21,
+                                                      color: Color(0xffEA6435),
+                                                    ),
                                                   ),
                                                 ),
                                               ],
@@ -255,7 +310,7 @@ class _CartScreenContentState extends State<CartScreenContent> {
                                             padding:
                                                 const EdgeInsets.only(left: 7),
                                             child: Text(
-                                              item['dishprice'],
+                                              item['itemPrice'].toString(),
                                               style: const TextStyle(
                                                 fontStyle: FontStyle.normal,
                                                 fontWeight: FontWeight.w500,
@@ -363,7 +418,7 @@ class _CartScreenContentState extends State<CartScreenContent> {
                                       ),
                                     ),
                                     Text(
-                                      cartItem.totalDishPrice.toString(),
+                                      cartItem.totalOfAllItems.toString(),
                                       style: const TextStyle(
                                         fontStyle: FontStyle.normal,
                                         fontFamily: 'poppins',

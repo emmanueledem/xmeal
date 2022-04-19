@@ -69,6 +69,7 @@ class _ViewSingleDishState extends State<ViewSingleDish> {
     await dishProvider.checkIfFavotite(
       widget.productId,
     );
+
     await Provider.of<DishOrderProvider>(context, listen: false)
         .checkIfInCart(widget.productId);
 

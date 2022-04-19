@@ -12,7 +12,7 @@ class DishOrderProvider extends ChangeNotifier {
   List<Map<String, dynamic>>? cartDishList;
   bool hasItemInCart = false;
   bool inAsyncCall = false;
-  int? totalDishPrice;
+  int? totalOfAllItems;
   CollectionReference dishes = FirebaseFirestore.instance.collection('dishes');
   CollectionReference favoriteDish =
       FirebaseFirestore.instance.collection('favoriteDish');
@@ -26,7 +26,7 @@ class DishOrderProvider extends ChangeNotifier {
     userId = _auth.currentUser!.uid;
     var res = await cart
         .where('dishId', isEqualTo: dishId)
-        .where('viewedBy', isEqualTo: userId)
+        .where('addedBy', isEqualTo: userId)
         .get();
     if (res.docs.isNotEmpty) {
       isAddedToCart = true;
@@ -72,6 +72,7 @@ class DishOrderProvider extends ChangeNotifier {
 
   Future<List<Map<String, dynamic>>?> fetchCartItem() async {
     String userId;
+    int? itemPrice;
     userId = _auth.currentUser!.uid;
     List<Map<String, dynamic>>? listData = [];
     List<int> _handlePriceList = [];
@@ -86,6 +87,7 @@ class DishOrderProvider extends ChangeNotifier {
       for (var res in value.docs) {
         Map<String, dynamic> data = res.data() as Map<String, dynamic>;
         cartDishId = data['dishId'];
+        var itemCount = data['itemCount'];
         await dishes.doc(cartDishId).get().then((dishDocs) async {
           var ifFavorite = await favoriteDish
               .where('dishId', isEqualTo: cartDishId)
@@ -99,9 +101,12 @@ class DishOrderProvider extends ChangeNotifier {
             dishData['favorite'] = true;
           }
 
-          _handlePriceList.add(int.parse(dishData['dishprice']));
-          totalDishPrice = _handlePriceList.reduce((a, b) => a + b);
+          itemPrice = int.parse(dishData['dishprice']) * itemCount as int;
 
+          _handlePriceList.add(itemPrice!);
+          totalOfAllItems = _handlePriceList.reduce((a, b) => a + b);
+
+          dishData['itemPrice'] = itemPrice;
           dishData['quantity'] = data['itemCount'];
           dishData['cartDocsId'] = res.id;
           dishData['id'] = dishDocs.id;
@@ -123,6 +128,21 @@ class DishOrderProvider extends ChangeNotifier {
     }
     manageProgress(false);
 
+    notifyListeners();
+  }
+
+  Future handleItemQuantity(cartDocsId, itemCount, decision) async {
+    manageProgress(true);
+    if (decision == 'subtract') {
+      var newItemCount = itemCount > 1 ? itemCount - 1 : itemCount = 1;
+      var data = {'itemCount': newItemCount};
+      await cart.doc(cartDocsId).update(data);
+    } else if (decision == 'add') {
+      var newItemCount = itemCount + 1;
+      var data = {'itemCount': newItemCount};
+      await cart.doc(cartDocsId).update(data);
+    }
+    manageProgress(false);
     notifyListeners();
   }
 }
