@@ -1,12 +1,12 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
-import 'package:logger/logger.dart';
 import 'package:modal_progress_hud_nsn/modal_progress_hud_nsn.dart';
 import 'package:provider/provider.dart';
 import 'package:xmeal/services/providers/internet_provider.dart';
 import 'package:xmeal/services/providers/orders_provider.dart';
 import 'package:xmeal/users/screens/login_screen.dart';
+import 'package:xmeal/users/screens/qr_sacanner_create.dart';
 import 'package:xmeal/users/screens/view_single_dish.dart';
 import 'package:xmeal/users/styles/constants.dart';
 import 'package:xmeal/users/widgets/alert_boxes.dart';
@@ -439,26 +439,31 @@ class _CartScreenContentState extends State<CartScreenContent> {
                           child: Column(
                             crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
-                              Container(
-                                height: 50.6,
-                                width: 220.93,
-                                decoration: const BoxDecoration(
-                                  borderRadius:
-                                      BorderRadius.all(Radius.circular(25)),
-                                  color: Colors.white,
-                                ),
-                                child: const Padding(
-                                  padding: EdgeInsets.symmetric(
-                                      vertical: 10, horizontal: 35),
-                                  child: Text(
-                                    'Place Order >>',
-                                    textAlign: TextAlign.center,
-                                    style: TextStyle(
-                                      fontStyle: FontStyle.normal,
-                                      fontFamily: 'poppins',
-                                      fontWeight: FontWeight.w600,
-                                      fontSize: 18,
-                                      color: appColour,
+                              GestureDetector(
+                                onTap: () {
+                                  Navigator.pushNamed(context, QrScanner.id);
+                                },
+                                child: Container(
+                                  height: 50.6,
+                                  width: 220.93,
+                                  decoration: const BoxDecoration(
+                                    borderRadius:
+                                        BorderRadius.all(Radius.circular(25)),
+                                    color: Colors.white,
+                                  ),
+                                  child: const Padding(
+                                    padding: EdgeInsets.symmetric(
+                                        vertical: 10, horizontal: 35),
+                                    child: Text(
+                                      'Place Order >>',
+                                      textAlign: TextAlign.center,
+                                      style: TextStyle(
+                                        fontStyle: FontStyle.normal,
+                                        fontFamily: 'poppins',
+                                        fontWeight: FontWeight.w600,
+                                        fontSize: 18,
+                                        color: appColour,
+                                      ),
                                     ),
                                   ),
                                 ),
