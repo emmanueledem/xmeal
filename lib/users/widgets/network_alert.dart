@@ -5,7 +5,7 @@ networkAlertMessage(BuildContext context) {
   return Alert(
     context: context,
     type: AlertType.error,
-    title: "NetWork Error",
+    title: "Network Error",
     desc: "Connect to a network to continue",
     buttons: [
       DialogButton(

@@ -6,7 +6,7 @@ import 'package:xmeal/users/screens/home_screen.dart';
 import 'package:xmeal/users/screens/loading_screen.dart';
 import 'package:xmeal/users/screens/notification_screen.dart';
 import 'package:xmeal/users/screens/order_details_screen.dart';
-import 'package:xmeal/users/screens/qr_sacanner_create.dart';
+import 'package:xmeal/users/screens/qr_sacanner_scan.dart';
 import 'package:xmeal/users/screens/welcome_screens/first_welcome_screen.dart';
 import 'package:xmeal/users/screens/register_screen.dart';
 import 'package:xmeal/users/screens/welcome_screens/second_welcome_screen.dart';
@@ -87,7 +87,7 @@ class MyApp extends StatelessWidget {
           WaiterDishlistScreen.id: (context) => const WaiterDishlistScreen(),
           WaiterAddDishScreen.id: (context) => const WaiterAddDishScreen(),
           AllUsersList.id: (context) => AllUsersList(),
-          QrScanner.id: (context) => const QrScanner(),
+          Qr_Scanner.id: (context) => const Qr_Scanner(),
         },
       ),
     );

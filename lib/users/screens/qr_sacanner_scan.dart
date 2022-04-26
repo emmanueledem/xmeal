@@ -1,12 +1,14 @@
 import 'dart:io';
-import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:qr_code_scanner/qr_code_scanner.dart';
-import 'package:qr_flutter/qr_flutter.dart';
+import 'package:xmeal/users/screens/order_details_screen.dart';
+import 'package:xmeal/users/screens/orders_screen.dart';
 import 'package:xmeal/users/styles/constants.dart';
 
 class Qr_Scanner extends StatefulWidget {
   const Qr_Scanner({Key? key}) : super(key: key);
+  static String id = 'QrScanner';
+
   @override
   State<Qr_Scanner> createState() => _QrScannerState();
 }
@@ -55,10 +57,57 @@ class _QrScannerState extends State<Qr_Scanner> {
             flex: 1,
             child: Center(
               child: (result != null)
-                  ? Text(
-                      'Barcode Type: ${describeEnum(result!.format)}   Data: ${result!.code}')
-                  :const Text(
-                      'Scan a code',
+                  ? Column(
+                      children: [
+                        const Text(
+                          'Qr Code scanned successfully',
+                          style: TextStyle(
+                            fontFamily: 'poppins',
+                            fontSize: 15,
+                          ),
+                        ),
+                        Text(
+                          '  Data: ${result!.code}',
+                          style: const TextStyle(
+                              fontFamily: 'poppins',
+                              fontSize: 20,
+                              fontWeight: FontWeight.bold),
+                        ),
+                        ElevatedButton(
+                            style: ButtonStyle(
+                                backgroundColor:
+                                    MaterialStateProperty.all(appColour)),
+                            onPressed: () {
+                              Navigator.push(
+                                  context,
+                                  MaterialPageRoute(
+                                      builder: (context) =>
+                                          const OrderDetails()));
+                            },
+                            child: const Text('Confirm Order',
+                                style: TextStyle(color: Colors.white)))
+                      ],
+                    )
+                  : Padding(
+                      padding: const EdgeInsets.only(top: 25),
+                      child: Column(
+                        children: const [
+                          Text(
+                            'scan the Qr code of your table',
+                            style: TextStyle(
+                              fontFamily: 'poppins',
+                              fontSize: 15,
+                            ),
+                          ),
+                          Text(
+                            'we do this inorder to know your location',
+                            style: TextStyle(
+                              fontFamily: 'poppins',
+                              fontSize: 13,
+                            ),
+                          ),
+                        ],
+                      ),
                     ),
             ),
           ),

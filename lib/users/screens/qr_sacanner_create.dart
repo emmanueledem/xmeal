@@ -4,7 +4,6 @@ import 'package:xmeal/users/screens/qr_sacanner_scan.dart';
 
 class QrScanner extends StatefulWidget {
   const QrScanner({Key? key}) : super(key: key);
-  static String id = 'QrScanner';
   @override
   State<QrScanner> createState() => _QrScannerState();
 }

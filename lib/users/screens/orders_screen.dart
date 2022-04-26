@@ -2,7 +2,6 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:xmeal/users/screens/order_details_screen.dart';
 import 'package:xmeal/users/widgets/orders_list.dart';
-
 import 'login_screen.dart';
 
 class OrdersScreen extends StatefulWidget {

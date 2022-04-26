@@ -6,7 +6,7 @@ import 'package:provider/provider.dart';
 import 'package:xmeal/services/providers/internet_provider.dart';
 import 'package:xmeal/services/providers/orders_provider.dart';
 import 'package:xmeal/users/screens/login_screen.dart';
-import 'package:xmeal/users/screens/qr_sacanner_create.dart';
+import 'package:xmeal/users/screens/qr_sacanner_scan.dart';
 import 'package:xmeal/users/screens/view_single_dish.dart';
 import 'package:xmeal/users/styles/constants.dart';
 import 'package:xmeal/users/widgets/alert_boxes.dart';
@@ -441,7 +441,7 @@ class _CartScreenContentState extends State<CartScreenContent> {
                             children: [
                               GestureDetector(
                                 onTap: () {
-                                  Navigator.pushNamed(context, QrScanner.id);
+                                  Navigator.pushNamed(context, Qr_Scanner.id);
                                 },
                                 child: Container(
                                   height: 50.6,
