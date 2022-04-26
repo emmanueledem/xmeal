@@ -1,5 +1,6 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/material.dart';
 import 'package:logger/logger.dart';
 
@@ -13,9 +14,13 @@ class DishOrderProvider extends ChangeNotifier {
   bool hasItemInCart = false;
   bool inAsyncCall = false;
   int? totalOfAllItems;
+  bool? OrderCompleted;
+
   CollectionReference dishes = FirebaseFirestore.instance.collection('dishes');
   CollectionReference favoriteDish =
       FirebaseFirestore.instance.collection('favoriteDish');
+  CollectionReference ordersCollection =
+      FirebaseFirestore.instance.collection('orders');
   void manageProgress(value) {
     inAsyncCall = value;
     notifyListeners();
@@ -142,6 +147,23 @@ class DishOrderProvider extends ChangeNotifier {
       var data = {'itemCount': newItemCount};
       await cart.doc(cartDocsId).update(data);
     }
+    manageProgress(false);
+    notifyListeners();
+  }
+
+  Future handleItemOrdering(tableNo) async {
+    manageProgress(true);
+    Logger().d(tableNo);
+    String userId;
+    userId = _auth.currentUser!.uid;
+    var data = {
+      'userId': userId,
+      'tableNo': tableNo,
+      'orderStatus': 'Pending',
+      'dateOrdered': DateTime.now(),
+    };
+    await ordersCollection.doc().set(data);
+    OrderCompleted = true;
     manageProgress(false);
     notifyListeners();
   }
