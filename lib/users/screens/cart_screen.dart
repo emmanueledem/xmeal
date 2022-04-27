@@ -1,6 +1,7 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:logger/logger.dart';
 import 'package:modal_progress_hud_nsn/modal_progress_hud_nsn.dart';
 import 'package:provider/provider.dart';
 import 'package:xmeal/services/providers/internet_provider.dart';
@@ -96,7 +97,6 @@ class _CartScreenContentState extends State<CartScreenContent> {
                               itemCount: cartItem.cartDishList!.length,
                               itemBuilder: (context, index) {
                                 final Map item = cartItem.cartDishList![index];
-
                                 return Padding(
                                   padding: const EdgeInsets.only(
                                       left: 10, right: 10, top: 12.0),
@@ -343,7 +343,8 @@ class _CartScreenContentState extends State<CartScreenContent> {
                                                             context,
                                                             listen: false)
                                                         .removeItemFromCart(
-                                                            item['cartDocsId']);
+                                                            item['cartDocsId'],
+                                                            item['orderId']);
                                                     await _handleCartItems();
                                                     setState(() {});
                                                   } else {

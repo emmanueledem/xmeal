@@ -1,6 +1,6 @@
+import 'dart:math';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
-import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/material.dart';
 import 'package:logger/logger.dart';
 
@@ -14,7 +14,7 @@ class DishOrderProvider extends ChangeNotifier {
   bool hasItemInCart = false;
   bool inAsyncCall = false;
   int? totalOfAllItems;
-  bool? OrderCompleted;
+  bool? orderCompleted;
 
   CollectionReference dishes = FirebaseFirestore.instance.collection('dishes');
   CollectionReference favoriteDish =
@@ -32,6 +32,7 @@ class DishOrderProvider extends ChangeNotifier {
     var res = await cart
         .where('dishId', isEqualTo: dishId)
         .where('addedBy', isEqualTo: userId)
+        .where('itemStatus', isEqualTo: 'active')
         .get();
     if (res.docs.isNotEmpty) {
       isAddedToCart = true;
@@ -48,6 +49,7 @@ class DishOrderProvider extends ChangeNotifier {
     await cart
         .where('addedBy', isEqualTo: userId)
         .where('dishId', isEqualTo: dishId)
+        .where('itemStatus', isEqualTo: 'active')
         .get()
         .then((value) async {
       if (value.docs.isEmpty) {
@@ -56,6 +58,8 @@ class DishOrderProvider extends ChangeNotifier {
           'dishId': dishId,
           'addedBy': userId,
           'dateAdded': DateTime.now(),
+          'itemStatus': 'active',
+          'orderId': '',
         };
         await cart.doc().set(data);
         isAddedToCart = true;
@@ -82,7 +86,11 @@ class DishOrderProvider extends ChangeNotifier {
     List<Map<String, dynamic>>? listData = [];
     List<int> _handlePriceList = [];
 
-    await cart.where('addedBy', isEqualTo: userId).get().then((value) async {
+    await cart
+        .where('addedBy', isEqualTo: userId)
+        .where('itemStatus', isEqualTo: 'active')
+        .get()
+        .then((value) async {
       if (value.docs.isEmpty) {
         hasItemInCart = true;
       } else {
@@ -113,6 +121,7 @@ class DishOrderProvider extends ChangeNotifier {
 
           dishData['itemPrice'] = itemPrice;
           dishData['quantity'] = data['itemCount'];
+          dishData['orderId'] = data['orderId'];
           dishData['cartDocsId'] = res.id;
           dishData['id'] = dishDocs.id;
           listData.add(dishData);
@@ -124,12 +133,21 @@ class DishOrderProvider extends ChangeNotifier {
     return cartDishList;
   }
 
-  Future removeItemFromCart(cartDocsId) async {
+  Future removeItemFromCart(cartDocsId, orderId) async {
     manageProgress(true);
-    await cart.doc(cartDocsId).delete();
-    if (cartDishList?.length == 1) {
-      cartDishList?.clear();
-      hasItemInCart = true;
+    if (orderId == null) {
+      await cart.doc(cartDocsId).delete();
+      if (cartDishList?.length == 1) {
+        cartDishList?.clear();
+        hasItemInCart = true;
+      }
+    } else {
+      var data = {'itemStatus': 'dropped'};
+      await cart.doc(cartDocsId).update(data);
+      if (cartDishList?.length == 1) {
+        cartDishList?.clear();
+        hasItemInCart = true;
+      }
     }
     manageProgress(false);
 
@@ -153,18 +171,52 @@ class DishOrderProvider extends ChangeNotifier {
 
   Future handleItemOrdering(tableNo) async {
     manageProgress(true);
-    Logger().d(tableNo);
     String userId;
     userId = _auth.currentUser!.uid;
-    var data = {
-      'userId': userId,
-      'tableNo': tableNo,
-      'orderStatus': 'Pending',
-      'dateOrdered': DateTime.now(),
-    };
-    await ordersCollection.doc().set(data);
-    OrderCompleted = true;
+    const _chars =
+        'AaBbCcDdEeFfGgHhIiJjKkLlMmNnOoPpQqRrSsTtUuVvWwXxYyZz1234567890';
+    Random _rnd = Random.secure();
+
+    String getRandomString(int length) =>
+        String.fromCharCodes(Iterable.generate(
+            length, (_) => _chars.codeUnitAt(_rnd.nextInt(_chars.length))));
+
+    String randomString = getRandomString(15);
+    await cart
+        .where('addedBy', isEqualTo: userId)
+        .where('itemStatus', isEqualTo: 'active')
+        .get()
+        .then((value) async {
+      for (var res in value.docs) {
+        var cartdata = {'orderId': randomString, 'itemStatus': 'dropped'};
+        await cart.doc(res.id).update(cartdata);
+      }
+
+      var data = {
+        'userId': userId,
+        'tableNo': tableNo,
+        'orderStatus': 'Pending',
+        'orderId': randomString,
+        'dateOrdered': DateTime.now(),
+      };
+      await ordersCollection.doc().set(data);
+      await fetchCartItem();
+
+      cartDishList?.clear();
+      hasItemInCart = true;
+
+      orderCompleted = true;
+    });
+
     manageProgress(false);
     notifyListeners();
   }
+
+
+
+      Future fetchOrders() async{
+         
+      }
+
+
 }

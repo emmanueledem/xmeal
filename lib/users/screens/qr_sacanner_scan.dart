@@ -127,12 +127,11 @@ class _QrScannerState extends State<Qr_Scanner> {
       });
       var itemOrder = Provider.of<DishOrderProvider>(context, listen: false);
       await itemOrder.handleItemOrdering(scanData.code);
-      itemOrder.OrderCompleted == true
+      itemOrder.orderCompleted == true
           ? Navigator.pushReplacement(context,
               MaterialPageRoute(builder: (context) => const OrderDetails()))
           : const Text('');
       controller.resumeCamera();
-      Logger().d(result!.code);
     });
   }
 }
