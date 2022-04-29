@@ -2,7 +2,7 @@ import 'dart:math';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
-import 'package:logger/logger.dart';
+import 'package:xmeal/services/utilities/format_date.dart';
 
 class DishOrderProvider extends ChangeNotifier {
   CollectionReference cart = FirebaseFirestore.instance.collection("cart");
@@ -11,10 +11,14 @@ class DishOrderProvider extends ChangeNotifier {
   String? updateResponse;
   String? cartDishId;
   List<Map<String, dynamic>>? cartDishList;
+  List<Map<String, dynamic>>? allOrdersList;
   bool hasItemInCart = false;
   bool inAsyncCall = false;
   int? totalOfAllItems;
   bool? orderCompleted;
+  int? totalOfquantity;
+  String? orderDate;
+  String? randomString;
 
   CollectionReference dishes = FirebaseFirestore.instance.collection('dishes');
   CollectionReference favoriteDish =
@@ -85,6 +89,7 @@ class DishOrderProvider extends ChangeNotifier {
     userId = _auth.currentUser!.uid;
     List<Map<String, dynamic>>? listData = [];
     List<int> _handlePriceList = [];
+    List<int> _handleQuantityList = [];
 
     await cart
         .where('addedBy', isEqualTo: userId)
@@ -118,6 +123,9 @@ class DishOrderProvider extends ChangeNotifier {
 
           _handlePriceList.add(itemPrice!);
           totalOfAllItems = _handlePriceList.reduce((a, b) => a + b);
+
+          _handleQuantityList.add(itemCount!);
+          totalOfquantity = _handleQuantityList.reduce((a, b) => a + b);
 
           dishData['itemPrice'] = itemPrice;
           dishData['quantity'] = data['itemCount'];
@@ -181,7 +189,7 @@ class DishOrderProvider extends ChangeNotifier {
         String.fromCharCodes(Iterable.generate(
             length, (_) => _chars.codeUnitAt(_rnd.nextInt(_chars.length))));
 
-    String randomString = getRandomString(15);
+    randomString = getRandomString(15);
     await cart
         .where('addedBy', isEqualTo: userId)
         .where('itemStatus', isEqualTo: 'active')
@@ -198,13 +206,15 @@ class DishOrderProvider extends ChangeNotifier {
         'orderStatus': 'Pending',
         'orderId': randomString,
         'dateOrdered': DateTime.now(),
+        'totalItems': totalOfquantity,
+        'totalPrice': totalOfAllItems,
       };
       await ordersCollection.doc().set(data);
       await fetchCartItem();
 
       cartDishList?.clear();
+      await fetchOrders();
       hasItemInCart = true;
-
       orderCompleted = true;
     });
 
@@ -212,11 +222,29 @@ class DishOrderProvider extends ChangeNotifier {
     notifyListeners();
   }
 
+  Future<List<Map<String, dynamic>>?> fetchOrders() async {
+    String userId;
+    userId = _auth.currentUser!.uid;
+    List<Map<String, dynamic>>? listData = [];
 
+    await ordersCollection
+        .where('userId', isEqualTo: userId)
+        .get()
+        .then((ordersCollectiondatavalue) async {
+      for (var res in ordersCollectiondatavalue.docs) {
+        Map<String, dynamic> ordersCollectiondata =
+            res.data() as Map<String, dynamic>;
+        var dateJoined = ordersCollectiondata['dateOrdered'];
+        listData.add(ordersCollectiondata);
+        allOrdersList = listData;
 
-      Future fetchOrders() async{
-         
+        DateTime convertedDate =
+            DateTime.fromMillisecondsSinceEpoch(dateJoined!.seconds * 1000);
+        FormatDateUtils dateReg = FormatDateUtils();
+        orderDate = dateReg.dateRefactor(convertedDate);
       }
-
-
+    });
+    notifyListeners();
+    return allOrdersList;
+  }
 }

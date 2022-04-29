@@ -116,7 +116,7 @@ class _FavoriteScreenContentState extends State<FavoriteScreenContent> {
                       ),
                     )
                   : favoriteDish.hasFavorite == false
-                      ? const CircularProgressIndicator()
+                      ? const Center(child: CircularProgressIndicator())
                       : EmptyListError(
                           errorText:
                               'When you have favorite dishe\'s they will appear here.'),

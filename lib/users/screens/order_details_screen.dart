@@ -1,12 +1,23 @@
 import 'package:flutter/material.dart';
+import 'package:logger/logger.dart';
 import 'package:xmeal/users/styles/constants.dart';
 import 'package:xmeal/users/widgets/items_in_order.dart';
 
-class OrderDetails extends StatelessWidget {
-  const OrderDetails({Key? key}) : super(key: key);
-  static String id = 'OrderDetails';
+class OrderDetails extends StatefulWidget {
+  OrderDetails({
+    Key? key,
+    required this.orderId,
+  }) : super(key: key);
+  String orderId;
+
+  @override
+  State<OrderDetails> createState() => _OrderDetailsState();
+}
+
+class _OrderDetailsState extends State<OrderDetails> {
   @override
   Widget build(BuildContext context) {
+    Logger().d(widget.orderId);
     return Scaffold(
       backgroundColor: appColour,
       body: SafeArea(

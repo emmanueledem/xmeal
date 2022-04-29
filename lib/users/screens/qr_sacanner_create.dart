@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:qr_flutter/qr_flutter.dart';
-import 'package:xmeal/users/screens/qr_sacanner_scan.dart';
 
 class QrScanner extends StatefulWidget {
   const QrScanner({Key? key}) : super(key: key);
@@ -67,7 +66,7 @@ class _QrScannerState extends State<QrScanner> {
                 Navigator.push(
                     context,
                     MaterialPageRoute(
-                        builder: (context) => const Qr_Scanner()));
+                        builder: (context) => const QrScanner()));
               })
         ]),
       )),

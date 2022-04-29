@@ -1,7 +1,6 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
-import 'package:logger/logger.dart';
 import 'package:modal_progress_hud_nsn/modal_progress_hud_nsn.dart';
 import 'package:provider/provider.dart';
 import 'package:xmeal/services/providers/internet_provider.dart';
@@ -378,7 +377,7 @@ class _CartScreenContentState extends State<CartScreenContent> {
                           ? EmptyListError(
                               errorText:
                                   'When you add dishe\'s to cart they will appear here.')
-                          : const CircularProgressIndicator(),
+                          : const Center(child: CircularProgressIndicator()),
                   cartItem.cartDishList != null &&
                           cartItem.cartDishList!.isNotEmpty
                       ? Padding(
@@ -442,7 +441,7 @@ class _CartScreenContentState extends State<CartScreenContent> {
                             children: [
                               GestureDetector(
                                 onTap: () {
-                                  Navigator.pushNamed(context, Qr_Scanner.id);
+                                  Navigator.pushNamed(context, QrScanner.id);
                                 },
                                 child: Container(
                                   height: 50.6,

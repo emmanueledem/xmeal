@@ -1,6 +1,5 @@
 import 'dart:io';
 import 'package:flutter/material.dart';
-import 'package:logger/logger.dart';
 import 'package:modal_progress_hud_nsn/modal_progress_hud_nsn.dart';
 import 'package:provider/provider.dart';
 import 'package:qr_code_scanner/qr_code_scanner.dart';
@@ -8,15 +7,15 @@ import 'package:xmeal/services/providers/orders_provider.dart';
 import 'package:xmeal/users/screens/order_details_screen.dart';
 import 'package:xmeal/users/styles/constants.dart';
 
-class Qr_Scanner extends StatefulWidget {
-  const Qr_Scanner({Key? key}) : super(key: key);
+class QrScanner extends StatefulWidget {
+  const QrScanner({Key? key}) : super(key: key);
   static String id = 'QrScanner';
 
   @override
-  State<Qr_Scanner> createState() => _QrScannerState();
+  State<QrScanner> createState() => _QrScannerState();
 }
 
-class _QrScannerState extends State<Qr_Scanner> {
+class _QrScannerState extends State<QrScanner> {
   final GlobalKey qrKey = GlobalKey(debugLabel: 'QR');
   Barcode? result;
   QRViewController? controller;
@@ -129,7 +128,7 @@ class _QrScannerState extends State<Qr_Scanner> {
       await itemOrder.handleItemOrdering(scanData.code);
       itemOrder.orderCompleted == true
           ? Navigator.pushReplacement(context,
-              MaterialPageRoute(builder: (context) => const OrderDetails()))
+              MaterialPageRoute(builder: (context) =>  OrderDetails(orderId: itemOrder.randomString.toString(),)))
           : const Text('');
       controller.resumeCamera();
     });

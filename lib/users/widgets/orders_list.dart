@@ -4,18 +4,18 @@ import 'package:xmeal/users/styles/constants.dart';
 class Orderslist extends StatelessWidget {
   const Orderslist({
     Key? key,
-    required this.itemName,
     required this.itemPrice,
     required this.itemQuantity,
     required this.itemRegion,
     required this.orderDate,
     required this.onPressed,
+    required this.orderStatus,
   }) : super(key: key);
-  final String itemName;
-  final double itemPrice;
-  final String itemQuantity;
+  final int itemPrice;
+  final int itemQuantity;
   final String itemRegion;
   final String orderDate;
+  final String orderStatus;
   final VoidCallback onPressed;
 
   @override
@@ -111,14 +111,16 @@ class Orderslist extends StatelessWidget {
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       const Text(
-                        'ITEMS',
+                        'Dishes',
                         style: TextStyle(
                             color: Color(0xff999999),
                             fontSize: 15,
                             fontWeight: FontWeight.w500),
                       ),
                       Text(
-                        '$itemQuantity $itemName',
+                        itemQuantity == 1
+                            ? itemQuantity.toString() + ' Dish'
+                            : itemQuantity.toString() + ' Dishes',
                         style: const TextStyle(
                             color: Colors.black,
                             fontFamily: 'poppins',
@@ -164,8 +166,8 @@ class Orderslist extends StatelessWidget {
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
-                  const Text(
-                    'Rejected',
+                  Text(
+                    orderStatus,
                     style: TextStyle(
                         color: Color(0xff999999),
                         fontSize: 15,
