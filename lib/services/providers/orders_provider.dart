@@ -2,6 +2,7 @@ import 'dart:math';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:logger/logger.dart';
 import 'package:xmeal/services/utilities/format_date.dart';
 
 class DishOrderProvider extends ChangeNotifier {
@@ -11,10 +12,12 @@ class DishOrderProvider extends ChangeNotifier {
   String? updateResponse;
   String? cartDishId;
   List<Map<String, dynamic>>? cartDishList;
+  List<Map<String, dynamic>>? orderDetailsList;
   List<Map<String, dynamic>>? allOrdersList;
   bool hasItemInCart = false;
   bool inAsyncCall = false;
   int? totalOfAllItems;
+  int? totalOfOrderedItems;
   bool? orderCompleted;
   int? totalOfquantity;
   String? orderDate;
@@ -246,5 +249,49 @@ class DishOrderProvider extends ChangeNotifier {
     });
     notifyListeners();
     return allOrdersList;
+  }
+
+  Future<List<Map<String, dynamic>>?> handleOrderDetails(orderId) async {
+    List<Map<String, dynamic>>? listData = [];
+    List<int> _handlePriceList = [];
+    Map<String, dynamic> orderdata = {};
+    await ordersCollection
+        .where('orderId', isEqualTo: orderId)
+        .get()
+        .then((orderValues) async {
+      for (var res in orderValues.docs) {
+        orderdata = res.data() as Map<String, dynamic>;
+      }
+    });
+
+    await cart
+        .where('orderId', isEqualTo: orderId)
+        .get()
+        .then((cartValues) async {
+      for (var res in cartValues.docs) {
+        Map<String, dynamic> cartdata = res.data() as Map<String, dynamic>;
+
+        await dishes.doc(cartdata["dishId"]).get().then((dishRes) {
+          Map<String, dynamic> dishData =
+              dishRes.data() as Map<String, dynamic>;
+          var itemPrice =
+              int.parse(dishData['dishprice']) * cartdata['itemCount'] as int;
+
+          _handlePriceList.add(itemPrice);
+          totalOfOrderedItems = _handlePriceList.reduce((a, b) => a + b);
+
+          dishData['itemQuantity'] = cartdata['itemCount'];
+          dishData['totalItemPrice'] = itemPrice;
+          dishData['dateOrdered'] = orderdata['dateOrdered'];
+          dishData['p'] = orderdata['totalPrice'];
+          listData.add(dishData);
+          Logger().d(dishData);
+          Logger().d(totalOfOrderedItems);
+          orderDetailsList = listData;
+        });
+      }
+    });
+    notifyListeners();
+    return orderDetailsList;
   }
 }

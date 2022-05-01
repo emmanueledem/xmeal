@@ -2,10 +2,19 @@ import 'package:flutter/material.dart';
 import 'package:xmeal/users/styles/constants.dart';
 
 class ItemsInOrder extends StatelessWidget {
-  const ItemsInOrder({
+  ItemsInOrder({
+    required this.dishImage,
+    required this.dishName,
+    required this.dishQuantity,
+    required this.dishRegion,
+    required this.totalDishPrice,
     Key? key,
   }) : super(key: key);
-
+  String dishImage;
+  String dishName;
+  String dishRegion;
+  String dishQuantity;
+  String totalDishPrice;
   @override
   Widget build(BuildContext context) {
     return InkWell(

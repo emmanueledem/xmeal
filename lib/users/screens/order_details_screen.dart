@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:logger/logger.dart';
+import 'package:provider/provider.dart';
+import 'package:xmeal/services/providers/orders_provider.dart';
 import 'package:xmeal/users/styles/constants.dart';
-import 'package:xmeal/users/widgets/items_in_order.dart';
+import 'package:xmeal/users/widgets/order_items.dart';
 
 class OrderDetails extends StatefulWidget {
   OrderDetails({
@@ -16,81 +18,111 @@ class OrderDetails extends StatefulWidget {
 
 class _OrderDetailsState extends State<OrderDetails> {
   @override
+  void initState() {
+    super.initState();
+    Future.delayed(const Duration(seconds: 3), () {
+      _handleOderData();
+    });
+  }
+
+  _handleOderData() async {
+    // Future.delayed(const Duration(seconds: 3), () {
+    //   setState(() {
+    await Provider.of<DishOrderProvider>(context, listen: false)
+        .handleOrderDetails(widget.orderId);
+    //     Logger().d(widget.orderId);
+    //   });
+    // });
+  }
+
+  @override
   Widget build(BuildContext context) {
-    Logger().d(widget.orderId);
+    // _handleOderData();
     return Scaffold(
       backgroundColor: appColour,
-      body: SafeArea(
-        child: Column(
-          children: [
-            Padding(
-              padding: const EdgeInsets.only(top: 8.0),
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: const [
-                  Padding(
-                    padding: EdgeInsets.all(5.0),
-                    child: Text(
-                      'Order Details',
-                      style: TextStyle(
-                          color: Colors.white,
-                          fontFamily: 'poppins',
-                          fontSize: 19,
-                          fontWeight: FontWeight.w700),
-                    ),
-                  ),
-                ],
-              ),
-            ),
-            const SizedBox(
-              height: 10.0,
-            ),
-            Expanded(
-              child: Container(
-                decoration: const BoxDecoration(
-                  color: Color(0xffFFFFFF),
-                  borderRadius: BorderRadius.only(
-                      topLeft: Radius.circular(30),
-                      topRight: Radius.circular(30)),
-                ),
-                child: ListView(
-                  scrollDirection: Axis.vertical,
-                  children: [
-                    const SizedBox(
-                      height: 10.0,
-                    ),
-                    const ItemsInOrder(),
-                    const ItemsInOrder(),
-                    const ItemsInOrder(),
-                    const ItemsInOrder(),
-                    Padding(
-                      padding: const EdgeInsets.only(
-                        top: 30,
+      body: Consumer<DishOrderProvider>(
+        builder: (context, orderDetails, child) {
+          return SafeArea(
+            child: orderDetails.orderDetailsList == null
+                ? const Center(
+                    child: CircularProgressIndicator(),
+                  )
+                : Column(
+                    children: [
+                      Padding(
+                        padding: const EdgeInsets.only(top: 8.0),
+                        child: Row(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: const [
+                            Padding(
+                              padding: EdgeInsets.all(5.0),
+                              child: Text(
+                                'Order Details',
+                                style: TextStyle(
+                                    color: Colors.white,
+                                    fontFamily: 'poppins',
+                                    fontSize: 19,
+                                    fontWeight: FontWeight.w700),
+                              ),
+                            ),
+                          ],
+                        ),
                       ),
-                      child: Column(
-                        children: const [
-                          Text(
-                            'ORDERED ON',
-                            style: TextStyle(
-                                color: Color(0xff999999),
-                                fontSize: 15,
-                                fontWeight: FontWeight.w500),
-                          ),
-                          Text(
-                            '02 NOV 2019 at 2:16 PM',
-                            style: TextStyle(
-                                color: Colors.black,
-                                fontFamily: 'poppins',
-                                fontSize: 17,
-                                fontWeight: FontWeight.w600),
-                          ),
-                        ],
+                      const SizedBox(
+                        height: 10.0,
                       ),
-                    ),
-                    Padding(
-                      padding:
-                          const EdgeInsets.only(left: 15, right: 15, top: 30),
-                      child: Container(
+                      Expanded(
+                        child: Container(
+                          decoration: const BoxDecoration(
+                              color: Color(0xffFFFFFF),
+                              borderRadius:
+                                  BorderRadius.all(Radius.circular(15))),
+                          child: ListView.builder(
+                            scrollDirection: Axis.vertical,
+                            itemCount: orderDetails.allOrdersList!.length,
+                            itemBuilder: (context, index) {
+                              final items = orderDetails.allOrdersList![index];
+                              Logger().d(items['dishImage']);
+
+                              return ItemsInOrder(
+                                dishImage: items['dishImage'],
+                                dishName: items['dishName'],
+                                dishQuantity: items['itemQuantity'],
+                                dishRegion: items['dishRegion'],
+                                totalDishPrice: items['totalItemPrice'],
+                              );
+                            },
+                          ),
+                        ),
+                      ),
+                      Padding(
+                        padding: const EdgeInsets.only(
+                          top: 20,
+                        ),
+                        child: Column(
+                          children: const [
+                            Text(
+                              'ORDERED ON',
+                              style: TextStyle(
+                                  color: Colors.white,
+                                  fontSize: 15,
+                                  fontWeight: FontWeight.w500),
+                            ),
+                            Text(
+                              '02 NOV 2019 at 2:16 PM',
+                              style: TextStyle(
+                                  color: Colors.white,
+                                  fontFamily: 'poppins',
+                                  fontSize: 17,
+                                  fontWeight: FontWeight.w600),
+                            ),
+                          ],
+                        ),
+                      ),
+                      Padding(
+                        padding:
+                            const EdgeInsets.only(left: 15, right: 15, top: 20),
+                        child: Container(
                           height: 50.0,
                           decoration: BoxDecoration(
                             color: Colors.white,
@@ -135,49 +167,48 @@ class _OrderDetailsState extends State<OrderDetails> {
                                 ),
                               ],
                             ),
-                          )),
-                    ),
-                    Padding(
-                      padding: const EdgeInsets.only(top: 20),
-                      child: Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                        children: [
-                          const Text(
-                            'Rejected',
-                            style: TextStyle(
-                                color: Color(0xff999999),
-                                fontSize: 15,
-                                fontWeight: FontWeight.w500),
                           ),
-                          GestureDetector(
-                            child: Row(
-                              children: const [
-                                Icon(
-                                  Icons.track_changes,
-                                  color: appColour,
-                                ),
-                                Text(
-                                  'Cancel Order >>',
-                                  style: TextStyle(
-                                      color: appColour,
-                                      fontSize: 15,
-                                      fontWeight: FontWeight.w500),
-                                ),
-                              ],
-                            ),
-                          )
-                        ],
+                        ),
                       ),
-                    ),
-                    const SizedBox(
-                      height: 20.0,
-                    )
-                  ],
-                ),
-              ),
-            )
-          ],
-        ),
+                      Padding(
+                        padding: const EdgeInsets.only(top: 20),
+                        child: Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                          children: [
+                            const Text(
+                              'Rejected',
+                              style: TextStyle(
+                                  color: Colors.white,
+                                  fontSize: 15,
+                                  fontWeight: FontWeight.w500),
+                            ),
+                            GestureDetector(
+                              child: Row(
+                                children: const [
+                                  Icon(
+                                    Icons.track_changes,
+                                    color: Colors.white,
+                                  ),
+                                  Text(
+                                    'Cancel Order >>',
+                                    style: TextStyle(
+                                        color: Colors.white,
+                                        fontSize: 15,
+                                        fontWeight: FontWeight.w500),
+                                  ),
+                                ],
+                              ),
+                            )
+                          ],
+                        ),
+                      ),
+                      const SizedBox(
+                        height: 20.0,
+                      )
+                    ],
+                  ),
+          );
+        },
       ),
     );
   }
