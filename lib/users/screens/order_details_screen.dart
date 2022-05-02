@@ -79,11 +79,10 @@ class _OrderDetailsState extends State<OrderDetails> {
                                   BorderRadius.all(Radius.circular(15))),
                           child: ListView.builder(
                             scrollDirection: Axis.vertical,
-                            itemCount: orderDetails.allOrdersList!.length,
+                            itemCount: orderDetails.orderDetailsList!.length,
                             itemBuilder: (context, index) {
-                              final items = orderDetails.allOrdersList![index];
-                              Logger().d(items['dishImage']);
-
+                              final Map items =
+                                  orderDetails.orderDetailsList![index];
                               return ItemsInOrder(
                                 dishImage: items['dishImage'],
                                 dishName: items['dishName'],
@@ -100,8 +99,8 @@ class _OrderDetailsState extends State<OrderDetails> {
                           top: 20,
                         ),
                         child: Column(
-                          children: const [
-                            Text(
+                          children: [
+                            const Text(
                               'ORDERED ON',
                               style: TextStyle(
                                   color: Colors.white,
@@ -109,8 +108,8 @@ class _OrderDetailsState extends State<OrderDetails> {
                                   fontWeight: FontWeight.w500),
                             ),
                             Text(
-                              '02 NOV 2019 at 2:16 PM',
-                              style: TextStyle(
+                              orderDetails.dateOfOrderedItems.toString(),
+                              style: const TextStyle(
                                   color: Colors.white,
                                   fontFamily: 'poppins',
                                   fontSize: 17,
@@ -144,8 +143,8 @@ class _OrderDetailsState extends State<OrderDetails> {
                                 horizontal: 21, vertical: 6),
                             child: Row(
                               mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                              children: const [
-                                Text(
+                              children: [
+                                const Text(
                                   'Total',
                                   style: TextStyle(
                                     fontStyle: FontStyle.normal,
@@ -156,8 +155,8 @@ class _OrderDetailsState extends State<OrderDetails> {
                                   ),
                                 ),
                                 Text(
-                                  '₹420',
-                                  style: TextStyle(
+                                  orderDetails.totalOfOrderedItems.toString(),
+                                  style: const TextStyle(
                                     fontStyle: FontStyle.normal,
                                     fontFamily: 'poppins',
                                     fontWeight: FontWeight.w600,

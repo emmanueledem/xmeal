@@ -22,10 +22,14 @@ class _WaiterHomeScreenState extends State<WaiterHomeScreen> {
 
   int userCount = 0;
   int dishCount = 0;
+  int allOrdersCount = 0;
+  int activeOrdersCount = 0;
 
   Future<void> _handleCounter() async {
     userCount = await countUsers();
     dishCount = await countDishes();
+    activeOrdersCount = await countActiveOrders();
+    allOrdersCount = await countAllOrders();
     setState(() {});
   }
 
@@ -45,6 +49,27 @@ class _WaiterHomeScreenState extends State<WaiterHomeScreen> {
   Future<int> countDishes() async {
     var totalCount = 0;
     await firestore.collection("dishes").get().then((querySnapshot) {
+      totalCount = querySnapshot.size;
+    });
+    return totalCount;
+  }
+
+  Future<int> countAllOrders() async {
+    var totalCount = 0;
+    await firestore.collection("orders").get().then((querySnapshot) {
+      totalCount = querySnapshot.size;
+    });
+    return totalCount;
+  }
+
+  Future<int> countActiveOrders() async {
+    var totalCount = 0;
+    await firestore
+        .collection("orders")
+        .where('orderStatus', isNotEqualTo: 'canceled')
+        .where('orderStatus', isNotEqualTo: 'completed')
+        .get()
+        .then((querySnapshot) {
       totalCount = querySnapshot.size;
     });
     return totalCount;
@@ -128,7 +153,7 @@ class _WaiterHomeScreenState extends State<WaiterHomeScreen> {
                   Row(
                     children: [
                       HomeScreenCounters(
-                        count: '190',
+                        count: allOrdersCount.toString(),
                         icon: const Icon(Icons.shopping_cart, color: appColour),
                         text: 'Orders',
                       ),
@@ -136,7 +161,7 @@ class _WaiterHomeScreenState extends State<WaiterHomeScreen> {
                         width: 20,
                       ),
                       HomeScreenCounters(
-                        count: '6.9',
+                        count: activeOrdersCount.toString(),
                         icon: const Icon(
                           Icons.shopping_cart_checkout,
                           color: appColour,

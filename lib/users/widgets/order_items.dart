@@ -1,3 +1,4 @@
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:xmeal/users/styles/constants.dart';
 
@@ -13,8 +14,8 @@ class ItemsInOrder extends StatelessWidget {
   String dishImage;
   String dishName;
   String dishRegion;
-  String dishQuantity;
-  String totalDishPrice;
+  int dishQuantity;
+  int totalDishPrice;
   @override
   Widget build(BuildContext context) {
     return InkWell(
@@ -25,23 +26,28 @@ class ItemsInOrder extends StatelessWidget {
             Expanded(
               child: Row(
                 children: [
-                  const ClipRRect(
-                    borderRadius: BorderRadius.all(Radius.circular(10)),
-                    child: Image(
+                  ClipRRect(
+                    borderRadius: const BorderRadius.all(Radius.circular(10)),
+                    child: CachedNetworkImage(
                       height: 72.95,
                       width: 88.35,
-                      image: AssetImage('assets/images/Rectangle 308.png'),
+                      fit: BoxFit.contain,
+                      imageUrl: dishImage,
+                      progressIndicatorBuilder:
+                          (context, url, downloadProgress) =>
+                              CircularProgressIndicator(
+                                  value: downloadProgress.progress),
+                      errorWidget: (context, url, error) =>
+                          const Icon(Icons.error),
                     ),
                   ),
-                  Padding(
-                    padding: const EdgeInsets.only(
-                      left: 5,
-                    ),
+                  Expanded(
                     child: Column(
-                      children: const [
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
                         Text(
-                          'Fried Rice',
-                          style: TextStyle(
+                          dishName,
+                          style: const TextStyle(
                             fontFamily: 'poppins',
                             fontWeight: FontWeight.w600,
                             fontSize: 14,
@@ -49,8 +55,8 @@ class ItemsInOrder extends StatelessWidget {
                           ),
                         ),
                         Text(
-                          'Nigerian',
-                          style: TextStyle(
+                          dishRegion,
+                          style: const TextStyle(
                             fontFamily: 'poppins',
                             fontStyle: FontStyle.normal,
                             fontWeight: FontWeight.w400,
@@ -75,10 +81,10 @@ class ItemsInOrder extends StatelessWidget {
               ),
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                children: const [
+                children: [
                   Text(
-                    '12',
-                    style: TextStyle(
+                    dishQuantity.toString(),
+                    style: const TextStyle(
                       fontStyle: FontStyle.normal,
                       fontWeight: FontWeight.w900,
                       fontSize: 21,
@@ -88,11 +94,11 @@ class ItemsInOrder extends StatelessWidget {
                 ],
               ),
             ),
-            const Padding(
-              padding: EdgeInsets.only(left: 7),
+            Padding(
+              padding: const EdgeInsets.only(left: 7),
               child: Text(
-                '₹100',
-                style: TextStyle(
+                totalDishPrice.toString(),
+                style: const TextStyle(
                   fontStyle: FontStyle.normal,
                   fontWeight: FontWeight.w500,
                   fontSize: 14,

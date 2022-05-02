@@ -18,6 +18,7 @@ class DishOrderProvider extends ChangeNotifier {
   bool inAsyncCall = false;
   int? totalOfAllItems;
   int? totalOfOrderedItems;
+  String? dateOfOrderedItems;
   bool? orderCompleted;
   int? totalOfquantity;
   String? orderDate;
@@ -280,13 +281,15 @@ class DishOrderProvider extends ChangeNotifier {
           _handlePriceList.add(itemPrice);
           totalOfOrderedItems = _handlePriceList.reduce((a, b) => a + b);
 
+          DateTime convertedDate = DateTime.fromMillisecondsSinceEpoch(
+              orderdata['dateOrdered']!.seconds * 1000);
+          FormatDateUtils dateReg = FormatDateUtils();
+          dateOfOrderedItems = dateReg.dateRefactor(convertedDate);
+
           dishData['itemQuantity'] = cartdata['itemCount'];
           dishData['totalItemPrice'] = itemPrice;
-          dishData['dateOrdered'] = orderdata['dateOrdered'];
-          dishData['p'] = orderdata['totalPrice'];
+
           listData.add(dishData);
-          Logger().d(dishData);
-          Logger().d(totalOfOrderedItems);
           orderDetailsList = listData;
         });
       }
