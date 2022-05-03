@@ -2,10 +2,13 @@ import 'dart:math';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:logger/logger.dart';
 import 'package:xmeal/services/utilities/format_date.dart';
 
 class DishOrderProvider extends ChangeNotifier {
   CollectionReference cart = FirebaseFirestore.instance.collection("cart");
+  CollectionReference users = FirebaseFirestore.instance.collection('users');
+
   final FirebaseAuth _auth = FirebaseAuth.instance;
   bool? isAddedToCart;
   String? updateResponse;
@@ -13,7 +16,9 @@ class DishOrderProvider extends ChangeNotifier {
   List<Map<String, dynamic>>? cartDishList;
   List<Map<String, dynamic>>? orderDetailsList;
   List<Map<String, dynamic>>? allOrdersList;
+  List<Map<String, dynamic>>? allUsersOrderList;
   bool hasItemInCart = false;
+  bool hasItemInOrders = false;
   bool inAsyncCall = false;
   int? totalOfAllItems;
   int? totalOfOrderedItems;
@@ -246,8 +251,10 @@ class DishOrderProvider extends ChangeNotifier {
         FormatDateUtils dateReg = FormatDateUtils();
         orderDate = dateReg.dateRefactor(convertedDate);
       }
+      hasItemInOrders = true;
     });
     notifyListeners();
+
     return allOrdersList;
   }
 
@@ -297,9 +304,72 @@ class DishOrderProvider extends ChangeNotifier {
     return orderDetailsList;
   }
 
-  Future handleAllOrders() async {  
-    await ordersCollection.doc().get().then((value) {
-      
+  Future<List<Map<String, dynamic>>?> handleAllOrders() async {
+    List<Map<String, dynamic>>? listData = [];
+    await ordersCollection.get().then((orderValues) async {
+      for (var res in orderValues.docs) {
+        Map<String, dynamic> orderData = res.data() as Map<String, dynamic>;
+        await users.doc(orderData['userId']).get().then((userValues) {
+          Map<String, dynamic> userData =
+              userValues.data() as Map<String, dynamic>;
+          orderData['userImage'] = userData['profileImage'];
+          orderData['userName'] = userData['fullName'];
+          Logger().d(orderData['dateOrdered']);
+          final DateTime time1 = DateTime.parse(orderData['dateOrdered']);
+          Logger().d(time1);
+          listData.add(orderData);
+          allUsersOrderList = listData;
+        });
+      }
     });
+    notifyListeners();
+    return allUsersOrderList;
+  }
+
+
+  Future<List<Map<String, dynamic>>?> handleAllOrderDetails(orderId) async {
+    List<Map<String, dynamic>>? listData = [];
+    List<int> _handlePriceList = [];
+    Map<String, dynamic> orderdata = {};
+    await ordersCollection
+        .where('orderId', isEqualTo: orderId)
+        .get()
+        .then((orderValues) async {
+      for (var res in orderValues.docs) {
+        orderdata = res.data() as Map<String, dynamic>;
+      }
+    });
+
+    await cart
+        .where('orderId', isEqualTo: orderId)
+        .get()
+        .then((cartValues) async {
+      for (var res in cartValues.docs) {
+        Map<String, dynamic> cartdata = res.data() as Map<String, dynamic>;
+
+        await dishes.doc(cartdata["dishId"]).get().then((dishRes) {
+          Map<String, dynamic> dishData =
+              dishRes.data() as Map<String, dynamic>;
+          var itemPrice =
+              int.parse(dishData['dishprice']) * cartdata['itemCount'] as int;
+
+          _handlePriceList.add(itemPrice);
+          totalOfOrderedItems = _handlePriceList.reduce((a, b) => a + b);
+
+          DateTime convertedDate = DateTime.fromMillisecondsSinceEpoch(
+              orderdata['dateOrdered']!.seconds * 1000);
+          FormatDateUtils dateReg = FormatDateUtils();
+          dateOfOrderedItems = dateReg.dateRefactor(convertedDate);
+
+          dishData['itemQuantity'] = cartdata['itemCount'];
+          dishData['totalItemPrice'] = itemPrice;
+
+          listData.add(dishData);
+          orderDetailsList = listData;
+        });
+      }
+    });
+    notifyListeners();
+    return orderDetailsList;
   }
 }

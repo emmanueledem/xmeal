@@ -4,6 +4,7 @@ import 'package:logger/logger.dart';
 import 'package:provider/provider.dart';
 import 'package:xmeal/services/providers/orders_provider.dart';
 import 'package:xmeal/users/screens/order_details_screen.dart';
+import 'package:xmeal/users/widgets/empty_list_error.dart';
 import 'package:xmeal/users/widgets/orders_list.dart';
 import 'login_screen.dart';
 
@@ -50,11 +51,8 @@ class _OrderScreenContentState extends State<OrderScreenContent> {
     return SafeArea(
       child: Consumer<DishOrderProvider>(
         builder: (context, orders, child) {
-          return orders.allOrdersList == null
-              ? const Center(
-                  child: CircularProgressIndicator(),
-                )
-              : Padding(
+          return orders.allOrdersList != null
+              ? Padding(
                   padding: const EdgeInsets.symmetric(
                     horizontal: 15,
                     vertical: 30,
@@ -107,7 +105,14 @@ class _OrderScreenContentState extends State<OrderScreenContent> {
                       ),
                     ],
                   ),
-                );
+                )
+              : orders.hasItemInOrders == true
+                  ? EmptyListError(
+                      errorText:
+                          'When you make order\'s they will appear here.')
+                  : const Center(
+                      child: CircularProgressIndicator(),
+                    );
         },
       ),
     );

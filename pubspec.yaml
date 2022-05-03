@@ -54,7 +54,7 @@ dependencies:
   qr_flutter: ^4.0.0
   qr_code_scanner: ^0.7.0
   flutter_beep: ^1.0.0
-
+  timeago: ^3.2.2
 
 dev_dependencies:
   flutter_test:  

@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:logger/logger.dart';
 import 'package:provider/provider.dart';
 import 'package:xmeal/services/providers/orders_provider.dart';
 import 'package:xmeal/users/styles/constants.dart';
@@ -6,32 +7,34 @@ import 'package:xmeal/users/widgets/order_items.dart';
 
 class WaiterOrderDetails extends StatefulWidget {
   static String id = 'WaiterOrderDetails';
-  const WaiterOrderDetails({
+  WaiterOrderDetails({
+    required this.orderId,
     Key? key,
   }) : super(key: key);
-
+  String orderId;
   @override
   State<WaiterOrderDetails> createState() => _WaiterOrderDetailsState();
 }
 
 class _WaiterOrderDetailsState extends State<WaiterOrderDetails> {
   @override
-  // void initState() {
-  //   super.initState();
-  //   Future.delayed(const Duration(seconds: 3), () {
-  //     _handleOderData();
-  //   });
-  // }
+  void initState() {
+    super.initState();
+    Future.delayed(const Duration(seconds: 3), () {
+      _handleOderData();
+    });
+  }
 
-  // _handleOderData() async {
-  //   // Future.delayed(const Duration(seconds: 3), () {
-  //   //   setState(() {
-  //   await Provider.of<DishOrderProvider>(context, listen: false)
-  //       .handleOrderDetails(widget.orderId);
-  //   //     Logger().d(widget.orderId);
-  //   //   });
-  //   // });
-  // }
+  _handleOderData() async {
+    // Future.delayed(const Duration(seconds: 3), () {
+    //   setState(() {
+    await Provider.of<DishOrderProvider>(context, listen: false)
+        .handleAllOrderDetails(widget.orderId);
+    Logger().d(widget.orderId);
+    //     Logger().d(widget.orderId);
+    //   });
+    // });
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -41,10 +44,11 @@ class _WaiterOrderDetailsState extends State<WaiterOrderDetails> {
       body: Consumer<DishOrderProvider>(
         builder: (context, orderDetails, child) {
           return SafeArea(
-            // const Center(
-            //         child: CircularProgressIndicator(),
-            //       )
-            child:  Column(
+            child: orderDetails.orderDetailsList == null
+                ? const Center(
+                    child: CircularProgressIndicator(),
+                  )
+                : Column(
                     children: [
                       Padding(
                         padding: const EdgeInsets.only(top: 8.0),
@@ -74,19 +78,20 @@ class _WaiterOrderDetailsState extends State<WaiterOrderDetails> {
                               color: Color(0xffFFFFFF),
                               borderRadius:
                                   BorderRadius.all(Radius.circular(15))),
-                          child: ListView(
+                          child: ListView.builder(
                             scrollDirection: Axis.vertical,
-                           
-                             children: [
-                               ItemsInOrder(
-                                dishImage: 'assets/images/img8.png',
-                                dishName: 'Pepper Soup',
-                                dishQuantity: 17,
-                                dishRegion: 'Calabar dish',
-                                totalDishPrice: 2500,
-                              ),
-                             ],
-                           
+                            itemCount: orderDetails.orderDetailsList!.length,
+                            itemBuilder: (context, index) {
+                              final Map items =
+                                  orderDetails.orderDetailsList![index];
+                              return ItemsInOrder(
+                                dishImage: items['dishImage'],
+                                dishName: items['dishName'],
+                                dishQuantity: items['itemQuantity'],
+                                dishRegion: items['dishRegion'],
+                                totalDishPrice: items['totalItemPrice'],
+                              );
+                            },
                           ),
                         ),
                       ),
@@ -95,8 +100,8 @@ class _WaiterOrderDetailsState extends State<WaiterOrderDetails> {
                           top: 20,
                         ),
                         child: Column(
-                          children: const [
-                             Text(
+                          children: [
+                            const Text(
                               'ORDERED ON',
                               style: TextStyle(
                                   color: Colors.white,
@@ -104,8 +109,8 @@ class _WaiterOrderDetailsState extends State<WaiterOrderDetails> {
                                   fontWeight: FontWeight.w500),
                             ),
                             Text(
-                            " 5/3/2022 at 17:45",
-                              style:  TextStyle(
+                              orderDetails.dateOfOrderedItems.toString(),
+                              style: const TextStyle(
                                   color: Colors.white,
                                   fontFamily: 'poppins',
                                   fontSize: 17,
@@ -139,8 +144,8 @@ class _WaiterOrderDetailsState extends State<WaiterOrderDetails> {
                                 horizontal: 21, vertical: 6),
                             child: Row(
                               mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                              children: const [
-                                 Text(
+                              children: [
+                                const Text(
                                   'Total',
                                   style: TextStyle(
                                     fontStyle: FontStyle.normal,
@@ -151,8 +156,8 @@ class _WaiterOrderDetailsState extends State<WaiterOrderDetails> {
                                   ),
                                 ),
                                 Text(
-                                 '14,000',
-                                  style:  TextStyle(
+                                  orderDetails.totalOfOrderedItems.toString(),
+                                  style: const TextStyle(
                                     fontStyle: FontStyle.normal,
                                     fontFamily: 'poppins',
                                     fontWeight: FontWeight.w600,
@@ -171,7 +176,7 @@ class _WaiterOrderDetailsState extends State<WaiterOrderDetails> {
                           mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                           children: [
                             const Text(
-                              'Rejected',
+                              'pending',
                               style: TextStyle(
                                   color: Colors.white,
                                   fontSize: 15,
@@ -181,11 +186,11 @@ class _WaiterOrderDetailsState extends State<WaiterOrderDetails> {
                               child: Row(
                                 children: const [
                                   Icon(
-                                    Icons.track_changes,
+                                    Icons.front_hand,
                                     color: Colors.white,
                                   ),
                                   Text(
-                                    'Cancel Order >>',
+                                    'Take Order >>',
                                     style: TextStyle(
                                         color: Colors.white,
                                         fontSize: 15,

@@ -123,7 +123,9 @@ class OrderInformation extends StatelessWidget {
           Navigator.push(
               context,
               MaterialPageRoute(
-                  builder: (context) => const WaiterOrderDetails()));
+                  builder: (context) => WaiterOrderDetails(
+                        orderId: '',
+                      )));
         },
         child: Row(
           children: [

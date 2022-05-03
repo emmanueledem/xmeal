@@ -116,21 +116,27 @@ class _QrScannerState extends State<QrScanner> {
   }
 
   void _onQRViewCreated(QRViewController controller) {
-    setState(() {
-      this.controller = controller;
-    });
+    // setState(() {
+    this.controller = controller;
+    // });
+
     controller.scannedDataStream.listen((scanData) async {
-      setState(() {
-        result = scanData;
-        controller.pauseCamera();
-      });
+      // setState(() {
+      //   result = scanData;
+      // });
+      controller.pauseCamera();
+
       var itemOrder = Provider.of<DishOrderProvider>(context, listen: false);
       await itemOrder.handleItemOrdering(scanData.code);
       itemOrder.orderCompleted == true
-          ? Navigator.pushReplacement(context,
-              MaterialPageRoute(builder: (context) =>  OrderDetails(orderId: itemOrder.randomString.toString(),)))
+          ? Navigator.pushReplacement(
+              context,
+              MaterialPageRoute(
+                  builder: (context) => OrderDetails(
+                        orderId: itemOrder.randomString.toString(),
+                      )))
           : const Text('');
-      controller.resumeCamera();
+      // controller.resumeCamera();
     });
   }
 }

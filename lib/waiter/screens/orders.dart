@@ -1,8 +1,13 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
+import 'package:logger/logger.dart';
+import 'package:provider/provider.dart';
+import 'package:xmeal/services/providers/orders_provider.dart';
+import 'package:xmeal/services/utilities/display_time_ago.dart';
 import 'package:xmeal/users/styles/constants.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:xmeal/waiter/screens/order_details.dart';
+import 'package:timeago/timeago.dart' as timeago;
 
 class WaiterOrdersList extends StatefulWidget {
   const WaiterOrdersList({Key? key}) : super(key: key);
@@ -27,8 +32,13 @@ class _WaiterOrdersListState extends State<WaiterOrdersList> {
       });
     });
     getUserData();
-
+    _handleAllOrders();
     super.initState();
+  }
+
+  Future _handleAllOrders() async {
+    await Provider.of<DishOrderProvider>(context, listen: false)
+        .handleAllOrders();
   }
 
   @override
@@ -51,123 +61,155 @@ class _WaiterOrdersListState extends State<WaiterOrdersList> {
 
   @override
   Widget build(BuildContext context) {
-    final userList = _searchText.isEmpty
-        ? _allResults
-        : _allResults
+    var allOrdersData = Provider.of<DishOrderProvider>(context);
+    final orderList = _searchText.isEmpty
+        ? allOrdersData.allUsersOrderList
+        : allOrdersData.allUsersOrderList!
             .where(
               (item) =>
-                  item['fullName'].contains(_searchText) ||
-                  item['email'].contains(_searchText),
+                  item['userName'].contains(_searchText) ||
+                  item['tableNo'].contains(_searchText) ||
+                  item['orderStatus'].contains(_searchText),
             )
             .toList();
 
     return Scaffold(
       backgroundColor: appColour,
       body: SafeArea(
-        child: Column(
-          children: [
-            Form(
-              child: Padding(
-                padding: const EdgeInsets.only(left: 20, right: 20, top: 20),
-                child: TextField(
-                  controller: _searchController,
-                  decoration: kinputdecorationStyle.copyWith(
-                    hintText: 'Search all orders',
-                    suffixIcon: const Icon(Icons.search),
-                  ),
-                ),
-              ),
-            ),
-            const SizedBox(
-              height: 20.0,
-            ),
-            Expanded(
-              child: Container(
-                  decoration: const BoxDecoration(
-                    color: Color(0xffFFFFFF),
-                    borderRadius: BorderRadius.only(
-                        topLeft: Radius.circular(30),
-                        topRight: Radius.circular(30)),
-                  ),
-                  child: ListView.builder(
-                      scrollDirection: Axis.vertical,
-                      itemCount: userList.length,
-                      itemBuilder: (context, index) {
-                        final item = userList[index];
-                        return OrderInformation(
-                          image: item['profileImage'],
-                          email: item['email'],
-                          name: item['fullName'],
-                        );
-                      })),
-            ),
-          ],
-        ),
-      ),
+          child: orderList != null
+              ? Column(
+                  children: [
+                    Form(
+                      child: Padding(
+                        padding:
+                            const EdgeInsets.only(left: 20, right: 20, top: 20),
+                        child: TextField(
+                          controller: _searchController,
+                          decoration: kinputdecorationStyle.copyWith(
+                            hintText: 'Search all orders',
+                            suffixIcon: const Icon(Icons.search),
+                          ),
+                        ),
+                      ),
+                    ),
+                    const SizedBox(
+                      height: 20.0,
+                    ),
+                    Expanded(
+                      child: Container(
+                          decoration: const BoxDecoration(
+                            color: Color(0xffFFFFFF),
+                            borderRadius: BorderRadius.only(
+                                topLeft: Radius.circular(30),
+                                topRight: Radius.circular(30)),
+                          ),
+                          child: ListView.builder(
+                              scrollDirection: Axis.vertical,
+                              itemCount: orderList.length,
+                              itemBuilder: (context, index) {
+                                final item = orderList[index];
+                                
+                                return OrderInformation(
+                                  image: item['userImage'],
+                                  totalDishes: item['totalItems'],
+                                  name: item['userName'],
+                                  tableNo: item['tableNo'],
+                                  totalPrice: item['totalPrice'],
+                                  orderId: item['orderId'],
+                                  orderStatus: item['orderStatus'],
+                                );
+                              })),
+                    ),
+                  ],
+                )
+              : const Center(
+                  child: CircularProgressIndicator(),
+                )),
     );
   }
 }
 
 class OrderInformation extends StatelessWidget {
-  OrderInformation({Key? key, required this.image, this.email, this.name})
-      : super(key: key);
+  OrderInformation({
+    Key? key,
+    required this.image,
+    required this.totalDishes,
+    required this.name,
+    required this.tableNo,
+    required this.totalPrice,
+    required this.orderId,
+    required this.orderStatus,
+  }) : super(key: key);
   String? image;
   String? name;
-  String? email;
+  int? totalDishes;
+  String? tableNo;
+  int? totalPrice;
+  String? orderId;
+  String? orderStatus;
   @override
   Widget build(BuildContext context) {
     return Padding(
       padding: const EdgeInsets.only(top: 10, left: 15, right: 15),
       child: GestureDetector(
         onTap: () {
-          Navigator.push(context,
-              MaterialPageRoute(builder: (context) => WaiterOrderDetails()));
+          Navigator.push(
+              context,
+              MaterialPageRoute(
+                  builder: (context) => WaiterOrderDetails(
+                        orderId: orderId.toString(),
+                      )));
         },
         child: Row(
           children: [
             CircleAvatar(
-              radius: 30,
-              backgroundColor: Colors.white,
-              child: ClipRRect(
-                borderRadius: const BorderRadius.all(Radius.circular(30)),
-                child: image == null
-                    ? Image(image: AssetImage(defaultImage.toString()))
-                    : CachedNetworkImage(
-                        imageUrl: image.toString(),
-                        progressIndicatorBuilder:
-                            (context, url, downloadProgress) =>
-                                CircularProgressIndicator(
-                                    value: downloadProgress.progress),
-                        errorWidget: (context, url, error) =>
-                            const Icon(Icons.error),
-                      ),
-              ),
-            ),
+                radius: 30,
+                backgroundColor: Colors.white,
+                child: ClipOval(
+                  child: image == null
+                      ? Image.asset(
+                          defaultImage.toString(),
+                          fit: BoxFit.cover,
+                          width: 95.95,
+                          height: 95.95,
+                        )
+                      : CachedNetworkImage(
+                          imageUrl: image.toString(),
+                          progressIndicatorBuilder:
+                              (context, url, downloadProgress) =>
+                                  CircularProgressIndicator(
+                                      value: downloadProgress.progress),
+                          errorWidget: (context, url, error) =>
+                              const Icon(Icons.error),
+                        ),
+                )),
             Expanded(
               child: Padding(
                 padding: const EdgeInsets.only(left: 20.0),
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
-                  children: const [
+                  children: [
                     Text(
-                      'Benedict',
-                      style: TextStyle(
+                      name.toString(),
+                      style: const TextStyle(
                           fontFamily: 'poppins',
                           fontSize: 18,
                           fontWeight: FontWeight.bold),
                       textAlign: TextAlign.end,
                     ),
                     Text(
-                      '29 Dishes',
-                      style: TextStyle(
+                      totalDishes! > 1
+                          ? totalDishes.toString() + ' Dishes'
+                          : totalDishes.toString() + ' Dishe',
+                      style: const TextStyle(
                           fontFamily: 'poppins',
                           fontSize: 15.6278,
                           color: appColour),
                       textAlign: TextAlign.end,
                     ),
                     Text(
-                      'Table 8',
-                      style: TextStyle(
+                      tableNo.toString(),
+                      style: const TextStyle(
                           fontFamily: 'poppins',
                           fontSize: 15,
                           fontWeight: FontWeight.bold),
@@ -180,8 +222,8 @@ class OrderInformation extends StatelessWidget {
             Expanded(
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.end,
-                children: const [
-                  Text(
+                children: [
+                  const Text(
                     '3 mins ago',
                     style: TextStyle(
                         fontFamily: 'poppins',
@@ -190,16 +232,31 @@ class OrderInformation extends StatelessWidget {
                     textAlign: TextAlign.end,
                   ),
                   Text(
-                    '2,000',
-                    style: TextStyle(
+                    totalPrice.toString(),
+                    style: const TextStyle(
                         fontFamily: 'poppins',
                         fontSize: 15,
                         fontWeight: FontWeight.bold),
                     textAlign: TextAlign.end,
                   ),
-                  CircleAvatar(
-                    radius: 5.0,
-                  )
+                  orderStatus == 'Pending'
+                      ? const CircleAvatar(
+                          backgroundColor: Colors.green,
+                          radius: 5.0,
+                        )
+                      : orderStatus == 'Completed'
+                          ? const CircleAvatar(
+                              backgroundColor: Colors.orange,
+                              radius: 5.0,
+                            )
+                          : orderStatus == 'Processing'
+                              ? const CircleAvatar(
+                                  backgroundColor: Colors.blue,
+                                  radius: 5.0,
+                                )
+                              : const CircleAvatar(
+                                  radius: 5.0,
+                                )
                 ],
               ),
             ),
