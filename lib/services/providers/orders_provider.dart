@@ -2,7 +2,6 @@ import 'dart:math';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
-import 'package:logger/logger.dart';
 import 'package:xmeal/services/utilities/format_date.dart';
 
 class DishOrderProvider extends ChangeNotifier {
@@ -296,5 +295,11 @@ class DishOrderProvider extends ChangeNotifier {
     });
     notifyListeners();
     return orderDetailsList;
+  }
+
+  Future handleAllOrders() async {  
+    await ordersCollection.doc().get().then((value) {
+      
+    });
   }
 }

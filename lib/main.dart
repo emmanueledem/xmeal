@@ -20,10 +20,12 @@ import 'package:xmeal/services/providers/dishes_provider.dart';
 import 'package:xmeal/services/providers/internet_provider.dart';
 import 'package:xmeal/services/providers/user_profile_provider.dart';
 import 'package:xmeal/services/providers/user_auth_provider.dart';
+import 'package:xmeal/waiter/screens/active_orders.dart';
 import 'package:xmeal/waiter/screens/all_dishes.dart';
 import 'package:xmeal/waiter/screens/all_users.dart';
 import 'package:xmeal/waiter/screens/home_screen.dart';
 import 'package:xmeal/waiter/screens/notifications.dart';
+import 'package:xmeal/waiter/screens/orders.dart';
 import 'users/screens/network_eror_screen.dart';
 import 'waiter/screens/add_dish_.dart';
 
@@ -85,6 +87,8 @@ class MyApp extends StatelessWidget {
           WaiterDishlistScreen.id: (context) => const WaiterDishlistScreen(),
           WaiterAddDishScreen.id: (context) => const WaiterAddDishScreen(),
           AllUsersList.id: (context) => AllUsersList(),
+          WaiterOrdersList.id: (context) => const WaiterOrdersList(),
+          WaiterActiveOrdersList.id: (context) => const WaiterActiveOrdersList(),
           QrScanner.id: (context) => const QrScanner(),
         },
       ),

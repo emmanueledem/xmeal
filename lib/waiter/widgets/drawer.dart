@@ -7,10 +7,12 @@ import 'package:xmeal/users/screens/notification_screen.dart';
 import 'package:xmeal/users/styles/constants.dart';
 import 'package:xmeal/users/widgets/alert_boxes.dart';
 import 'package:xmeal/users/widgets/network_alert.dart';
+import 'package:xmeal/waiter/screens/active_orders.dart';
 import 'package:xmeal/waiter/screens/add_dish_.dart';
 import 'package:xmeal/waiter/screens/all_dishes.dart';
 import 'package:xmeal/waiter/screens/all_users.dart';
 import 'package:cached_network_image/cached_network_image.dart';
+import 'package:xmeal/waiter/screens/orders.dart';
 
 class DrawerWidget extends StatelessWidget {
   const DrawerWidget({
@@ -90,8 +92,7 @@ class DrawerWidget extends StatelessWidget {
                 ),
                 onPressed: () {
                   Navigator.pop(context);
-
-                  Navigator.pushNamed(context, '');
+                  Navigator.pushNamed(context, WaiterOrdersList.id);
                 },
               ),
               DrawerList(
@@ -103,7 +104,7 @@ class DrawerWidget extends StatelessWidget {
                 onPressed: () {
                   Navigator.pop(context);
 
-                  Navigator.pushNamed(context, '');
+                  Navigator.pushNamed(context, WaiterActiveOrdersList.id);
                 },
               ),
               DrawerList(
