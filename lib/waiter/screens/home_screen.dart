@@ -1,5 +1,6 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
+import 'package:logger/logger.dart';
 import 'package:xmeal/users/styles/constants.dart';
 import 'package:xmeal/waiter/screens/notifications.dart';
 import 'package:xmeal/waiter/widgets/drawer.dart';
@@ -28,8 +29,8 @@ class _WaiterHomeScreenState extends State<WaiterHomeScreen> {
   Future<void> _handleCounter() async {
     userCount = await countUsers();
     dishCount = await countDishes();
-    activeOrdersCount = await countActiveOrders();
     allOrdersCount = await countAllOrders();
+    activeOrdersCount = await countActiveOrders();
     setState(() {});
   }
 
@@ -66,7 +67,6 @@ class _WaiterHomeScreenState extends State<WaiterHomeScreen> {
     var totalCount = 0;
     await firestore
         .collection("orders")
-        .where('orderStatus', isNotEqualTo: 'canceled')
         .where('orderStatus', isNotEqualTo: 'completed')
         .get()
         .then((querySnapshot) {

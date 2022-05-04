@@ -3,6 +3,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:logger/logger.dart';
+import 'package:xmeal/services/utilities/display_time_ago.dart';
 import 'package:xmeal/services/utilities/format_date.dart';
 
 class DishOrderProvider extends ChangeNotifier {
@@ -314,9 +315,7 @@ class DishOrderProvider extends ChangeNotifier {
               userValues.data() as Map<String, dynamic>;
           orderData['userImage'] = userData['profileImage'];
           orderData['userName'] = userData['fullName'];
-          Logger().d(orderData['dateOrdered']);
-          final DateTime time1 = DateTime.parse(orderData['dateOrdered']);
-          Logger().d(time1);
+          // Logger().d(orderData['dateOrdered']);
           listData.add(orderData);
           allUsersOrderList = listData;
         });
@@ -325,7 +324,6 @@ class DishOrderProvider extends ChangeNotifier {
     notifyListeners();
     return allUsersOrderList;
   }
-
 
   Future<List<Map<String, dynamic>>?> handleAllOrderDetails(orderId) async {
     List<Map<String, dynamic>>? listData = [];
