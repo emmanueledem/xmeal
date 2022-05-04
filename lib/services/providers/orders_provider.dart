@@ -315,6 +315,10 @@ class DishOrderProvider extends ChangeNotifier {
         await users.doc(orderData['userId']).get().then((userValues) {
           Map<String, dynamic> userData =
               userValues.data() as Map<String, dynamic>;
+
+          var dateTimeAgo = StringExtension.displayTimeAgoFromTimestamp(
+              orderData['dateOrdered'].toDate().toString());
+          orderData['dateTimeAgo'] = dateTimeAgo;
           orderData['userImage'] = userData['profileImage'];
           orderData['userName'] = userData['fullName'];
           listData.add(orderData);
@@ -343,9 +347,9 @@ class DishOrderProvider extends ChangeNotifier {
               allUsersActiveOrderList = listData;
             });
           }
+          activeOrders = true;
         });
     notifyListeners();
-    activeOrders = true;
     return allUsersActiveOrderList;
   }
 

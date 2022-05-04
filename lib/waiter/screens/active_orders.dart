@@ -92,6 +92,7 @@ class _WaiterActiveOrdersListState extends State<WaiterActiveOrdersList> {
                                 final item = orderList[index];
 
                                 return OrderInformation(
+                                  dateTimeAgo: item['dateTimeAgo'],
                                   image: item['userImage'],
                                   totalDishes: item['totalItems'],
                                   name: item['userName'],
@@ -128,6 +129,7 @@ class OrderInformation extends StatelessWidget {
     required this.totalPrice,
     required this.orderId,
     required this.orderStatus,
+    required this.dateTimeAgo,
   }) : super(key: key);
   String? image;
   String? name;
@@ -136,6 +138,7 @@ class OrderInformation extends StatelessWidget {
   int? totalPrice;
   String? orderId;
   String? orderStatus;
+  String? dateTimeAgo;
   @override
   Widget build(BuildContext context) {
     return Padding(
@@ -212,9 +215,9 @@ class OrderInformation extends StatelessWidget {
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.end,
                 children: [
-                  const Text(
-                    '3 mins ago',
-                    style: TextStyle(
+                  Text(
+                    dateTimeAgo.toString(),
+                    style: const TextStyle(
                         fontFamily: 'poppins',
                         fontSize: 15,
                         fontWeight: FontWeight.bold),
