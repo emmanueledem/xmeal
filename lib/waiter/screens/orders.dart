@@ -1,13 +1,10 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
-import 'package:logger/logger.dart';
 import 'package:provider/provider.dart';
 import 'package:xmeal/services/providers/orders_provider.dart';
-import 'package:xmeal/services/utilities/display_time_ago.dart';
 import 'package:xmeal/users/styles/constants.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:xmeal/waiter/screens/order_details.dart';
-import 'package:timeago/timeago.dart' as timeago;
 
 class WaiterOrdersList extends StatefulWidget {
   const WaiterOrdersList({Key? key}) : super(key: key);
@@ -18,8 +15,6 @@ class WaiterOrdersList extends StatefulWidget {
 }
 
 class _WaiterOrdersListState extends State<WaiterOrdersList> {
-  final _fireStore = FirebaseFirestore.instance;
-
   final _searchController = TextEditingController();
   String _searchText = '';
 
@@ -31,7 +26,6 @@ class _WaiterOrdersListState extends State<WaiterOrdersList> {
         _searchText = _searchController.text.trim();
       });
     });
-    getUserData();
     _handleAllOrders();
     super.initState();
   }
@@ -45,18 +39,6 @@ class _WaiterOrdersListState extends State<WaiterOrdersList> {
   void dispose() {
     _searchController.dispose();
     super.dispose();
-  }
-
-  List _allResults = [];
-
-  Future getUserData() async {
-    var data = await _fireStore
-        .collection("users")
-        .where('userType', isEqualTo: 'user')
-        .get();
-    setState(() {
-      _allResults = data.docs;
-    });
   }
 
   @override
@@ -75,56 +57,62 @@ class _WaiterOrdersListState extends State<WaiterOrdersList> {
 
     return Scaffold(
       backgroundColor: appColour,
-      body: SafeArea(
-          child: orderList != null
-              ? Column(
-                  children: [
-                    Form(
-                      child: Padding(
-                        padding:
-                            const EdgeInsets.only(left: 20, right: 20, top: 20),
-                        child: TextField(
-                          controller: _searchController,
-                          decoration: kinputdecorationStyle.copyWith(
-                            hintText: 'Search all orders',
-                            suffixIcon: const Icon(Icons.search),
+      body: WillPopScope(
+        onWillPop: () async {
+          allOrdersData.allUsersOrderList = null;
+          return true;
+        },
+        child: SafeArea(
+            child: orderList != null
+                ? Column(
+                    children: [
+                      Form(
+                        child: Padding(
+                          padding: const EdgeInsets.only(
+                              left: 20, right: 20, top: 20),
+                          child: TextField(
+                            controller: _searchController,
+                            decoration: kinputdecorationStyle.copyWith(
+                              hintText: 'Search all orders',
+                              suffixIcon: const Icon(Icons.search),
+                            ),
                           ),
                         ),
                       ),
-                    ),
-                    const SizedBox(
-                      height: 20.0,
-                    ),
-                    Expanded(
-                      child: Container(
-                          decoration: const BoxDecoration(
-                            color: Color(0xffFFFFFF),
-                            borderRadius: BorderRadius.only(
-                                topLeft: Radius.circular(30),
-                                topRight: Radius.circular(30)),
-                          ),
-                          child: ListView.builder(
-                              scrollDirection: Axis.vertical,
-                              itemCount: orderList.length,
-                              itemBuilder: (context, index) {
-                                final item = orderList[index];
-                                
-                                return OrderInformation(
-                                  image: item['userImage'],
-                                  totalDishes: item['totalItems'],
-                                  name: item['userName'],
-                                  tableNo: item['tableNo'],
-                                  totalPrice: item['totalPrice'],
-                                  orderId: item['orderId'],
-                                  orderStatus: item['orderStatus'],
-                                );
-                              })),
-                    ),
-                  ],
-                )
-              : const Center(
-                  child: CircularProgressIndicator(),
-                )),
+                      const SizedBox(
+                        height: 20.0,
+                      ),
+                      Expanded(
+                        child: Container(
+                            decoration: const BoxDecoration(
+                              color: Color(0xffFFFFFF),
+                              borderRadius: BorderRadius.only(
+                                  topLeft: Radius.circular(30),
+                                  topRight: Radius.circular(30)),
+                            ),
+                            child: ListView.builder(
+                                scrollDirection: Axis.vertical,
+                                itemCount: orderList.length,
+                                itemBuilder: (context, index) {
+                                  final item = orderList[index];
+
+                                  return OrderInformation(
+                                    image: item['userImage'],
+                                    totalDishes: item['totalItems'],
+                                    name: item['userName'],
+                                    tableNo: item['tableNo'],
+                                    totalPrice: item['totalPrice'],
+                                    orderId: item['orderId'],
+                                    orderStatus: item['orderStatus'],
+                                  );
+                                })),
+                      ),
+                    ],
+                  )
+                : const Center(
+                    child: CircularProgressIndicator(),
+                  )),
+      ),
     );
   }
 }

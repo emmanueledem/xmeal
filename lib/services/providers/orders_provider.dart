@@ -18,9 +18,11 @@ class DishOrderProvider extends ChangeNotifier {
   List<Map<String, dynamic>>? orderDetailsList;
   List<Map<String, dynamic>>? allOrdersList;
   List<Map<String, dynamic>>? allUsersOrderList;
+  List<Map<String, dynamic>>? allUsersActiveOrderList;
   bool hasItemInCart = false;
   bool hasItemInOrders = false;
   bool inAsyncCall = false;
+  bool activeOrders = false;
   int? totalOfAllItems;
   int? totalOfOrderedItems;
   String? dateOfOrderedItems;
@@ -315,7 +317,6 @@ class DishOrderProvider extends ChangeNotifier {
               userValues.data() as Map<String, dynamic>;
           orderData['userImage'] = userData['profileImage'];
           orderData['userName'] = userData['fullName'];
-          // Logger().d(orderData['dateOrdered']);
           listData.add(orderData);
           allUsersOrderList = listData;
         });
@@ -323,6 +324,29 @@ class DishOrderProvider extends ChangeNotifier {
     });
     notifyListeners();
     return allUsersOrderList;
+  }
+
+  Future<List<Map<String, dynamic>>?> handleAllActiveOrders() async {
+    List<Map<String, dynamic>>? listData = [];
+    await ordersCollection
+        .where('orderStatus', whereNotIn: ['completed', 'canceled'])
+        .get()
+        .then((orderValues) async {
+          for (var res in orderValues.docs) {
+            Map<String, dynamic> orderData = res.data() as Map<String, dynamic>;
+            await users.doc(orderData['userId']).get().then((userValues) {
+              Map<String, dynamic> userData =
+                  userValues.data() as Map<String, dynamic>;
+              orderData['userImage'] = userData['profileImage'];
+              orderData['userName'] = userData['fullName'];
+              listData.add(orderData);
+              allUsersActiveOrderList = listData;
+            });
+          }
+        });
+    notifyListeners();
+    activeOrders = true;
+    return allUsersActiveOrderList;
   }
 
   Future<List<Map<String, dynamic>>?> handleAllOrderDetails(orderId) async {

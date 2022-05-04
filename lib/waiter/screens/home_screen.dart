@@ -67,11 +67,12 @@ class _WaiterHomeScreenState extends State<WaiterHomeScreen> {
     var totalCount = 0;
     await firestore
         .collection("orders")
-        .where('orderStatus', isNotEqualTo: 'completed')
+        .where('orderStatus', whereNotIn: ['canceled', 'completed'])
         .get()
         .then((querySnapshot) {
-      totalCount = querySnapshot.size;
-    });
+          querySnapshot.docs.length;
+          totalCount = querySnapshot.size;
+        });
     return totalCount;
   }
 

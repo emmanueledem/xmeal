@@ -27,7 +27,7 @@ class NetworkErrorScreen extends StatelessWidget {
                 ),
                 TextButton.icon(
                   onPressed: () {
-                    Navigator.pushNamed(context, SplashScreen.id);
+                    Navigator.pushReplacementNamed(context, SplashScreen.id);
                   },
                   style: ButtonStyle(
                     backgroundColor: MaterialStateProperty.all(
