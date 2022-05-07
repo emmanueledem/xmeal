@@ -1,6 +1,5 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
-import 'package:logger/logger.dart';
 import 'package:xmeal/users/styles/constants.dart';
 import 'package:xmeal/waiter/screens/notifications.dart';
 import 'package:xmeal/waiter/widgets/drawer.dart';

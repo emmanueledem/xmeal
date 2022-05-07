@@ -168,7 +168,7 @@ class Orderslist extends StatelessWidget {
                 children: [
                   Text(
                     orderStatus,
-                    style: TextStyle(
+                    style: const TextStyle(
                         color: Color(0xff999999),
                         fontSize: 15,
                         fontWeight: FontWeight.w500),

@@ -9,7 +9,8 @@ import 'package:xmeal/services/utilities/format_date.dart';
 class DishOrderProvider extends ChangeNotifier {
   CollectionReference cart = FirebaseFirestore.instance.collection("cart");
   CollectionReference users = FirebaseFirestore.instance.collection('users');
-
+  CollectionReference notifications =
+      FirebaseFirestore.instance.collection('notifications');
   final FirebaseAuth _auth = FirebaseAuth.instance;
   bool? isAddedToCart;
   String? updateResponse;
@@ -30,6 +31,7 @@ class DishOrderProvider extends ChangeNotifier {
   int? totalOfquantity;
   String? orderDate;
   String? randomString;
+  String? orderStatus;
 
   CollectionReference dishes = FirebaseFirestore.instance.collection('dishes');
   CollectionReference favoriteDish =
@@ -273,7 +275,6 @@ class DishOrderProvider extends ChangeNotifier {
         orderdata = res.data() as Map<String, dynamic>;
       }
     });
-
     await cart
         .where('orderId', isEqualTo: orderId)
         .get()
@@ -333,7 +334,7 @@ class DishOrderProvider extends ChangeNotifier {
   Future<List<Map<String, dynamic>>?> handleAllActiveOrders() async {
     List<Map<String, dynamic>>? listData = [];
     await ordersCollection
-        .where('orderStatus', whereNotIn: ['completed', 'canceled'])
+        .where('orderStatus', whereNotIn: ['Completed', 'Canceled'])
         .get()
         .then((orderValues) async {
           for (var res in orderValues.docs) {
@@ -341,6 +342,9 @@ class DishOrderProvider extends ChangeNotifier {
             await users.doc(orderData['userId']).get().then((userValues) {
               Map<String, dynamic> userData =
                   userValues.data() as Map<String, dynamic>;
+              var dateTimeAgo = StringExtension.displayTimeAgoFromTimestamp(
+                  orderData['dateOrdered'].toDate().toString());
+              orderData['dateTimeAgo'] = dateTimeAgo;
               orderData['userImage'] = userData['profileImage'];
               orderData['userName'] = userData['fullName'];
               listData.add(orderData);
@@ -365,7 +369,7 @@ class DishOrderProvider extends ChangeNotifier {
         orderdata = res.data() as Map<String, dynamic>;
       }
     });
-
+    orderStatus = orderdata['orderStatus'];
     await cart
         .where('orderId', isEqualTo: orderId)
         .get()
@@ -397,5 +401,33 @@ class DishOrderProvider extends ChangeNotifier {
     });
     notifyListeners();
     return orderDetailsList;
+  }
+
+  Future takeOrder(orderId) async {
+    manageProgress(true);
+    await ordersCollection
+        .where('orderId', isEqualTo: orderId)
+        .get()
+        .then((orderValues) async {
+      for (var res in orderValues.docs) {
+        Map<String, dynamic> orderData = res.data() as Map<String, dynamic>;
+        var dataMap = {'orderStatus': 'Processing'};
+        ordersCollection.doc(res.id).update(dataMap);
+        orderStatus = 'Processing';
+
+        var notificationData = {
+          'userId': orderData['userId'],
+          'NotificationBody':
+              'Hello, Please hold on while we process your order, A waiter will serve you in a short time',
+          'OrderId': orderData['orderId'],
+          'status': 'unseen'
+        };
+        await notifications.doc().set(notificationData);
+        await handleAllActiveOrders();
+        await handleAllOrders();
+      }
+    });
+    notifyListeners();
+    manageProgress(false);
   }
 }

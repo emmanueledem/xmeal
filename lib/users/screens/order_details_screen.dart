@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:logger/logger.dart';
 import 'package:provider/provider.dart';
 import 'package:xmeal/services/providers/orders_provider.dart';
 import 'package:xmeal/users/styles/constants.dart';

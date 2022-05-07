@@ -28,11 +28,26 @@ import 'package:xmeal/waiter/screens/notifications.dart';
 import 'package:xmeal/waiter/screens/orders.dart';
 import 'users/screens/network_eror_screen.dart';
 import 'waiter/screens/add_dish_.dart';
+import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 
-bool kReleaseMode = true;
-void main() async {
+bool kReleaseMode = false;
+const simplePeriodicTask = 'simplePeriodicTask';
+
+void showNotification(v, flip) async {
+  var android = const AndroidNotificationDetails('channel Id', 'channel Name',
+      channelDescription: 'your channel description',
+      priority: Priority.high,
+      importance: Importance.max);
+  var iOS = const IOSNotificationDetails();
+  var platform = NotificationDetails(android: android, iOS: iOS);
+  await flip.show(0, 'virtual intelligent solution', '$v', platform,
+      payload: 'VIS \n $v');
+}
+
+Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await Firebase.initializeApp();
+  
   runApp(
     DevicePreview(
       builder: (context) => const MyApp(),
@@ -88,7 +103,8 @@ class MyApp extends StatelessWidget {
           WaiterAddDishScreen.id: (context) => const WaiterAddDishScreen(),
           AllUsersList.id: (context) => AllUsersList(),
           WaiterOrdersList.id: (context) => const WaiterOrdersList(),
-          WaiterActiveOrdersList.id: (context) => const WaiterActiveOrdersList(),
+          WaiterActiveOrdersList.id: (context) =>
+              const WaiterActiveOrdersList(),
           QrScanner.id: (context) => const QrScanner(),
         },
       ),

@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:logger/logger.dart';
 import 'package:provider/provider.dart';
 import 'package:xmeal/services/providers/orders_provider.dart';
 import 'package:xmeal/users/styles/constants.dart';
@@ -90,7 +89,6 @@ class _WaiterActiveOrdersListState extends State<WaiterActiveOrdersList> {
                               itemCount: orderList.length,
                               itemBuilder: (context, index) {
                                 final item = orderList[index];
-
                                 return OrderInformation(
                                   dateTimeAgo: item['dateTimeAgo'],
                                   image: item['userImage'],
